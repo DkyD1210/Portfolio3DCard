@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UnitRoots>
+	<Unit Id ="1">
+		<name>테스트용유닛</name>
+		<UnitEffect>
+			<Hp>10</Hp>
+			<Speed>1</Speed>
+			<Damage>1</Damage>
+			<DamageReduce></DamageReduce>
+			<Faction></Faction>
+			<Type></Type>
+		</UnitEffect>
+	</Unit>
+</UnitRoots>
