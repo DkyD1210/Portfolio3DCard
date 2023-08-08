@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instace;
 
+    [SerializeField]
+    private GameObject Player;
+
     private void Awake()
     {
         if(Instace == null)
@@ -21,12 +24,17 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+        SetPlayer();
     }
 
     
     void Update()
     {
         
+    } 
+    
+    private void SetPlayer()
+    {
+        UnitBase _base = Player.GetComponent<UnitBase>();
     }
 }

@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using CardGame_Xml;
 
-public class UnitBaseModel
+public class UnitBaseModel : MonoBehaviour
 {
     private Vector3 _positon = Vector3.zero;
 
+    [SerializeField]
+    private UnitBase _unitBase;
 }
 
 [Serializable]
-public class UnitBase : UnitBaseModel
+public class UnitBase
 {
 
     public UnitBase(int id)
@@ -27,6 +29,7 @@ public class UnitBase : UnitBaseModel
         get { return this._id; }
     }
 
+    [SerializeField]
     private UnitData _unitData;
 
     public UnitData UnitData
@@ -61,6 +64,7 @@ public class UnitBase : UnitBaseModel
         int resultHp = (int)this.hp;
         return resultHp;
     }
+
 
 }
 

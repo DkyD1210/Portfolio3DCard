@@ -11,14 +11,18 @@ namespace CardGame_Xml
     public class UnitXmlRoots
     {
         [XmlElement("Unit")]
-        public List<UnitXmlInfo> UnitXmlList;
+        public List<UnitXmlInfo> UnitXmlList = new List<UnitXmlInfo>();
     }
 
-    public class UnitXmlInfo
+    public class XmlIdData
     {
-
         [XmlAttribute("ID")]
         public int _id;
+    }
+
+
+    public class UnitXmlInfo : XmlIdData
+    {
 
 
         [XmlIgnore]
@@ -30,7 +34,7 @@ namespace CardGame_Xml
             }
         }
 
-        [XmlAttribute("Name")]
+        [XmlElement("Name")]
         public string Name = "이름이 없어요";
 
         [XmlElement]
@@ -40,7 +44,7 @@ namespace CardGame_Xml
 
     public class UnitEffect
     {
-        [XmlElement]
+        [XmlElement("Hp")]
         public int Hp;
 
         [XmlElement]
