@@ -8,8 +8,7 @@ public class UnitBaseModel : MonoBehaviour
 {
     private Vector3 _positon = Vector3.zero;
 
-    [SerializeField]
-    private UnitBase _unitBase;
+    public UnitBase _unitBase;
 }
 
 [Serializable]
@@ -29,12 +28,13 @@ public class UnitBase
         get { return this._id; }
     }
 
-    [SerializeField]
+    
     private UnitData _unitData;
 
     public UnitData UnitData
     {
         get { return this._unitData; }
+        set { this._unitData = value; }
     }
 
     public int MaxHp

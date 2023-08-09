@@ -31,21 +31,21 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        UnitMove();
-        CameraRoation();
+        PlayerMove();
+        CameraRoating();
     }
 
 
-    private void UnitMove()
+    private void PlayerMove()
     {
-        m_MoveDir.x = Input.GetAxisRaw("Vertical");
-        m_MoveDir.z = Input.GetAxisRaw("Horizontal");
+        m_MoveDir.x = Input.GetAxisRaw("Horizontal");
+        m_MoveDir.z = Input.GetAxisRaw("Vertical");
 
-        m_PlayerController.Move(m_MoveDir * m_Speed * Time.deltaTime);
+        m_PlayerController.Move(transform.rotation * m_MoveDir * m_Speed * Time.deltaTime);
 
     }
 
-    private void CameraRoation()
+    private void CameraRoating()
     {
         transform.rotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
 

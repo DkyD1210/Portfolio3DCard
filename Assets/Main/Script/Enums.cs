@@ -1,6 +1,10 @@
 
 
-
+public enum SceneType
+{
+    TitleScene = 0,
+    MainScene = 1,
+}
 
 
 public enum UnitType
