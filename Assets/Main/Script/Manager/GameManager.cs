@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     private void SetPlayer()
     {
         UnitBaseModel model = Player.GetComponent<UnitBaseModel>();
-        UnitBase _base = XmlManager.Instance.TransXml(XmlManager.Instance.DataDic[new XmlId(1)]);
+        UnitBase _base = XmlManager.Instance.TransXml(XmlManager.Instance.GetData(1));
         model._unitBase = _base;
     }
 

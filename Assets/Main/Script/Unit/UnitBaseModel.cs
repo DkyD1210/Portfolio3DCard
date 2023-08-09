@@ -28,7 +28,7 @@ public class UnitBase
         get { return this._id; }
     }
 
-    
+    [SerializeField]
     private UnitData _unitData;
 
     public UnitData UnitData

@@ -108,7 +108,18 @@ public class XmlManager : MonoBehaviour
                 DataDic.Add(addData.Id, addData);
             }
 
-            Debug.Log(DataDic);
+            foreach (KeyValuePair<XmlId, UnitXmlInfo> item in DataDic)
+            {
+                Debug.Log(item.Key.id);
+                Debug.Log(item.Value.Name.ToString());
+                Debug.Log(item.Value.UnitEffect.Hp.ToString());
+                Debug.Log(item.Value.UnitEffect.Speed.ToString());
+                Debug.Log(item.Value.UnitEffect.Damage.ToString());
+                Debug.Log(item.Value.UnitEffect.GetDamageReduce.ToString());
+                Debug.Log(item.Value.UnitEffect.UnitFaction.ToString());
+                Debug.Log(item.Value.UnitEffect.UnitType.ToString());
+
+            }
         }
 
     }
@@ -121,6 +132,30 @@ public class XmlManager : MonoBehaviour
         unitBase.UnitData = data;
 
         return unitBase;
+    }
+
+    public UnitXmlInfo GetData(int id)
+    {
+        return GetData(new XmlId(id));
+    }
+
+    public UnitXmlInfo GetData(XmlId id)
+    {
+        UnitXmlInfo result;
+        if (this.DataDic.TryGetValue(id, out result))
+        {
+            return result;
+        }
+        result = new UnitXmlInfo
+        {
+            _id = id.id,
+            Name = "¿¡·¯ À¯´Ö",
+            UnitEffect = new UnitEffect
+            {
+                Hp = -1
+            }
+        };
+        return result;
     }
 
 

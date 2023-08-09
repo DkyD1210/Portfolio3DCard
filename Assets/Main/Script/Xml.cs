@@ -63,7 +63,7 @@ namespace CardGame_Xml
         public UnitType UnitType = UnitType.Defualt;
     }
 
-    public class XmlId : IEquatable<XmlId>, IEquatable<int>, IComparable<XmlId>
+    public class XmlId
     {
 
         public readonly int id;
@@ -71,23 +71,6 @@ namespace CardGame_Xml
         public XmlId(int _id)
         {
             this.id = _id;
-        }
-
-
-        public bool Equals(XmlId other)
-        {
-            return this.id == other.id;
-        }
-
-        public bool Equals(int other)
-        {
-            return this.id == other;
-        }
-
-        public int CompareTo(XmlId other)
-        {
-            int num = this.id.CompareTo(other.id);
-            return num;
         }
     }
 }
