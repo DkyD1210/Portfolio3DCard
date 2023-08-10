@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using CardGame_Xml;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instace == null)
+        if (Instace == null)
         {
             Instace = this;
         }
@@ -33,12 +32,12 @@ public class GameManager : MonoBehaviour
         SetPlayer();
     }
 
-    
+
     void Update()
     {
-        SetUI();  
-    } 
-    
+        SetUI();
+    }
+
     private void SetPlayer()
     {
         UnitBaseModel model = Player.GetComponent<UnitBaseModel>();
@@ -50,8 +49,18 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            UIBackGround.SetActive(!UIBackGround.activeSelf);
-            CameraManager.m_NoCursor = !UIBackGround.activeSelf;
+            if (UIBackGround.activeSelf == false)
+            {
+                UIBackGround.SetActive(true);
+                CameraManager.m_NoCursor = false;
+                TimeManager.TimeSet = GameTime.Stop;
+            }
+            else
+            {
+                UIBackGround.SetActive(false);
+                CameraManager.m_NoCursor = true;
+                TimeManager.TimeSet = GameTime.Slow;
+            }
         }
     }
 }

@@ -20,3 +20,18 @@ public enum Faction
     Neutral,
     Player
 }
+
+public enum Rarity
+{
+    Common,
+    Uncommon,
+    Rare,
+}
+
+public enum CardType
+{
+    Weapon,
+    Action,
+    Active,
+    Passive,
+}

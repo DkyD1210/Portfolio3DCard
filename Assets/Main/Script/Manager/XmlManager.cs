@@ -12,6 +12,7 @@ public class XmlManager : MonoBehaviour
 
     public static XmlManager Instance;
 
+    [SerializeField]
     private UnitXmlRoots Roots;
 
     public Dictionary<XmlId, UnitXmlInfo> DataDic = new Dictionary<XmlId, UnitXmlInfo>();
@@ -105,7 +106,7 @@ public class XmlManager : MonoBehaviour
                 addData.Name = data.Name;
                 addData.UnitEffect = data.UnitEffect;
 
-                DataDic.Add(addData.Id, addData);
+                DataDic.Add(addData.ID, addData);
             }
 
             foreach (KeyValuePair<XmlId, UnitXmlInfo> item in DataDic)
