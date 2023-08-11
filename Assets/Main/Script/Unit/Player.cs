@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     //플레이어 이동
     private Vector3 m_MoveDir;
 
+    private UnitBaseModel m_UnitBaseModel;
+
     [SerializeField]
     private float m_Speed;
 
@@ -26,6 +28,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         m_PlayerController = GetComponent<CharacterController>();
+        m_UnitBaseModel = GetComponent<UnitBaseModel>();
+        m_Speed = m_UnitBaseModel._unitBase.UnitData.Speed;
     }
 
 

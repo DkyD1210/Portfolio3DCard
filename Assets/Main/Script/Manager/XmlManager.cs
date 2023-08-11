@@ -14,7 +14,8 @@ public class XmlManager : MonoBehaviour
 
     private UnitXmlRoots Roots;
 
-    public Dictionary<XmlId, UnitXmlInfo> DataDic = new Dictionary<XmlId, UnitXmlInfo>();
+    //public Dictionary<XmlId, UnitXmlInfo> DataDic = new Dictionary<XmlId, UnitXmlInfo>();
+    public Dictionary<int, UnitXmlInfo> DataDic = new Dictionary<int, UnitXmlInfo>();
 
 
 
@@ -92,34 +93,51 @@ public class XmlManager : MonoBehaviour
         Directory.Exists(_path);
         Directory.CreateDirectory(_path);
         */
-
-        using (var stream = XmlReader.Create(_path))
+        try
         {
-            XmlSerializer unit = new XmlSerializer(typeof(UnitXmlRoots));
-            Roots = unit.Deserialize(stream) as UnitXmlRoots;
-
-            foreach (UnitXmlInfo data in Roots.UnitXmlList)
+            using (var stream = XmlReader.Create(_path))
             {
-                UnitXmlInfo addData = new UnitXmlInfo();
-                addData._id = data._id;
-                addData.Name = data.Name;
-                addData.UnitEffect = data.UnitEffect;
+                XmlSerializer unit = new XmlSerializer(typeof(UnitXmlRoots));
+                Roots = unit.Deserialize(stream) as UnitXmlRoots;
 
-                DataDic.Add(addData.Id, addData);
+                foreach (UnitXmlInfo data in Roots.UnitXmlList)
+                {
+                    UnitXmlInfo addData = new UnitXmlInfo();
+                    addData._id = data._id;
+                    addData.Name = data.Name;
+                    addData.UnitEffect = data.UnitEffect;
+
+                    DataDic.Add(addData.Id.Id, addData);
+                }
+                //foreach (KeyValuePair<XmlId, UnitXmlInfo> item in DataDic)
+                //{
+                //    Debug.Log(item.Key.Id);
+                //    Debug.Log(item.Value.Name.ToString());
+                //    Debug.Log(item.Value.UnitEffect.Hp.ToString());
+                //    Debug.Log(item.Value.UnitEffect.Speed.ToString());
+                //    Debug.Log(item.Value.UnitEffect.Damage.ToString());
+                //    Debug.Log(item.Value.UnitEffect.GetDamageReduce.ToString());
+                //    Debug.Log(item.Value.UnitEffect.UnitFaction.ToString());
+                //    Debug.Log(item.Value.UnitEffect.UnitType.ToString());
+
+                //}
+                foreach (KeyValuePair<int, UnitXmlInfo> item in DataDic)
+                {
+                    Debug.Log(item.Key);
+                    Debug.Log(item.Value.Name.ToString());
+                    Debug.Log(item.Value.UnitEffect.Hp.ToString());
+                    Debug.Log(item.Value.UnitEffect.Speed.ToString());
+                    Debug.Log(item.Value.UnitEffect.Damage.ToString());
+                    Debug.Log(item.Value.UnitEffect.GetDamageReduce.ToString());
+                    Debug.Log(item.Value.UnitEffect.UnitFaction.ToString());
+                    Debug.Log(item.Value.UnitEffect.UnitType.ToString());
+
+                }
             }
+        }
+        catch
+        {
 
-            foreach (KeyValuePair<XmlId, UnitXmlInfo> item in DataDic)
-            {
-                Debug.Log(item.Key.id);
-                Debug.Log(item.Value.Name.ToString());
-                Debug.Log(item.Value.UnitEffect.Hp.ToString());
-                Debug.Log(item.Value.UnitEffect.Speed.ToString());
-                Debug.Log(item.Value.UnitEffect.Damage.ToString());
-                Debug.Log(item.Value.UnitEffect.GetDamageReduce.ToString());
-                Debug.Log(item.Value.UnitEffect.UnitFaction.ToString());
-                Debug.Log(item.Value.UnitEffect.UnitType.ToString());
-
-            }
         }
 
     }
@@ -142,19 +160,23 @@ public class XmlManager : MonoBehaviour
     public UnitXmlInfo GetData(XmlId id)
     {
         UnitXmlInfo result;
-        if (this.DataDic.TryGetValue(id, out result))
+
+
+        if (DataDic.TryGetValue(id.Id, out result))
         {
+            Debug.Log("À¯´Ö ¼³Á¤µÊ");
             return result;
         }
         result = new UnitXmlInfo
         {
-            _id = id.id,
+            _id = id.Id,
             Name = "¿¡·¯ À¯´Ö",
             UnitEffect = new UnitEffect
             {
                 Hp = -1
             }
         };
+        Debug.LogError("À¯´Ö ¿¡·¯³²");
         return result;
     }
 
