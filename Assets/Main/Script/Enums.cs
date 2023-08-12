@@ -11,7 +11,8 @@ public enum UnitType
 {
     Defualt,
     Named,
-    Boss
+    Boss,
+    Player,
 }
 
 public enum Faction

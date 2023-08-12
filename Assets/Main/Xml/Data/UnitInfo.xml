@@ -1,21 +1,32 @@
 <?xml version="1.0"?>
 <UnitRoots xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Unit ID="1">
-    <Name>테스트용유닛1</Name>
+    <Name>플레이어</Name>
     <UnitEffect>
-      <Hp>10</Hp>
+      <Hp>80</Hp>
       <Speed>2</Speed>
-      <Damage>1</Damage>
-      <DamageReduce>0.8</DamageReduce>
-      <Faction>Neutral</Faction>
-      <Type>Named</Type>
+      <Damage>5</Damage>
+      <DamageReduce>1</DamageReduce>
+      <Faction>Player</Faction>
+      <Type>Player</Type>
     </UnitEffect>
   </Unit>
   <Unit ID="2">
-    <Name>테스트용유닛2</Name>
+    <Name>플레이어테스트2</Name>
     <UnitEffect>
       <Hp>100</Hp>
       <Speed>20</Speed>
+      <Damage>10</Damage>
+      <DamageReduce>1.5</DamageReduce>
+      <Faction>Player</Faction>
+      <Type>Boss</Type>
+    </UnitEffect>
+  </Unit>
+	<Unit ID="100001">
+    <Name>적1</Name>
+    <UnitEffect>
+      <Hp>10</Hp>
+      <Speed>1</Speed>
       <Damage>10</Damage>
       <DamageReduce>1.5</DamageReduce>
       <Faction>Player</Faction>
