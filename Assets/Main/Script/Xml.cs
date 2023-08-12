@@ -6,10 +6,9 @@ using UnityEngine;
 using CardGame_Xml;
 
 
-namespace CardGame_Xml
 namespace CardGame_Xml 
 {
-<<<<<<< HEAD
+
     public class XmlId
     {
 
@@ -28,70 +27,6 @@ namespace CardGame_Xml
 
 
 
-}
-
-[Serializable]
-[XmlRoot("UnitRoots")]
-public class UnitXmlRoots
-{
-    [XmlElement("Unit")]
-    public List<UnitXmlInfo> UnitXmlList = new List<UnitXmlInfo>();
-}
-
-
-
-[Serializable]
-public class UnitXmlInfo : XmlIdData
-{
-
-    [XmlIgnore]
-    public XmlId ID
-    {
-        get
-        {
-            return new XmlId(this._id);
-        }
-    }
-=======
-    public class XmlId  : IEquatable<XmlId>, IEquatable<int>, IComparable<XmlId>
-    {
-
-        private int _id;
-
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
-
-        public XmlId(int _id)
-        {
-            this._id = _id;
-        }
-
-        public bool Equals(XmlId other)
-        {
-            return this._id == other._id;
-        }
-
-        public bool Equals(int other)
-        {
-            return this._id == other;
-        }
-
-        public int CompareTo(XmlId other)
-        {
-            int num = this._id.CompareTo(other._id);
-            return num;
-        }
-    }
-
-
-    public class XmlIdData
-    {
-        [XmlAttribute("ID")]
-        public int _id;
-    }
 }
 
 [XmlRoot("UnitRoots")]
@@ -113,7 +48,7 @@ public class UnitXmlInfo : XmlIdData
             return new XmlId(this._id);
         }
     }
->>>>>>> origin/main
+
 
     [XmlElement("Name")]
     public string Name = "이름이 없어요";
@@ -123,11 +58,9 @@ public class UnitXmlInfo : XmlIdData
 
 }
 
-<<<<<<< HEAD
-[Serializable]
-=======
 
->>>>>>> origin/main
+[Serializable]
+
 public class UnitEffect
 {
     [XmlElement("Hp")]
@@ -149,7 +82,7 @@ public class UnitEffect
     public UnitType UnitType = UnitType.Defualt;
 }
 
-<<<<<<< HEAD
+
 public class CardXmlRoot
 {
     [XmlElement("Card")]
@@ -206,6 +139,5 @@ public class CardEffect
 
 }
 
-=======
->>>>>>> origin/main
+
 
