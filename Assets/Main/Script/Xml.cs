@@ -70,7 +70,7 @@ public class UnitEffect
     public int Speed;
 
     [XmlElement]
-    public int Damage;
+    public int Damage = 1;
 
     [XmlElement("DamageReduce")]
     public float GetDamageReduce = 1.0f;

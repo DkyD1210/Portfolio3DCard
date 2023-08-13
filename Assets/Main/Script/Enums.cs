@@ -13,6 +13,7 @@ public enum UnitType
     Named,
     Boss,
     Player,
+    Minion,
 }
 
 public enum Faction

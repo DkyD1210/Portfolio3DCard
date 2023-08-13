@@ -1,9 +1,0 @@
-diff a/Assets/Main/Script/Manager/XmlManager.cs b/Assets/Main/Script/Manager/XmlManager.cs	(rejected hunks)
-@@ -198,7 +198,6 @@
-         }
-         result = new UnitXmlInfo
-         {
--            _id = id.id,
-             _id = id.Id,
-             Name = "���� ����",
-             UnitEffect = new UnitEffect

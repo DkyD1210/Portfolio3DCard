@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI m_CostText;
 
-
+    public List<GameObject> m_Hand;
 
 
 
@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         ShowCost();
+        CardHand();
     }
 
     private void ShowCost()
@@ -31,5 +32,10 @@ public class UIManager : MonoBehaviour
         string cost = battleManager.GetCost().ToString();
         
         m_CostText.text = $"{cost}/{maxcost}";
+    }
+
+    private void CardHand()
+    {
+
     }
 }
