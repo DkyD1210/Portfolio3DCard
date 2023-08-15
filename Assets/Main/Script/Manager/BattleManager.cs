@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using CardGame_CardSystem;
 public class BattleManager : MonoBehaviour
 {
 

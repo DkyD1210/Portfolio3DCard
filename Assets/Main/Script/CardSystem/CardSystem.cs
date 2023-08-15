@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CardGame_CardSystem
-{
-
-    public class CardScript
+    public class CardScript : CardModel
     {
         BattleManager battleManager = BattleManager.Instance;
 
@@ -15,17 +12,17 @@ namespace CardGame_CardSystem
         }
 
     }
-}
+
 
 public class CardModel
 {
-    private CardXmlInfo cardXmlInfo;
+    private CardData Data;
 
-    public CardXmlInfo XmlData
+    public CardData CardData
     {
         get
         {
-            return cardXmlInfo;
+            return Data;
         }
     }
 
@@ -33,7 +30,7 @@ public class CardModel
     {
         get
         {
-            return XmlData.CardEffect.Cost;
+            return CardData.Cost;
         }
     }
 

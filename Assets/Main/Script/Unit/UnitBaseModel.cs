@@ -64,8 +64,6 @@ public class UnitBase
         int resultHp = (int)this.hp;
         return resultHp;
     }
-
-
 }
 
 [Serializable]

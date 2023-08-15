@@ -25,6 +25,7 @@ public enum Faction
 
 public enum Rarity
 {
+    Basic,
     Common,
     Uncommon,
     Rare,
@@ -32,8 +33,7 @@ public enum Rarity
 
 public enum CardType
 {
-    Weapon,
-    Action,
-    Active,
-    Passive,
+    Melee,
+    Range,
+    Act,
 }
