@@ -20,13 +20,7 @@ public class BattleManager : MonoBehaviour
     private List<GameObject> m_Player = new List<GameObject>();
 
 
-    [SerializeField]
-    private int m_MaxCardCost = 10;
 
-    [SerializeField]
-    private float m_CardCost;
-
-    public int m_RecoverCost = 100;
 
 
     private void Awake()
@@ -42,52 +36,4 @@ public class BattleManager : MonoBehaviour
     }
 
 
-    void Start()
-    {
-        
-    }
-
-    
-    void Update()
-    {
-        Cost();
-    }
-
-    private void Cost()
-    {
-        float recoverCost = (m_RecoverCost) * 0.01f;
-        m_CardCost += recoverCost * Time.deltaTime;
-        m_CardCost = Mathf.Clamp(m_CardCost, 0, m_MaxCardCost);
-    }
-
-    public int UseCost(int cost)
-    {
-        if((int)m_CardCost < cost)
-        {
-            Debug.Log("코스트 부족");
-            return 0;
-        }
-        m_CardCost -= cost;
-        return (int)m_CardCost;
-    }
-
-    public int RecoverCost(int cost)
-    {
-        m_CardCost += cost;
-        if((int)cost >= 10)
-        {
-            cost = 10;
-        }
-        return 0;
-    }
-
-    public int GetMaxCost()
-    {
-        return (int)m_MaxCardCost;
-    }
-
-    public int GetCost()
-    {
-        return (int)m_CardCost;   
-    }
 }

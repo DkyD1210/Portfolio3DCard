@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-public class UIManager : MonoBehaviour
+public class CardManager : MonoBehaviour
 {
 
-    private BattleManager battleManager;
 
     [SerializeField]
-    private TextMeshProUGUI m_CostText;
+    private TMP_Text m_CostText;
 
     [SerializeField]
     private RectTransform CardLayer;
@@ -21,10 +20,10 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Vector3 HandEnd;
 
+    public CardSystem cardSystem;
 
     void Start()
     {
-        battleManager = BattleManager.Instance;
         m_CardList.AddRange(CardLayer.gameObject.GetComponentsInChildren<Card>());
         HandStart = new Vector3((CardLayer.rect.width / 2) * -1, 0, 0);
         HandEnd = new Vector3(CardLayer.rect.width / 2, 0, 0);
@@ -39,18 +38,17 @@ public class UIManager : MonoBehaviour
 
     private void ShowCost()
     {
-        string maxcost = battleManager.GetMaxCost().ToString();
-        string cost = battleManager.GetCost().ToString();
+        float recoverCost = cardSystem.RecoverCost * 0.01f;
+        cardSystem.Cost += recoverCost * Time.deltaTime;
+        cardSystem.Cost = Mathf.Clamp(cardSystem.Cost, 0, cardSystem.MaxCost);
 
-        m_CostText.text = $"{cost}/{maxcost}";
+        m_CostText.text = $"{(int)cardSystem.Cost}/{cardSystem.MaxCost}";
     }
 
     private void CardHand()
     {
 
         int count = m_CardList.Count;
-
-
 
 
         for (int i = 0; i < count; i++)
@@ -63,9 +61,18 @@ public class UIManager : MonoBehaviour
             Card card = m_CardList[i];
 
             card.transform.localPosition = pos;
+            card.transform.localRotation = Quaternion.Euler(0, 0, 20 * (0.5f - value));
         }
     }
 
+}
 
+[System.Serializable]
+public class CardSystem
+{
+    public float Cost;
 
+    public int MaxCost = 10;
+
+    public int RecoverCost = 100;
 }

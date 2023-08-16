@@ -91,7 +91,7 @@ public class XmlManager : MonoBehaviour
     {
         string path = Path + _path + ".xml";
 
-        using (var stream = XmlReader.Create(_path))
+        using (var stream = XmlReader.Create(path))
         {
             try
             {

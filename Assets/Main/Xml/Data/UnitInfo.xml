@@ -4,7 +4,7 @@
     <Name>플레이어</Name>
     <UnitEffect>
       <Hp>80</Hp>
-      <Speed>2</Speed>
+      <Speed>5</Speed>
       <Damage>0</Damage>
       <DamageReduce>1</DamageReduce>
       <Faction>Player</Faction>

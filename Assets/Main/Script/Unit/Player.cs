@@ -13,14 +13,11 @@ public class Player : MonoBehaviour
     //플레이어 이동
     private Vector3 m_MoveDir;
 
-    private UnitBaseModel m_UnitBaseModel;
-
-    [SerializeField]
-    private float m_Speed;
-
     //카메라 조작
     [SerializeField]
     private GameObject FpsCamera;
+
+    public UnitBase m_UnitBase;
 
 
 
@@ -28,15 +25,13 @@ public class Player : MonoBehaviour
     void Start()
     {
         m_PlayerController = GetComponent<CharacterController>();
-        m_UnitBaseModel = GetComponent<UnitBaseModel>();
-        m_Speed = m_UnitBaseModel._unitBase.UnitData.Speed;
     }
 
 
     void Update()
     {
         PlayerMove();
-        CameraRoating();
+        PlayerRotating();
     }
 
 
@@ -45,14 +40,20 @@ public class Player : MonoBehaviour
         m_MoveDir.x = Input.GetAxisRaw("Horizontal");
         m_MoveDir.z = Input.GetAxisRaw("Vertical");
 
-        m_PlayerController.Move(transform.rotation * m_MoveDir * m_Speed * Time.deltaTime);
+        m_PlayerController.Move(transform.rotation * m_MoveDir * m_UnitBase.Speed * Time.deltaTime);
 
     }
 
-    private void CameraRoating()
+    private void PlayerRotating()
     {
-        transform.rotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
-
+        if(Input.GetKey(KeyCode.Q))
+        {
+            transform.Rotate(new Vector3(0, 100 * Time.deltaTime, 0));
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            transform.Rotate(new Vector3(0, -100 * Time.deltaTime, 0));
+        }
     }
 
 }

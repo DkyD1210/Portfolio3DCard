@@ -56,6 +56,12 @@ public class CardEffect
     [XmlAttribute("Cost")]
     public int Cost;
 
+    [XmlElement]
+    public int Damage = 0;
+    
+    [XmlElement]
+    public int Barrier = 0;
+
     [XmlElement("Script")]
     public string script = string.Empty;
 

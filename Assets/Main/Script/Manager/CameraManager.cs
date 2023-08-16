@@ -37,14 +37,9 @@ public class CameraManager : MonoBehaviour
 
     private void DeleteCursor()
     {
-        if (m_NoCursor)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
+
+        Cursor.lockState = CursorLockMode.None;
+
     }
 
 }

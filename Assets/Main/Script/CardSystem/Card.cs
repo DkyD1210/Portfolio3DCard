@@ -14,20 +14,20 @@ public class Card : MonoBehaviour
     private Image m_CardImage;
 
     [SerializeField]
-    private TextMeshProUGUI m_CardCost;
+    private TMP_Text m_CardCost;
 
     [SerializeField]
-    private TextMeshProUGUI m_CardName;
+    private TMP_Text m_CardName;
 
     [SerializeField]
-    private TextMeshProUGUI m_CardDesc;
-
+    private TMP_Text m_CardDesc;
 
     [SerializeField]
-    private CardData CardData;
+    private CardBase CardData;
 
     void Start()
     {
+        m_CardImage = GetComponent<Image>();
         
     }
 
@@ -37,26 +37,3 @@ public class Card : MonoBehaviour
     }
 }
 
-[Serializable]
-public class CardData
-{
-    //Xml È®ÀÎ¿ë ID
-    private int _id;
-
-    public int Id
-    {
-        get { return this._id; }
-    }
-
-    public Sprite Artwork;
-
-    public int Cost;
-
-    public string Name;
-
-    public string Description;
-
-    public Rarity Rarity;
-
-    public CardType Type;
-}

@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     private XmlManager xmlManager;
 
     [SerializeField]
-    private GameObject Player;
+    private Player Player;
 
     [SerializeField]
     private GameObject UIBackGround;
@@ -40,9 +40,8 @@ public class GameManager : MonoBehaviour
 
     private void SetPlayer()
     {
-        UnitBaseModel model = Player.GetComponent<UnitBaseModel>();
-        UnitBase _base = XmlManager.Instance.TransXml(XmlManager.Instance.GetData(1));
-        model._unitBase = _base;
+        Player = FindObjectOfType<Player>();
+        Player.m_UnitBase = XmlManager.Instance.TransXml(XmlManager.Instance.GetData(1));
     }
 
     private void SetUI()
@@ -59,7 +58,7 @@ public class GameManager : MonoBehaviour
             {
                 UIBackGround.SetActive(false);
                 CameraManager.m_NoCursor = true;
-                TimeManager.TimeSet = GameTime.Slow;
+                TimeManager.TimeSet = GameTime.Defualt;
             }
         }
     }

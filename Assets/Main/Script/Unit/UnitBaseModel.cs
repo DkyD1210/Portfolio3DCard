@@ -4,13 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using CardGame_Xml;
 
-public class UnitBaseModel : MonoBehaviour
-{
-    private Vector3 _positon = Vector3.zero;
-
-    public UnitBase _unitBase;
-}
-
 [Serializable]
 public class UnitBase
 {
@@ -48,6 +41,16 @@ public class UnitBase
 
     public float hp { get; private set; }
 
+
+    private float _speed;
+
+    public float Speed
+    {
+        get { return this.UnitData.Speed; }
+        set { _speed = value; }
+    }
+
+
     public float SetHp(int newHp)
     {
         return this.hp = newHp;
@@ -63,6 +66,11 @@ public class UnitBase
         this.hp -= dmg;
         int resultHp = (int)this.hp;
         return resultHp;
+    }
+
+    public bool Ondie()
+    {
+        return hp <= 0;
     }
 }
 
