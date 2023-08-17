@@ -26,10 +26,6 @@ public class UnitXmlInfo : XmlIdData
         }
     }
 
-
-    [XmlElement("Name")]
-    public string Name = "이름이 없어요";
-
     [XmlElement]
     public UnitEffect UnitEffect = new UnitEffect();
 

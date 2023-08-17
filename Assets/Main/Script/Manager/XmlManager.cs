@@ -113,8 +113,6 @@ public class XmlManager : MonoBehaviour
             {
                 Debug.LogError(path + " is Null");
             }
-
-
         }
     }
 

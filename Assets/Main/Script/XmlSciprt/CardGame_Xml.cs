@@ -17,10 +17,14 @@ namespace CardGame_Xml
             this.id = _id;
         }
     }
+
     public class XmlIdData
     {
         [XmlAttribute("ID")]
         public int _id;
+
+        [XmlElement("Name")]
+        public string Name = "이름이 없어요";
     }
 
 }

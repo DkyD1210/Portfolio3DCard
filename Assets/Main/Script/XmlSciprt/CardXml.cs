@@ -23,9 +23,6 @@ public class CardXmlInfo : XmlIdData
         }
     }
 
-    [XmlElement("Name")]
-    public string Name = "Ä«µå";
-
     [XmlElement("TextID")]
     public int _textId;
 

@@ -2,31 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-public class CardManager : MonoBehaviour
+using UnityEngine.EventSystems;
+
+public class CardManager : MonoBehaviour //handler,IDragHandler 
 {
 
 
     [SerializeField]
     private TMP_Text m_CostText;
 
+
+    [SerializeField]
+    private GameObject m_CardObject;
+
+    [Header("카드 UI 공간")]
     [SerializeField]
     private RectTransform CardLayer;
-
-    public List<Card> m_CardList;
-
-    [SerializeField]
     private Vector3 HandStart;
-
-    [SerializeField]
     private Vector3 HandEnd;
 
-    public CardSystem cardSystem;
+
+    public List<CardBase> m_Deck;
+
+    [Tooltip("뽑을 패")]
+    public List<CardBase> m_BeforeDummy;
+    [Tooltip("손패")]
+    public List<CardBase> m_Hand;
+    public List<GameObject> m_CardObj;
+    [Tooltip("버린 패")]
+    public List<CardBase> m_AfterDummy;
+
+
+
+
+    public CostSystem cardSystem;
 
     void Start()
     {
-        m_CardList.AddRange(CardLayer.gameObject.GetComponentsInChildren<Card>());
-        HandStart = new Vector3((CardLayer.rect.width / 2) * -1, 0, 0);
-        HandEnd = new Vector3(CardLayer.rect.width / 2, 0, 0);
+        HandStart = new Vector3((CardLayer.rect.width * 0.5f) * -1, 0, 0);
+        HandEnd = new Vector3(CardLayer.rect.width * 0.5f, 0, 0);
+        m_BeforeDummy.AddRange(m_Deck);
+        DrawCard();
     }
 
 
@@ -34,6 +50,8 @@ public class CardManager : MonoBehaviour
     {
         ShowCost();
         CardHand();
+
+
     }
 
     private void ShowCost()
@@ -45,30 +63,46 @@ public class CardManager : MonoBehaviour
         m_CostText.text = $"{(int)cardSystem.Cost}/{cardSystem.MaxCost}";
     }
 
+    private void DrawCard()
+    {
+        CardBase drawCard = m_BeforeDummy[0];
+        m_Hand.Add(drawCard);
+        m_BeforeDummy.Remove(drawCard);
+
+        GameObject objCard = Instantiate(m_CardObject, CardLayer);
+        m_CardObj.Add(objCard);
+
+        CardFrame resultCard = objCard.GetComponent<CardFrame>();
+        resultCard.m_Card = new CardBase(drawCard);
+    }
+
     private void CardHand()
     {
 
-        int count = m_CardList.Count;
+        int count = m_CardObj.Count;
 
 
         for (int i = 0; i < count; i++)
         {
             //float distance = Vector3.Distance(HandStart, HandEnd);
-            float value = (float)i / (count - 1);
+            float value = (float)i / (count);
             Vector3 pos = Vector3.Lerp(HandStart, HandEnd, value);
             pos.y = CardLayer.position.y * (Mathf.Abs(0.5f - value) * -1);
 
-            Card card = m_CardList[i];
+            GameObject card = m_CardObj[i];
 
             card.transform.localPosition = pos;
             card.transform.localRotation = Quaternion.Euler(0, 0, 20 * (0.5f - value));
+
+
+
         }
     }
 
 }
 
 [System.Serializable]
-public class CardSystem
+public class CostSystem
 {
     public float Cost;
 

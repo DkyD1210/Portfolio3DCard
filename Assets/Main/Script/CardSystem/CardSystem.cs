@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class CardScript
 {
+    public int ReduceCost = 0;
 
-    public virtual int UseCost()
+    public int UseCost()
     {
         return 0;
     }
 
-    public virtual void GetUse()
+
+    public virtual void OnUse(Player player)
     {
         return;
     }
@@ -21,6 +23,19 @@ public class CardScript
 [Serializable]
 public class CardBase : CardScript
 {
+    public CardBase(CardBase data)
+    {
+        this._id = data._id;
+        this.Artwork = data.Artwork;
+        this.Cost = data.Cost;
+        this.Name = data.Name;
+        this.Scrpit = data.Scrpit;
+        this.Damage = data.Damage;
+        this.Barrier = data.Barrier;
+        this.Rarity = data.Rarity;
+        this.Type = data.Type;
+    }
+
     //Xml È®ÀÎ¿ë ID
     private int _id;
 
@@ -35,11 +50,15 @@ public class CardBase : CardScript
 
     public string Name;
 
-    public string Description;
+    public string Scrpit;
 
     public int Damage;
+
+    public int Barrier;
 
     public Rarity Rarity;
 
     public CardType Type;
+
+
 }
