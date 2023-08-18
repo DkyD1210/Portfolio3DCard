@@ -12,7 +12,6 @@ public class CardScript
         return 0;
     }
 
-
     public virtual void OnUse(Player player)
     {
         return;

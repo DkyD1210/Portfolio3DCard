@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class CardManager : MonoBehaviour //handler,IDragHandler 
+public class CardManager : MonoBehaviour
 {
 
 
@@ -42,7 +42,7 @@ public class CardManager : MonoBehaviour //handler,IDragHandler
         HandStart = new Vector3((CardLayer.rect.width * 0.5f) * -1, 0, 0);
         HandEnd = new Vector3(CardLayer.rect.width * 0.5f, 0, 0);
         m_BeforeDummy.AddRange(m_Deck);
-        DrawCard();
+        DrawCard(10);
     }
 
 
@@ -63,17 +63,21 @@ public class CardManager : MonoBehaviour //handler,IDragHandler
         m_CostText.text = $"{(int)cardSystem.Cost}/{cardSystem.MaxCost}";
     }
 
-    private void DrawCard()
+    private void DrawCard(int count = 1)
     {
-        CardBase drawCard = m_BeforeDummy[0];
-        m_Hand.Add(drawCard);
-        m_BeforeDummy.Remove(drawCard);
+        for (int i = 0; i < count; i++)
+        {
+            CardBase drawCard = m_BeforeDummy[0];
+            m_Hand.Add(drawCard);
+            m_BeforeDummy.Remove(drawCard);
 
-        GameObject objCard = Instantiate(m_CardObject, CardLayer);
-        m_CardObj.Add(objCard);
+            GameObject objCard = Instantiate(m_CardObject, CardLayer);
+            m_CardObj.Add(objCard);
 
-        CardFrame resultCard = objCard.GetComponent<CardFrame>();
-        resultCard.m_Card = new CardBase(drawCard);
+            CardFrame resultCard = objCard.GetComponent<CardFrame>();
+            resultCard.m_CardBase = new CardBase(drawCard);
+        }
+
     }
 
     private void CardHand()
@@ -84,19 +88,50 @@ public class CardManager : MonoBehaviour //handler,IDragHandler
 
         for (int i = 0; i < count; i++)
         {
-            //float distance = Vector3.Distance(HandStart, HandEnd);
+            GameObject frame = m_CardObj[i];
+            CardFrame _card = frame.GetComponent<CardFrame>();
+
+
             float value = (float)i / (count);
             Vector3 pos = Vector3.Lerp(HandStart, HandEnd, value);
-            pos.y = CardLayer.position.y * (Mathf.Abs(0.5f - value) * -1);
 
-            GameObject card = m_CardObj[i];
-
-            card.transform.localPosition = pos;
-            card.transform.localRotation = Quaternion.Euler(0, 0, 20 * (0.5f - value));
-
+            switch (_card.CardState)
+            {
+                case CardState.MouseEnter:
+                    pos.y = CardLayer.position.y - 75f;
+                    frame.transform.localScale = new Vector3(1.2f, 1.2f, 2f);
+                    frame.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    frame.transform.localPosition = pos;
+                    frame.transform.SetAsLastSibling();
+                    break;
+                case CardState.MouseDrag:
+                    pos = Input.mousePosition;
+                    frame.transform.localScale = new Vector3(1.2f, 1.2f, 0f);
+                    frame.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    frame.transform.position = pos;
+                    break;
+                case CardState.MouseExit:
+                    pos.y = CardLayer.position.y * (Mathf.Abs(0.5f - value) * -1);
+                    frame.transform.localScale = new Vector3(1f, 1f, 0);
+                    frame.transform.localRotation = Quaternion.Euler(0, 0, 25 * (0.5f - value));
+                    frame.transform.localPosition = pos;
+                    frame.transform.SetAsFirstSibling();
+                    break;
+                case CardState.CardUse:
+                    m_CardObj.Remove(frame);
+                    m_Hand.Remove(_card.m_CardBase);
+                    UseCard(_card);
+                    break;
+            }
 
 
         }
+    }
+
+    private void UseCard(CardFrame card)
+    {
+        Destroy(card.gameObject);
+        
     }
 
 }
