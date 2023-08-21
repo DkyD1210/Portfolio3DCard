@@ -31,9 +31,15 @@ public enum Rarity
     Rare,
 }
 
-public enum CardType
+public enum CardRangeType
 {
     Melee,
     Range,
     Act,
+}
+
+public enum XmlPath
+{
+    UnitInfo,
+    CardInfo,
 }

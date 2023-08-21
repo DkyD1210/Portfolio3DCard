@@ -8,7 +8,7 @@ using CardGame_Xml;
 public class CardXmlRoot
 {
     [XmlElement("Card")]
-    private List<CardXmlInfo> CardXmlList = new List<CardXmlInfo>();
+    public List<CardXmlInfo> CardXmlList = new List<CardXmlInfo>();
 }
 
 [Serializable]
@@ -24,8 +24,9 @@ public class CardXmlInfo : XmlIdData
     }
 
     [XmlElement("TextID")]
-    public int _textId;
+    public int _textId = 0;
 
+    [XmlIgnore]
     public XmlId TextID
     {
         get
@@ -37,25 +38,26 @@ public class CardXmlInfo : XmlIdData
     [XmlElement("Artwork")]
     public string artWork = string.Empty;
 
-    [XmlElement]
-    public Rarity Rarity;
 
     [XmlElement]
-    public CardType CardType;
+    public CardRangeType CardRange = CardRangeType.Melee;
 
     [XmlElement]
     public CardEffect CardEffect = new CardEffect();
+
+    [XmlElement]
+    public Rarity Rarity = Rarity.Basic;
 }
 
 [Serializable]
 public class CardEffect
 {
     [XmlAttribute("Cost")]
-    public int Cost;
+    public int Cost = 99;
 
     [XmlElement]
     public int Damage = 0;
-    
+
     [XmlElement]
     public int Barrier = 0;
 

@@ -13,10 +13,15 @@ public class XmlManager : MonoBehaviour
     public static XmlManager Instance;
 
     [SerializeField]
-    private UnitXmlRoots Roots;
+    private UnitXmlRoots _unitXmlRoots;
+
+    [SerializeField]
+    private CardXmlRoot _cardXmlRoot;
 
     //public Dictionary<XmlId, UnitXmlInfo> DataDic = new Dictionary<XmlId, UnitXmlInfo>();
-    public Dictionary<int, UnitXmlInfo> DataDic = new Dictionary<int, UnitXmlInfo>();
+    public Dictionary<int, UnitXmlInfo> UnitDataDic = new Dictionary<int, UnitXmlInfo>();
+
+    public Dictionary<int, CardXmlInfo> CardDataDic = new Dictionary<int,CardXmlInfo>();
 
     private const string Path = "Assets/Main/Xml/Data/";
 
@@ -35,13 +40,16 @@ public class XmlManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this);
-        LoadXmlData("UnitInfo");
+        CreateXmlDataTest(XmlPath.CardInfo);
+        LoadXmlData(XmlPath.UnitInfo);
+        InitSprite();
     }
 
 
 
-    private void SaveXmlDataTest()
+    private void CreateXmlDataTest(XmlPath _path)
     {
+        /*
         UnitXmlRoots unit = new UnitXmlRoots
         {
             UnitXmlList = new List<UnitXmlInfo>
@@ -77,17 +85,40 @@ public class XmlManager : MonoBehaviour
                 },
             }
         };
+        */
+        CardXmlRoot cardXmlRoot = new CardXmlRoot
+        {
+            CardXmlList = new List<CardXmlInfo>
+            {
+                new CardXmlInfo
+                {
+                    _id = 1,
+                    Name = "테스트용_기본공격",
+                    _textId = 1,
+                    artWork = string.Empty,
+                    CardRange = CardRangeType.Melee,
+                    CardEffect = new CardEffect
+                    {
+                        Cost = 1,
+                        Damage = 7,
+                        Barrier = 0,
+                        script = string.Empty,
+                    },
+                    Rarity = Rarity.Basic
+                }
+            }
+        };
+        XmlSerializer serializer = new XmlSerializer(typeof(CardXmlRoot));
 
 
-        XmlSerializer serializer = new XmlSerializer(typeof(UnitXmlRoots));
+        string path = Path + _path + ".xml";
 
-
-        FileStream fs = new FileStream(Path, FileMode.Create);
-        serializer.Serialize(fs, unit);
+        FileStream fs = new FileStream(path, FileMode.Create);
+        serializer.Serialize(fs, cardXmlRoot);
         fs.Close();
     }
 
-    public void LoadXmlData(string _path)
+    public void LoadXmlData(XmlPath _path)
     {
         string path = Path + _path + ".xml";
 
@@ -96,9 +127,9 @@ public class XmlManager : MonoBehaviour
             try
             {
                 XmlSerializer unit = new XmlSerializer(typeof(UnitXmlRoots));
-                Roots = unit.Deserialize(stream) as UnitXmlRoots;
+                _unitXmlRoots = unit.Deserialize(stream) as UnitXmlRoots;
 
-                foreach (UnitXmlInfo data in Roots.UnitXmlList)
+                foreach (UnitXmlInfo data in _unitXmlRoots.UnitXmlList)
                 {
                     UnitXmlInfo addData = new UnitXmlInfo();
                     addData._id = data._id;
@@ -106,7 +137,7 @@ public class XmlManager : MonoBehaviour
                     addData.UnitEffect = data.UnitEffect;
 
 
-                    DataDic.Add(addData.Id.id, addData);
+                    UnitDataDic.Add(addData.Id.id, addData);
                 }
             }
             catch
@@ -135,7 +166,7 @@ public class XmlManager : MonoBehaviour
     {
         UnitXmlInfo result;
 
-        if (DataDic.TryGetValue(id.id, out result))
+        if (UnitDataDic.TryGetValue(id.id, out result))
         {
             Debug.Log("유닛 설정됨");
             return result;
@@ -153,5 +184,18 @@ public class XmlManager : MonoBehaviour
         return result;
     }
 
+    public List<Texture2D> spriteList;
+
+    private void InitSprite()
+    {
+        string path = "Assets/Resources";
+        Byte[] spriteSpr = File.ReadAllBytes(path);
+        if(spriteSpr.Length > 0)
+        {
+            Texture2D _sprite = new Texture2D(0, 0);
+            _sprite.LoadImage(spriteSpr);
+            spriteList.Add(_sprite);
+        }
+    }
 
 }

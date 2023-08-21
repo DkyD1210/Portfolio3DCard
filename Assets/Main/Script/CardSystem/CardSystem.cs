@@ -57,7 +57,7 @@ public class CardBase : CardScript
 
     public Rarity Rarity;
 
-    public CardType Type;
+    public CardRangeType Type;
 
 
 }

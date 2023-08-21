@@ -27,8 +27,7 @@ public class CardManager : MonoBehaviour
     [Tooltip("뽑을 패")]
     public List<CardBase> m_BeforeDummy;
     [Tooltip("손패")]
-    public List<CardBase> m_Hand;
-    public List<GameObject> m_CardObj;
+    public List<CardFrame> m_Hand;
     [Tooltip("버린 패")]
     public List<CardBase> m_AfterDummy;
 
@@ -68,14 +67,14 @@ public class CardManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             CardBase drawCard = m_BeforeDummy[0];
-            m_Hand.Add(drawCard);
-            m_BeforeDummy.Remove(drawCard);
 
             GameObject objCard = Instantiate(m_CardObject, CardLayer);
-            m_CardObj.Add(objCard);
 
             CardFrame resultCard = objCard.GetComponent<CardFrame>();
             resultCard.m_CardBase = new CardBase(drawCard);
+            m_Hand.Add(resultCard);
+
+            m_BeforeDummy.Remove(drawCard);
         }
 
     }
@@ -83,19 +82,18 @@ public class CardManager : MonoBehaviour
     private void CardHand()
     {
 
-        int count = m_CardObj.Count;
+        int count = m_Hand.Count;
 
 
         for (int i = 0; i < count; i++)
         {
-            GameObject frame = m_CardObj[i];
-            CardFrame _card = frame.GetComponent<CardFrame>();
-
+            CardFrame frame = m_Hand[i];
+            
 
             float value = (float)i / (count);
             Vector3 pos = Vector3.Lerp(HandStart, HandEnd, value);
 
-            switch (_card.CardState)
+            switch (frame.CardState)
             {
                 case CardState.MouseEnter:
                     pos.y = CardLayer.position.y - 75f;
@@ -118,9 +116,10 @@ public class CardManager : MonoBehaviour
                     frame.transform.SetAsFirstSibling();
                     break;
                 case CardState.CardUse:
-                    m_CardObj.Remove(frame);
-                    m_Hand.Remove(_card.m_CardBase);
-                    UseCard(_card);
+                    m_Hand.Remove(frame);
+                    UseCard(frame);
+                    Destroy(frame);
+                    Destroy(frame.gameObject);
                     break;
             }
 
@@ -130,7 +129,6 @@ public class CardManager : MonoBehaviour
 
     private void UseCard(CardFrame card)
     {
-        Destroy(card.gameObject);
         
     }
 

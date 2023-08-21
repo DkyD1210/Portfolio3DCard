@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<CardXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Card ID="1">
+    <Name>테스트용_기본공격</Name>
+    <TextID>1</TextID>
+    <Artwork />
+    <CardRange>Melee</CardRange>
+    <CardEffect Cost="1">
+      <Damage>7</Damage>
+      <Barrier>0</Barrier>
+      <Script />
+    </CardEffect>
+    <Rarity>Basic</Rarity>
+  </Card>
+</CardXmlRoot>
