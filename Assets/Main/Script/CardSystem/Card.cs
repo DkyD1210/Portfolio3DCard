@@ -32,7 +32,7 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public CardBase m_CardBase;
 
-
+    public Sprite m_ArtWork;
 
     public CardState CardState;
 
@@ -41,10 +41,11 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     void Start()
     {
-        m_CardImage = GetComponent<Image>();
+        InitCardImage();
         m_CardCost = transform.Find("Cost").GetComponent<TMP_Text>();
         m_CardName = transform.Find("CardName").GetComponent<TMP_Text>();
         m_CardDesc = transform.Find("CardDesc").GetComponent<TMP_Text>();
+        m_CardBase.Script = new Script_BaseAttack();
     }
 
     void Update()
@@ -83,9 +84,15 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private void DescText()
     {
-
+        
     }
 
+    private void InitCardImage()
+    {
+        m_CardImage = transform.Find("CardImage").GetComponent<Image>();
+        m_ArtWork = Resources.Load<Sprite>("CardImage/" + m_CardBase.Artwork);
+        m_CardImage.sprite = m_ArtWork;
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {

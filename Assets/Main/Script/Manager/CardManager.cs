@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class CardManager : MonoBehaviour
 {
 
+    Player player;
 
     [SerializeField]
     private TMP_Text m_CostText;
@@ -31,18 +32,21 @@ public class CardManager : MonoBehaviour
     [Tooltip("¹ö¸° ÆÐ")]
     public List<CardBase> m_AfterDummy;
 
-
+    [SerializeField]
+    private List<CardScript> m_ScriptList = new List<CardScript>();
 
 
     public CostSystem cardSystem;
 
     void Start()
     {
+        player = GameManager.Player;
         HandStart = new Vector3((CardLayer.rect.width * 0.5f) * -1, 0, 0);
         HandEnd = new Vector3(CardLayer.rect.width * 0.5f, 0, 0);
         m_BeforeDummy.AddRange(m_Deck);
         DrawCard(10);
     }
+
 
 
     void Update()
@@ -87,39 +91,37 @@ public class CardManager : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            CardFrame frame = m_Hand[i];
-            
+            CardFrame card = m_Hand[i];
+
 
             float value = (float)i / (count);
             Vector3 pos = Vector3.Lerp(HandStart, HandEnd, value);
 
-            switch (frame.CardState)
+            switch (card.CardState)
             {
                 case CardState.MouseEnter:
                     pos.y = CardLayer.position.y - 75f;
-                    frame.transform.localScale = new Vector3(1.2f, 1.2f, 2f);
-                    frame.transform.localRotation = Quaternion.Euler(0, 0, 0);
-                    frame.transform.localPosition = pos;
-                    frame.transform.SetAsLastSibling();
+                    card.transform.localScale = new Vector3(1.2f, 1.2f, 2f);
+                    card.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    card.transform.localPosition = pos;
+                    card.transform.SetAsLastSibling();
                     break;
                 case CardState.MouseDrag:
                     pos = Input.mousePosition;
-                    frame.transform.localScale = new Vector3(1.2f, 1.2f, 0f);
-                    frame.transform.localRotation = Quaternion.Euler(0, 0, 0);
-                    frame.transform.position = pos;
+                    card.transform.localScale = new Vector3(1.2f, 1.2f, 0f);
+                    card.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    card.transform.position = pos;
                     break;
                 case CardState.MouseExit:
                     pos.y = CardLayer.position.y * (Mathf.Abs(0.5f - value) * -1);
-                    frame.transform.localScale = new Vector3(1f, 1f, 0);
-                    frame.transform.localRotation = Quaternion.Euler(0, 0, 25 * (0.5f - value));
-                    frame.transform.localPosition = pos;
-                    frame.transform.SetAsFirstSibling();
+                    card.transform.localScale = new Vector3(1f, 1f, 0);
+                    card.transform.localRotation = Quaternion.Euler(0, 0, 25 * (0.5f - value));
+                    card.transform.localPosition = pos;
+                    card.transform.SetAsFirstSibling();
                     break;
                 case CardState.CardUse:
-                    m_Hand.Remove(frame);
-                    UseCard(frame);
-                    Destroy(frame);
-                    Destroy(frame.gameObject);
+                    m_Hand.Remove(card);
+                    StartCoroutine(UseCard(card));
                     break;
             }
 
@@ -127,9 +129,11 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    private void UseCard(CardFrame card)
+    private IEnumerator UseCard(CardFrame card)
     {
-        
+        card.m_CardBase.Script.OnUse(player);
+        Destroy(card.gameObject);
+        yield return null;
     }
 
 }

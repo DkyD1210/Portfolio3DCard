@@ -42,7 +42,7 @@ public class XmlManager : MonoBehaviour
         DontDestroyOnLoad(this);
         CreateXmlDataTest(XmlPath.CardInfo);
         LoadXmlData(XmlPath.UnitInfo);
-        InitSprite();
+        //InitSprite();
     }
 
 
@@ -184,6 +184,7 @@ public class XmlManager : MonoBehaviour
         return result;
     }
 
+    /*
     public List<Texture2D> spriteList;
 
     private void InitSprite()
@@ -197,5 +198,6 @@ public class XmlManager : MonoBehaviour
             spriteList.Add(_sprite);
         }
     }
+    */
 
 }

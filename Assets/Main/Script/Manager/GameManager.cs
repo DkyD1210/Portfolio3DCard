@@ -9,8 +9,7 @@ public class GameManager : MonoBehaviour
 
     private XmlManager xmlManager;
 
-    [SerializeField]
-    private Player Player;
+    public static Player Player;
 
     [SerializeField]
     private GameObject UIBackGround;

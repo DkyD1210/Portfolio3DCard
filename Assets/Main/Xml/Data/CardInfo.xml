@@ -8,7 +8,7 @@
     <CardEffect Cost="1">
       <Damage>7</Damage>
       <Barrier>0</Barrier>
-      <Script />
+	  <Script>BaseAttack</Script>
     </CardEffect>
     <Rarity>Basic</Rarity>
   </Card>

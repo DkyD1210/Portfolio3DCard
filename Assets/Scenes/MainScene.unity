@@ -1260,7 +1260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f4ad5439932a84fa5bd6825bbc41d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 2105729181}
   UIBackGround: {fileID: 1034338966}
 --- !u!1 &739240651
 GameObject:
@@ -2994,99 +2993,78 @@ MonoBehaviour:
   m_CardObject: {fileID: 1494274585476200002, guid: 398c916c43dbf454f9295bce656d7a2a, type: 3}
   CardLayer: {fileID: 2014647234}
   m_Deck:
-  - ReduceCost: 1
-    Artwork: {fileID: 0}
+  - Artwork: 
     Cost: 1
     Name: dadasd
-    Scrpit: 1
     Damage: 2
     Barrier: 0
     Rarity: 0
     Type: 0
-  - ReduceCost: 0
-    Artwork: {fileID: 0}
+  - Artwork: 
     Cost: 0
     Name: asdsfsd
-    Scrpit: 
     Damage: 0
     Barrier: 0
     Rarity: 0
     Type: 0
-  - ReduceCost: 0
-    Artwork: {fileID: 0}
+  - Artwork: 
     Cost: 0
     Name: dfgdgdfgd
-    Scrpit: 
     Damage: 0
     Barrier: 0
     Rarity: 0
     Type: 0
-  - ReduceCost: 0
-    Artwork: {fileID: 0}
+  - Artwork: 
     Cost: 0
     Name: dfgdgdfgd
-    Scrpit: 
     Damage: 0
     Barrier: 0
     Rarity: 0
     Type: 0
-  - ReduceCost: 0
-    Artwork: {fileID: 0}
+  - Artwork: 
     Cost: 0
     Name: dfgdgdfgd
-    Scrpit: 
     Damage: 0
     Barrier: 0
     Rarity: 0
     Type: 0
-  - ReduceCost: 0
-    Artwork: {fileID: 0}
+  - Artwork: 
     Cost: 0
     Name: dfgdgdfgd
-    Scrpit: 
     Damage: 0
     Barrier: 0
     Rarity: 0
     Type: 0
-  - ReduceCost: 0
-    Artwork: {fileID: 0}
+  - Artwork: 
     Cost: 0
     Name: dfgdgdfgd
-    Scrpit: 
     Damage: 0
     Barrier: 0
     Rarity: 0
     Type: 0
-  - ReduceCost: 0
-    Artwork: {fileID: 0}
+  - Artwork: 
     Cost: 0
     Name: dfgdgdfgd
-    Scrpit: 
     Damage: 0
     Barrier: 0
     Rarity: 0
     Type: 0
-  - ReduceCost: 0
-    Artwork: {fileID: 0}
+  - Artwork: 
     Cost: 0
     Name: dfgdgdfgd
-    Scrpit: 
     Damage: 0
     Barrier: 0
     Rarity: 0
     Type: 0
-  - ReduceCost: 0
-    Artwork: {fileID: 0}
+  - Artwork: 
     Cost: 0
     Name: dfgdgdfgd
-    Scrpit: 
     Damage: 0
     Barrier: 0
     Rarity: 0
     Type: 0
   m_BeforeDummy: []
   m_Hand: []
-  m_CardObj: []
   m_AfterDummy: []
   cardSystem:
     Cost: 0
@@ -3128,7 +3106,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 824, y: -100}
+  m_AnchoredPosition: {x: 824, y: 0}
   m_SizeDelta: {x: -1820, y: -980}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1411206568
