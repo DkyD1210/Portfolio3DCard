@@ -5,7 +5,7 @@
     <TextID>1</TextID>
     <Artwork />
     <CardRange>Melee</CardRange>
-    <CardEffect Cost="1">
+    <CardEffect>
       <Damage>7</Damage>
       <Barrier>0</Barrier>
 	  <Script>BaseAttack</Script>

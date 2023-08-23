@@ -52,8 +52,6 @@ public class CardXmlInfo : XmlIdData
 [Serializable]
 public class CardEffect
 {
-    [XmlAttribute("Cost")]
-    public int Cost = 99;
 
     [XmlElement]
     public int Damage = 0;

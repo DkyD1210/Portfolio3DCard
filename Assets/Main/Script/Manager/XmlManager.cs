@@ -99,7 +99,6 @@ public class XmlManager : MonoBehaviour
                     CardRange = CardRangeType.Melee,
                     CardEffect = new CardEffect
                     {
-                        Cost = 1,
                         Damage = 7,
                         Barrier = 0,
                         script = string.Empty,

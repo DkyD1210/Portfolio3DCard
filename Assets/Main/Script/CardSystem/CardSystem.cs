@@ -27,7 +27,6 @@ public class CardBase
         this._id = data._id;
         this._textID = data._textID;
         this.Artwork = data.Artwork;
-        this.Cost = data.Cost;
         this.Name = data.Name;
         this.Script = data.Script;
         this.Damage = data.Damage;
@@ -53,8 +52,6 @@ public class CardBase
 
     public string Artwork;
 
-    public int Cost;
-
     public string Name;
 
     public CardScript Script;
@@ -67,11 +64,6 @@ public class CardBase
 
     public CardRangeType Type;
 
-    public int UseCost(int reduce = 0, int incerce = 0)
-    {
-        int num = this.Cost - reduce + incerce;
-        return num;
-    }
 
 }
 

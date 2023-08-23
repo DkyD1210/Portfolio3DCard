@@ -10,10 +10,6 @@ public class CardManager : MonoBehaviour
     Player player;
 
     [SerializeField]
-    private TMP_Text m_CostText;
-
-
-    [SerializeField]
     private GameObject m_CardObject;
 
     [Header("카드 UI 공간")]
@@ -35,9 +31,6 @@ public class CardManager : MonoBehaviour
     [SerializeField]
     private List<CardScript> m_ScriptList = new List<CardScript>();
 
-
-    public CostSystem cardSystem;
-
     void Start()
     {
         player = GameManager.Player;
@@ -51,20 +44,11 @@ public class CardManager : MonoBehaviour
 
     void Update()
     {
-        ShowCost();
         CardHand();
 
 
     }
 
-    private void ShowCost()
-    {
-        float recoverCost = cardSystem.RecoverCost * 0.01f;
-        cardSystem.Cost += recoverCost * Time.deltaTime;
-        cardSystem.Cost = Mathf.Clamp(cardSystem.Cost, 0, cardSystem.MaxCost);
-
-        m_CostText.text = $"{(int)cardSystem.Cost}/{cardSystem.MaxCost}";
-    }
 
     private void DrawCard(int count = 1)
     {
@@ -138,12 +122,3 @@ public class CardManager : MonoBehaviour
 
 }
 
-[System.Serializable]
-public class CostSystem
-{
-    public float Cost;
-
-    public int MaxCost = 10;
-
-    public int RecoverCost = 100;
-}

@@ -21,9 +21,6 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     private Image m_CardImage;
 
     [SerializeField]
-    private TMP_Text m_CardCost;
-
-    [SerializeField]
     private TMP_Text m_CardName;
 
     [SerializeField]
@@ -42,7 +39,6 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     void Start()
     {
         InitCardImage();
-        m_CardCost = transform.Find("Cost").GetComponent<TMP_Text>();
         m_CardName = transform.Find("CardName").GetComponent<TMP_Text>();
         m_CardDesc = transform.Find("CardDesc").GetComponent<TMP_Text>();
         m_CardBase.Script = new Script_BaseAttack();
@@ -55,27 +51,10 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             CardState = CardState.CardUse;
             return;
         }
-        CostText();
         NameText();
     }
 
-    private void CostText()
-    {
-        m_CardCost.text = m_CardBase.UseCost().ToString();
 
-        if (m_CardBase.Cost < m_CardBase.UseCost())
-        {
-            m_CardCost.color = Color.green;
-        }
-        else if (m_CardBase.Cost > m_CardBase.UseCost())
-        {
-            m_CardCost.color = Color.red;
-        }
-        else
-        {
-            m_CardCost.color = Color.black;
-        }
-    }
 
     private void NameText()
     {
