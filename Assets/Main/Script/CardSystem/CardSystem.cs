@@ -3,22 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardScript
-{
-
-    public virtual void ShowCard(Player player)
-    {
-        return;
-    }
-
-    public virtual void OnUse(Player player)
-    {
-        Debug.Log("카드 사용");
-        return;
-    }
-
-}
-
 [Serializable]
 public class CardBase
 {
@@ -67,14 +51,37 @@ public class CardBase
 
 }
 
-class Script_BaseAttack : CardScript
+
+
+public class CardScript
 {
 
-    public override void ShowCard(Player player)
+    public virtual void OnUse(Player player)
     {
-        
+        Debug.Log("카드 사용");
+        return;
     }
 
+}
 
+
+class Script_BaseAttack : CardScript
+{
+    public override void OnUse(Player player)
+    {
+        base.OnUse(player);
+        Script_BaseAttack sript = new Script_BaseAttack();
+    }
+
+}
+
+
+class Script_BaseDefence : CardScript
+{
+    public override void OnUse(Player player)
+    {
+        base.OnUse(player);
+        Script_BaseDefence sript = new Script_BaseDefence();
+    }
 
 }

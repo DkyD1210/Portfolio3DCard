@@ -6,12 +6,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    private CharacterController m_PlayerController;
+    private CharacterController m_Controller;
 
     public GameObject Effect;
 
     //플레이어 이동
-    private Vector3 m_MoveDir;
+    private Vector3 MoveDir;
 
     //카메라 조작
     [SerializeField]
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        m_PlayerController = GetComponent<CharacterController>();
+        m_Controller = GetComponent<CharacterController>();
     }
 
 
@@ -37,20 +37,15 @@ public class Player : MonoBehaviour
 
     private void PlayerMove()
     {
-        m_MoveDir.x = Input.GetAxisRaw("Horizontal");
-        m_MoveDir.z = Input.GetAxisRaw("Vertical");
+        MoveDir.x = Input.GetAxisRaw("Horizontal");
+        MoveDir.z = Input.GetAxisRaw("Vertical");
 
-        m_PlayerController.Move(transform.rotation * m_MoveDir * m_UnitBase.Speed * Time.deltaTime);
+        m_Controller.Move(transform.rotation * MoveDir * m_UnitBase.Speed * Time.deltaTime);
+
+
         if (Input.GetKey(KeyCode.Space))
         {
             Effect.SetActive(true);
-            float timer = 0;
-            timer += Time.deltaTime;
-            if (timer >= 4)
-            {
-                timer = 0;
-                Effect.SetActive(false);
-            }
         }
     }
 

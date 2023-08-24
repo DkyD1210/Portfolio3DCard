@@ -38,6 +38,18 @@ public class CardManager : MonoBehaviour
         HandEnd = new Vector3(CardLayer.rect.width * 0.5f, 0, 0);
         m_BeforeDummy.AddRange(m_Deck);
         DrawCard(10);
+         
+        /*
+        ///Script_BaseAttack : CardScript
+        List<CardScript> listaaaa = new List<CardScript>();
+        Script_BaseAttack data = new Script_BaseAttack();
+        Script_BaseDefence data1 = new Script_BaseDefence();
+
+        listaaaa.Add(data);
+        listaaaa.Add(data1);
+        Script_BaseAttack attdata = (Script_BaseAttack)listaaaa[0];
+        Script_BaseDefence defdata = (Script_BaseDefence)listaaaa[1];
+        */
     }
 
 
@@ -54,7 +66,17 @@ public class CardManager : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
+            if (m_BeforeDummy.Count < 1)
+            {
+                if (m_AfterDummy.Count < 1)
+                {
+                    return;
+                }
+                m_BeforeDummy.AddRange(m_AfterDummy);
+                m_AfterDummy.Clear();
+            }
             CardBase drawCard = m_BeforeDummy[0];
+
 
             GameObject objCard = Instantiate(m_CardObject, CardLayer);
 
@@ -67,14 +89,16 @@ public class CardManager : MonoBehaviour
 
     }
 
+
     private void CardHand()
     {
 
         int count = m_Hand.Count;
 
-
-        for (int i = 0; i < count; i++)
+        for (int i = count - 1; i > -1; i--)
         {
+
+
             CardFrame card = m_Hand[i];
 
 
@@ -104,21 +128,24 @@ public class CardManager : MonoBehaviour
                     card.transform.SetAsFirstSibling();
                     break;
                 case CardState.CardUse:
-                    m_Hand.Remove(card);
-                    StartCoroutine(UseCard(card));
+                    CardUse(card);
                     break;
             }
-
 
         }
     }
 
-    private IEnumerator UseCard(CardFrame card)
+
+    private void CardUse(CardFrame card)
     {
-        card.m_CardBase.Script.OnUse(player);
+        //card.m_CardBase.Script.OnUse(player);
+        m_AfterDummy.Add(card.m_CardBase);
+
+        m_Hand.Remove(card);
         Destroy(card.gameObject);
-        yield return null;
     }
+
+
 
 }
 

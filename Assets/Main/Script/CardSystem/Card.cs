@@ -41,7 +41,7 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         InitCardImage();
         m_CardName = transform.Find("CardName").GetComponent<TMP_Text>();
         m_CardDesc = transform.Find("CardDesc").GetComponent<TMP_Text>();
-        m_CardBase.Script = new Script_BaseAttack();
+
     }
 
     void Update()
