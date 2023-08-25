@@ -6,6 +6,18 @@ using UnityEngine;
 [Serializable]
 public class CardBase
 {
+    public CardBase(CardXmlInfo data)
+    {
+        this._id = data.Id.id;
+        this._textID = data._textId;
+        this.Artwork = data.artWork;
+        this.Name = data.Name;
+        this.Damage = data.CardEffect.Damage;
+        this.Barrier = data.CardEffect.Barrier;
+        this.Rarity = data.Rarity;
+        this.Type = data.CardRange;
+    }
+
     public CardBase(CardBase data)
     {
         this._id = data._id;
@@ -55,33 +67,58 @@ public class CardBase
 
 public class CardScript
 {
-
-    public virtual void OnUse(Player player)
+    public CardScript()
     {
-        Debug.Log("카드 사용");
+    }
+
+    public CardScript(Type type)
+    {
+    }
+
+    public virtual void OnUse(Player player, CardBase cardBase, CardScript cardScript)
+    {
+        Debug.Log("카드 사용 : " + GetType());
+        cardScript = cardBase.Script;
         return;
     }
 
 }
 
 
-class Script_BaseAttack : CardScript
+class Script_BaseMeleeAttack : CardScript
 {
-    public override void OnUse(Player player)
+    public override void OnUse(Player player, CardBase cardBase, CardScript cardScript)
     {
-        base.OnUse(player);
-        Script_BaseAttack sript = new Script_BaseAttack();
+        base.OnUse(player, cardBase, cardScript);
+        Script_BaseMeleeAttack sript = (Script_BaseMeleeAttack)cardScript;
     }
 
 }
 
 
-class Script_BaseDefence : CardScript
+class Script_BaseRangeAttack : CardScript
 {
-    public override void OnUse(Player player)
+    public override void OnUse(Player player, CardBase cardBase, CardScript cardScript)
     {
-        base.OnUse(player);
-        Script_BaseDefence sript = new Script_BaseDefence();
-    }
+        base.OnUse(player, cardBase, cardScript);
+        Script_BaseRangeAttack sript = (Script_BaseRangeAttack)cardScript;
 
+    }
+}
+
+class Script_BaseDodgeRoll : CardScript
+{
+    public override void OnUse(Player player, CardBase cardBase, CardScript cardScript)
+    {
+        base.OnUse(player, cardBase, cardScript);
+        Script_BaseDodgeRoll sript = (Script_BaseDodgeRoll)cardScript;
+    }
+}
+class Script_BaseSpeedBuf : CardScript
+{
+    public override void OnUse(Player player, CardBase cardBase, CardScript cardScript)
+    {
+        base.OnUse(player, cardBase, cardScript);
+        Script_BaseSpeedBuf sript = (Script_BaseSpeedBuf)cardScript;
+    }
 }

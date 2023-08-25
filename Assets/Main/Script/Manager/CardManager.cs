@@ -28,28 +28,35 @@ public class CardManager : MonoBehaviour
     [Tooltip("¹ö¸° ÆÐ")]
     public List<CardBase> m_AfterDummy;
 
-    [SerializeField]
-    private List<CardScript> m_ScriptList = new List<CardScript>();
+
 
     void Start()
     {
+        List<int> startdeck = new List<int>
+        {
+            100001,
+            100001,
+            100001,
+            100001,
+            100002,
+            100002,
+            100003,
+            100003,
+            100003,
+            100004,
+        };
+        foreach(int i in startdeck)
+        {
+            CardBase card = XmlManager.Instance.TransXmlCard(XmlManager.Instance.GetCardData(i));
+            m_Deck.Add(card);
+        }
         player = GameManager.Player;
         HandStart = new Vector3((CardLayer.rect.width * 0.5f) * -1, 0, 0);
         HandEnd = new Vector3(CardLayer.rect.width * 0.5f, 0, 0);
         m_BeforeDummy.AddRange(m_Deck);
         DrawCard(10);
-         
-        /*
-        ///Script_BaseAttack : CardScript
-        List<CardScript> listaaaa = new List<CardScript>();
-        Script_BaseAttack data = new Script_BaseAttack();
-        Script_BaseDefence data1 = new Script_BaseDefence();
 
-        listaaaa.Add(data);
-        listaaaa.Add(data1);
-        Script_BaseAttack attdata = (Script_BaseAttack)listaaaa[0];
-        Script_BaseDefence defdata = (Script_BaseDefence)listaaaa[1];
-        */
+
     }
 
 

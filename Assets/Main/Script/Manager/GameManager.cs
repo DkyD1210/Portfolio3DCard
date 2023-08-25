@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     private void SetPlayer()
     {
         Player = FindObjectOfType<Player>();
-        Player.m_UnitBase = XmlManager.Instance.TransXml(XmlManager.Instance.GetData(1));
+        Player.m_UnitBase = XmlManager.Instance.TransXmlUnit(XmlManager.Instance.GetUnitData(1));
     }
 
     private void SetUI()

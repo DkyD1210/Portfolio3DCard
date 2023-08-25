@@ -1343,67 +1343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CardObject: {fileID: 1494274585476200002, guid: 398c916c43dbf454f9295bce656d7a2a, type: 3}
   CardLayer: {fileID: 2014647234}
-  m_Deck:
-  - Artwork: 
-    Name: dadasd
-    Damage: 2
-    Barrier: 0
-    Rarity: 0
-    Type: 0
-  - Artwork: 
-    Name: asdsfsd
-    Damage: 0
-    Barrier: 0
-    Rarity: 0
-    Type: 0
-  - Artwork: 
-    Name: dfgdgdfgd
-    Damage: 0
-    Barrier: 0
-    Rarity: 0
-    Type: 0
-  - Artwork: 
-    Name: dfgdgdfgd
-    Damage: 0
-    Barrier: 0
-    Rarity: 0
-    Type: 0
-  - Artwork: 
-    Name: dfgdgdfgd
-    Damage: 0
-    Barrier: 0
-    Rarity: 0
-    Type: 0
-  - Artwork: 
-    Name: dfgdgdfgd
-    Damage: 0
-    Barrier: 0
-    Rarity: 0
-    Type: 0
-  - Artwork: 
-    Name: dfgdgdfgd
-    Damage: 0
-    Barrier: 0
-    Rarity: 0
-    Type: 0
-  - Artwork: 
-    Name: dfgdgdfgd
-    Damage: 0
-    Barrier: 0
-    Rarity: 0
-    Type: 0
-  - Artwork: 
-    Name: dfgdgdfgd
-    Damage: 0
-    Barrier: 0
-    Rarity: 0
-    Type: 0
-  - Artwork: 
-    Name: dfgdgdfgd
-    Damage: 0
-    Barrier: 0
-    Rarity: 0
-    Type: 0
+  m_Deck: []
   m_BeforeDummy: []
   m_Hand: []
   m_AfterDummy: []

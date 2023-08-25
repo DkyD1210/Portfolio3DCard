@@ -21,7 +21,9 @@ public class XmlManager : MonoBehaviour
     //public Dictionary<XmlId, UnitXmlInfo> DataDic = new Dictionary<XmlId, UnitXmlInfo>();
     public Dictionary<int, UnitXmlInfo> UnitDataDic = new Dictionary<int, UnitXmlInfo>();
 
-    public Dictionary<int, CardXmlInfo> CardDataDic = new Dictionary<int,CardXmlInfo>();
+    public Dictionary<int, CardXmlInfo> CardDataDic = new Dictionary<int, CardXmlInfo>();
+
+    public Dictionary<string, CardScript> m_ScriptDic = new Dictionary<string, CardScript>();
 
     private const string Path = "Assets/Main/Xml/Data/";
 
@@ -40,8 +42,9 @@ public class XmlManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this);
-        CreateXmlDataTest(XmlPath.CardInfo);
+        //CreateXmlDataTest(XmlPath.CardInfo);
         LoadXmlData(XmlPath.UnitInfo);
+        LoadXmlData(XmlPath.CardInfo);
         //InitSprite();
     }
 
@@ -101,7 +104,7 @@ public class XmlManager : MonoBehaviour
                     {
                         Damage = 7,
                         Barrier = 0,
-                        script = string.Empty,
+                        script = "BaseAttack",
                     },
                     Rarity = Rarity.Basic
                 }
@@ -121,33 +124,75 @@ public class XmlManager : MonoBehaviour
     {
         string path = Path + _path + ".xml";
 
+
         using (var stream = XmlReader.Create(path))
         {
-            try
+
+            switch (_path)
             {
-                XmlSerializer unit = new XmlSerializer(typeof(UnitXmlRoots));
-                _unitXmlRoots = unit.Deserialize(stream) as UnitXmlRoots;
+                case XmlPath.UnitInfo:
+                    XmlSerializer unit = new XmlSerializer(typeof(UnitXmlRoots));
+                    _unitXmlRoots = unit.Deserialize(stream) as UnitXmlRoots;
 
-                foreach (UnitXmlInfo data in _unitXmlRoots.UnitXmlList)
-                {
-                    UnitXmlInfo addData = new UnitXmlInfo();
-                    addData._id = data._id;
-                    addData.Name = data.Name;
-                    addData.UnitEffect = data.UnitEffect;
+                    foreach (UnitXmlInfo data in _unitXmlRoots.UnitXmlList)
+                    {
+                        UnitXmlInfo addData = new UnitXmlInfo();
+                        addData._id = data._id;
+                        addData.Name = data.Name;
+                        addData.UnitEffect = data.UnitEffect;
 
 
-                    UnitDataDic.Add(addData.Id.id, addData);
-                }
-            }
-            catch
-            {
-                Debug.LogError(path + " is Null");
+                        UnitDataDic.Add(addData.Id.id, addData);
+                    }
+                    break;
+                case XmlPath.CardInfo:
+                    XmlSerializer card = new XmlSerializer(typeof(CardXmlRoot));
+                    _cardXmlRoot = card.Deserialize(stream) as CardXmlRoot;
+
+                    foreach (CardXmlInfo data in _cardXmlRoot.CardXmlList)
+                    {
+                        CardXmlInfo addData = new CardXmlInfo();
+                        addData._id = data._id;
+                        addData.Name = data.Name;
+                        addData._textId = data._textId;
+                        addData.artWork = data.artWork;
+                        addData.CardRange = data.CardRange;
+                        addData.Rarity = data.Rarity;
+                        addData.CardEffect = data.CardEffect;
+
+
+                        CardDataDic.Add(addData._id, addData);
+                        AddScriptDic(addData.CardEffect.script);
+                    }
+                    break;
             }
         }
     }
 
 
-    public UnitBase TransXml(UnitXmlInfo xmlBase)
+    private void AddScriptDic(string xmlName)
+    {
+        string scrptName = "Script_" + xmlName;
+
+
+        var scrpt = Type.GetType(scrptName);
+        CardScript a = new CardScript(scrpt);
+
+        if (scrpt != null)
+        {
+            Debug.Log("찾았다 : " + scrptName);
+            m_ScriptDic.Add(xmlName, a);
+        }
+        else
+        {
+            Debug.Log("못찾음 : " + scrptName);
+        }
+
+    }
+
+    #region 유닛 부분 함수들
+
+    public UnitBase TransXmlUnit(UnitXmlInfo xmlBase)
     {
         UnitBase unitBase = new UnitBase(xmlBase._id);
         UnitData data = new UnitData(xmlBase.UnitEffect);
@@ -156,12 +201,14 @@ public class XmlManager : MonoBehaviour
         return unitBase;
     }
 
-    public UnitXmlInfo GetData(int id)
+
+    public UnitXmlInfo GetUnitData(int id)
     {
-        return GetData(new XmlId(id));
+        return GetUnitData(new XmlId(id));
     }
 
-    public UnitXmlInfo GetData(XmlId id)
+
+    public UnitXmlInfo GetUnitData(XmlId id)
     {
         UnitXmlInfo result;
 
@@ -182,6 +229,52 @@ public class XmlManager : MonoBehaviour
         Debug.LogError("유닛 에러남");
         return result;
     }
+    #endregion
+
+
+
+    #region 카드 부분 함수들
+
+    public CardBase TransXmlCard(CardXmlInfo xmlBase)
+    {
+        CardBase card = new CardBase(xmlBase);
+        if (m_ScriptDic.TryGetValue(xmlBase.CardEffect.script, out CardScript script))
+        {
+            card.Script = script;
+        }
+        else
+        {
+            Debug.LogError("Script 없음 : " + xmlBase.CardEffect.script);
+        }
+        return card;
+    }
+
+    public CardXmlInfo GetCardData(int id)
+    {
+        return GetCardData(new XmlId(id));
+    }
+
+
+    public CardXmlInfo GetCardData(XmlId id)
+    {
+        CardXmlInfo result;
+
+        if (CardDataDic.TryGetValue(id.id, out result))
+        {
+            Debug.Log("카드 설정됨");
+            return result;
+        }
+        result = new CardXmlInfo
+        {
+            _id = id.id,
+            Name = "에러 카드",
+        };
+        Debug.LogError("카드 에러남");
+        return result;
+    }
+
+
+    #endregion
 
     /*
     public List<Texture2D> spriteList;

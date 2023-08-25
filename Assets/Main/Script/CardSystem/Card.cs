@@ -41,6 +41,10 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         InitCardImage();
         m_CardName = transform.Find("CardName").GetComponent<TMP_Text>();
         m_CardDesc = transform.Find("CardDesc").GetComponent<TMP_Text>();
+        if(XmlManager.Instance.m_ScriptDic.TryGetValue("Baseattack", out CardScript script) == true)
+        {
+            m_CardBase.Script = script;
+        }
 
     }
 

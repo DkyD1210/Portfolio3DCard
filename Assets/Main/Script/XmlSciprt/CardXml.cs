@@ -15,7 +15,7 @@ public class CardXmlRoot
 public class CardXmlInfo : XmlIdData
 {
     [XmlIgnore]
-    public XmlId ID
+    public XmlId Id
     {
         get
         {
