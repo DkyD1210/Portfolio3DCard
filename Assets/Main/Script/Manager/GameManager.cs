@@ -9,7 +9,14 @@ public class GameManager : MonoBehaviour
 
     private XmlManager xmlManager;
 
-    public static Player Player;
+    public static Player StaticPlayer;
+
+    [Header("전역설정")]
+    [SerializeField]
+    private GameObject m_PlayerOBJ;
+
+    [SerializeField]
+    private Transform UnitLayer;
 
     [SerializeField]
     private GameObject UIBackGround;
@@ -24,11 +31,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+        SetPlayer();
     }
 
     void Start()
     {
-        SetPlayer();
     }
 
 
@@ -39,8 +46,19 @@ public class GameManager : MonoBehaviour
 
     private void SetPlayer()
     {
-        Player = FindObjectOfType<Player>();
-        Player.m_UnitBase = XmlManager.Instance.TransXmlUnit(XmlManager.Instance.GetUnitData(1));
+        StaticPlayer = FindObjectOfType<Player>();
+        if (StaticPlayer == null)
+        {
+            GameObject player = Instantiate(m_PlayerOBJ, UnitLayer);
+            if (player.TryGetComponent(out Player playerCompenet) == false)
+            {
+                player.AddComponent<Player>();
+            }
+            StaticPlayer = player.GetComponent<Player>();
+        }
+        StaticPlayer.m_UnitBase = XmlManager.Instance.TransXmlUnit(XmlManager.Instance.GetUnitData(1));
+
+
     }
 
     private void SetUI()

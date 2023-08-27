@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
 
     public GameObject Effect;
 
+    private Animator m_Ainimator;
+
     //플레이어 이동
     private Vector3 MoveDir;
 
@@ -24,6 +26,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        m_Ainimator = GetComponent<Animator>();
         m_Controller = GetComponent<CharacterController>();
     }
 
@@ -32,16 +35,25 @@ public class Player : MonoBehaviour
     {
         PlayerMove();
         PlayerRotating();
+        PlayerAnimation();
     }
 
 
     private void PlayerMove()
     {
-        MoveDir.x = Input.GetAxisRaw("Horizontal");
+        //전후
         MoveDir.z = Input.GetAxisRaw("Vertical");
+        //좌우
+        MoveDir.x = Input.GetAxisRaw("Horizontal");
 
-        m_Controller.Move(transform.rotation * MoveDir * m_UnitBase.Speed * Time.deltaTime);
-
+        if (MoveDir.z < 0)
+        {
+            m_Controller.Move(transform.rotation * (MoveDir * m_UnitBase.Speed * Time.deltaTime) * 0.6f);
+        }
+        else
+        {
+            m_Controller.Move(transform.rotation * MoveDir * m_UnitBase.Speed * Time.deltaTime);
+        }
 
         if (Input.GetKey(KeyCode.Space))
         {
@@ -61,6 +73,13 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void PlayerAnimation()
+    {
+        m_Ainimator.SetFloat("Horizontal", MoveDir.x);
+        m_Ainimator.SetFloat("Vertical", MoveDir.z);
+
+
+    }
 }
 
 

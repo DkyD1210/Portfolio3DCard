@@ -22,39 +22,44 @@ public class CardManager : MonoBehaviour
     public List<CardBase> m_Deck;
 
     [Tooltip("뽑을 패")]
-    public List<CardBase> m_BeforeDummy;
+    private List<CardBase> m_BeforeDummy = new List<CardBase>();
     [Tooltip("손패")]
-    public List<CardFrame> m_Hand;
+    private List<CardFrame> m_Hand = new List<CardFrame>();
     [Tooltip("버린 패")]
-    public List<CardBase> m_AfterDummy;
+    private List<CardBase> m_AfterDummy = new List<CardBase>();
+
+    private bool m_IsFirst = true;
+
+    private List<int> Startdeck = new List<int>
+        {
+            //기본공격
+            100001,
+            100001,
+            100001,
+            100001,
+
+            //원거리 공격
+            100002,
+            100002,
+
+            //구르기
+            100003,
+            100003,
+            100003,
+
+            //도주
+            100004,
+        };
 
 
 
     void Start()
     {
-        List<int> startdeck = new List<int>
-        {
-            100001,
-            100001,
-            100001,
-            100001,
-            100002,
-            100002,
-            100003,
-            100003,
-            100003,
-            100004,
-        };
-        foreach(int i in startdeck)
-        {
-            CardBase card = XmlManager.Instance.TransXmlCard(XmlManager.Instance.GetCardData(i));
-            m_Deck.Add(card);
-        }
-        player = GameManager.Player;
+
+        player = GameManager.StaticPlayer;
         HandStart = new Vector3((CardLayer.rect.width * 0.5f) * -1, 0, 0);
         HandEnd = new Vector3(CardLayer.rect.width * 0.5f, 0, 0);
-        m_BeforeDummy.AddRange(m_Deck);
-        DrawCard(10);
+        HandSupply();
 
 
     }
@@ -65,9 +70,38 @@ public class CardManager : MonoBehaviour
     {
         CardHand();
 
-
     }
 
+    private void HandSupply()
+    {
+        if (m_IsFirst == true)
+        {
+            foreach (int i in Startdeck)
+            {
+                CardBase card = XmlManager.Instance.TransXmlCard(XmlManager.Instance.GetCardData(i));
+                m_Deck.Add(card);
+            }
+        }
+        m_BeforeDummy.AddRange(m_Deck);
+        m_BeforeDummy = DeckSufle(m_BeforeDummy);
+        DrawCard(10);
+    }
+
+    private List<CardBase> DeckSufle(List<CardBase> _list)
+    {
+        List<CardBase> resultList = new List<CardBase>();
+
+        int count = _list.Count;
+        for (int i = count - 1; i > -1; i--)
+        {
+            int randomcard = Random.Range(0, i);
+            CardBase card = _list[randomcard];
+            resultList.Add(card);
+            _list.Remove(card);
+        }
+
+        return resultList;
+    }
 
     private void DrawCard(int count = 1)
     {
@@ -105,39 +139,44 @@ public class CardManager : MonoBehaviour
         for (int i = count - 1; i > -1; i--)
         {
 
-
             CardFrame card = m_Hand[i];
 
 
-            float value = (float)i / (count);
+            float value = (float)(i + 1) / (count + 1);
             Vector3 pos = Vector3.Lerp(HandStart, HandEnd, value);
 
             switch (card.CardState)
             {
                 case CardState.MouseEnter:
-                    pos.y = CardLayer.position.y - 75f;
+                    pos.y = Input.mousePosition.y;
+                    card.transform.localPosition = pos;
+
                     card.transform.localScale = new Vector3(1.2f, 1.2f, 2f);
                     card.transform.localRotation = Quaternion.Euler(0, 0, 0);
-                    card.transform.localPosition = pos;
                     card.transform.SetAsLastSibling();
                     break;
+
                 case CardState.MouseDrag:
                     pos = Input.mousePosition;
                     card.transform.localScale = new Vector3(1.2f, 1.2f, 0f);
                     card.transform.localRotation = Quaternion.Euler(0, 0, 0);
                     card.transform.position = pos;
                     break;
+
                 case CardState.MouseExit:
                     pos.y = CardLayer.position.y * (Mathf.Abs(0.5f - value) * -1);
+                    card.transform.localPosition = pos;
+
                     card.transform.localScale = new Vector3(1f, 1f, 0);
                     card.transform.localRotation = Quaternion.Euler(0, 0, 25 * (0.5f - value));
-                    card.transform.localPosition = pos;
                     card.transform.SetAsFirstSibling();
                     break;
+
                 case CardState.CardUse:
                     CardUse(card);
                     break;
             }
+
 
         }
     }

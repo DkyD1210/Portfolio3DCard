@@ -46,9 +46,9 @@ public class CardBase
         get { return this._textID; }
     }
 
-    public string Artwork;
-
     public string Name;
+
+    public string Artwork;
 
     public CardScript Script;
 

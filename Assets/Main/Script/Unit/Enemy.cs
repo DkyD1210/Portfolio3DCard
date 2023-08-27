@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 {
     private BattleManager battleManager = BattleManager.Instance;
 
-    private Rigidbody m_Rigid;
+    private CharacterController m_Controller;
 
     private Player m_player;
 
@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        m_Rigid = GetComponent<Rigidbody>();
+        m_Controller = GetComponent<CharacterController>();
         m_player = FindObjectOfType<Player>();
     }
 
@@ -26,10 +26,7 @@ public class Enemy : MonoBehaviour
     private void EnemyMove()
     {
         transform.LookAt(m_player.transform);
-        if (m_UnitBase.UnitData.UnitType != UnitType.Boss)
-        {
-            m_Rigid.velocity = transform.rotation * Vector3.forward * m_UnitBase.Speed * Time.deltaTime;
-        }
+        m_Controller.Move(transform.rotation * Vector3.forward * m_UnitBase.Speed * Time.deltaTime);
     }
 
 

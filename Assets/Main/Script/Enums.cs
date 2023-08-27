@@ -43,3 +43,10 @@ public enum XmlPath
     UnitInfo,
     CardInfo,
 }
+
+public enum e_WaveState
+{
+    Prepare,
+    EnemyWave,
+    BossWave,
+}
