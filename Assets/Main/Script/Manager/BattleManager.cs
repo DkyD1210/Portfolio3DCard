@@ -20,6 +20,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> m_Player = new List<GameObject>();
 
+
     private static int _waveCount;
 
     public static int WaveCount
@@ -57,7 +58,7 @@ public class BattleManager : MonoBehaviour
     private void Update()
     {
         UpdateWave();
-        if(Input.GetKey(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             WaveStart();
         }
@@ -66,7 +67,17 @@ public class BattleManager : MonoBehaviour
     private void WaveStart()
     {
         _waveCount++;
-        _wavestate = e_WaveState.EnemyWave;
+        Debug.Log(_waveCount.ToString());
+        if (_waveCount % 5 == 0)
+        {
+            _wavestate = e_WaveState.BossWave;
+        }
+        else
+        {
+            _wavestate = e_WaveState.EnemyWave;
+        }
+        WaveTime = 30 + ((_waveCount / 5) * 5);
+        Timer = 0;
     }
 
     private void UpdateWave()
@@ -77,12 +88,11 @@ public class BattleManager : MonoBehaviour
                 Timer += Time.deltaTime;
                 if (Timer >= WaveTime)
                 {
-                    Timer = 0;
                     WaveEnd();
                 }
                 break;
             case e_WaveState.BossWave:
-                if(IsBossDead == true)
+                if (IsBossDead == true)
                 {
                     IsBossDead = false;
                     WaveEnd();
@@ -94,7 +104,8 @@ public class BattleManager : MonoBehaviour
 
     private void WaveEnd()
     {
-        foreach(GameObject enemy in m_Enemy)
+        Timer = 0;
+        foreach (GameObject enemy in m_Enemy)
         {
             m_Enemy.Remove(enemy);
             Destroy(enemy);

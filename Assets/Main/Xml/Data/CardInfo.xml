@@ -23,7 +23,7 @@
 			<Barrier>0</Barrier>
 			<Script>BaseRangeAttack</Script>
 		</CardEffect>
-		<Rarity>Basic</Rarity>
+		<Rarity>Common</Rarity>
 	</Card>
 	
 	<Card ID="100003">
@@ -36,7 +36,7 @@
 			<Barrier>0</Barrier>
 			<Script>BaseDodgeRoll</Script>
 		</CardEffect>
-		<Rarity>Basic</Rarity>
+		<Rarity>Uncommon</Rarity>
 	</Card>
 	
 	<Card ID="100004">
@@ -49,6 +49,6 @@
 			<Barrier>0</Barrier>
 			<Script>BaseSpeedBuf</Script>
 		</CardEffect>
-		<Rarity>Basic</Rarity>
+		<Rarity>Rare</Rarity>
 	</Card>
 </CardXmlRoot>

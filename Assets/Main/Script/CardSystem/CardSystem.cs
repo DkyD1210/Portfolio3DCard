@@ -75,9 +75,18 @@ public class CardScript
     {
     }
 
+    public virtual string CardName
+    {
+        get { return "이름를 안넣어서 나오는 텍스트"; }
+    }
+    public virtual string CardDesc
+    {
+        get { return "스크립트 설명을 안넣어서 나오는 텍스트"; }
+    }
+
+
     public virtual void OnUse(Player player, CardBase cardBase, CardScript cardScript)
     {
-        Debug.Log("카드 사용 : " + GetType());
         cardScript = cardBase.Script;
         return;
     }
@@ -87,6 +96,22 @@ public class CardScript
 
 class Script_BaseMeleeAttack : CardScript
 {
+    public override string CardName
+    {
+        get
+        {
+            return "휘두르기";
+        }
+    }
+    public override string CardDesc
+    {
+        get
+        {
+            return "테스트용 설명";
+        }
+    }
+
+
     public override void OnUse(Player player, CardBase cardBase, CardScript cardScript)
     {
         base.OnUse(player, cardBase, cardScript);

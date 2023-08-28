@@ -136,6 +136,12 @@ public class CardManager : MonoBehaviour
 
         int count = m_Hand.Count;
 
+        if(count <= 0)
+        {
+            DrawCard(5);
+            return;
+        }
+
         for (int i = count - 1; i > -1; i--)
         {
 

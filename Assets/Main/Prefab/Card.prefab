@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2430763041457037997}
   - component: {fileID: 5926861783343203425}
   m_Layer: 6
-  m_Name: Frame
+  m_Name: CardFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -274,6 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CardImage: {fileID: 3317372052392522220}
+  m_CardFrame: {fileID: 0}
   m_CardName: {fileID: 1846094368605767138}
   m_CardDesc: {fileID: 2077710202752019484}
   m_CardBase:
@@ -285,6 +286,11 @@ MonoBehaviour:
     Type: 0
   m_ArtWork: {fileID: 0}
   CardState: 0
+  m_RairityColorList:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.19607843, g: 1, b: 0.19607843, a: 1}
+  - {r: 0.19339621, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 0.19607843, a: 1}
 --- !u!1 &3358140174626114605
 GameObject:
   m_ObjectHideFlags: 0

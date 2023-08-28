@@ -22,6 +22,18 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject BossImage;
 
+    [Header("플레이어 관련")]
+    private Player player;
+
+    private int PlayerMaxHP;
+
+    private int PlayerHP;
+
+    [SerializeField]
+    private GameObject PlayerHPBar;
+
+    [SerializeField]
+    private TMP_Text PlayerHPText;
 
     private void Awake()
     {
@@ -38,8 +50,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         battleManager = BattleManager.Instance;
-        WaveState = GetComponent<TMP_Text>();
-        WaveCountDown = GetComponent<TMP_Text>();
+        player = GameManager.StaticPlayer;
         InitWaveUI();
 
     }
@@ -48,6 +59,7 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         UpdateWaveUI();
+        UpdateHPUI();
     }
 
     private void InitWaveUI()
@@ -56,8 +68,6 @@ public class UIManager : MonoBehaviour
 
     private void UpdateWaveUI()
     {
-        Debug.Log(BattleManager.BattleState);
-        Debug.Log(battleManager.GetCount().ToString());
 
         switch (BattleManager.BattleState)
         {
@@ -79,5 +89,13 @@ public class UIManager : MonoBehaviour
                 WaveState.text = "강한 전투";
                 break;
         }
+    }
+
+    private void UpdateHPUI()
+    {
+        PlayerHP = (int)player.m_UnitBase.hp;
+        PlayerMaxHP = player.m_UnitBase.MaxHp;
+        string hpText = $"{PlayerHP}/{PlayerMaxHP}";
+        PlayerHPText.text = hpText;
     }
 }

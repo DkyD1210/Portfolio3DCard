@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +20,9 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     private Image m_CardImage;
 
     [SerializeField]
+    private Image m_CardFrame;
+
+    [SerializeField]
     private TMP_Text m_CardName;
 
     [SerializeField]
@@ -35,16 +37,19 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private bool CardUse = false;
 
+    [SerializeField]
+    private List<Color> m_RairityColorList = new List<Color>();
 
     void Start()
     {
         InitCardImage();
         m_CardName = transform.Find("CardName").GetComponent<TMP_Text>();
         m_CardDesc = transform.Find("CardDesc").GetComponent<TMP_Text>();
-        if(XmlManager.Instance.m_ScriptDic.TryGetValue("Baseattack", out CardScript script) == true)
-        {
-            m_CardBase.Script = script;
-        }
+
+
+
+        m_CardFrame = transform.Find("CardFrame").GetComponent<Image>();
+        m_CardFrame.color = m_RairityColorList[(int)m_CardBase.Rarity];
 
     }
 
@@ -58,8 +63,12 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         NameText();
     }
 
-
-
+    private void InitCardImage()
+    {
+        m_CardImage = transform.Find("CardImage").GetComponent<Image>();
+        m_ArtWork = Resources.Load<Sprite>("CardImage/" + m_CardBase.Artwork);
+        m_CardImage.sprite = m_ArtWork;
+    }
     private void NameText()
     {
         m_CardName.text = m_CardBase.Name;
@@ -67,14 +76,7 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private void DescText()
     {
-        
-    }
 
-    private void InitCardImage()
-    {
-        m_CardImage = transform.Find("CardImage").GetComponent<Image>();
-        m_ArtWork = Resources.Load<Sprite>("CardImage/" + m_CardBase.Artwork);
-        m_CardImage.sprite = m_ArtWork;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

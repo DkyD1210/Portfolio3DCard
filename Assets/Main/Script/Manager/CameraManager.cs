@@ -28,7 +28,6 @@ public class CameraManager : MonoBehaviour
 
     void Start()
     {
-        m_PlayerCamera = GetComponent<CinemachineVirtualCamera>();
         InitCameraToPlayer();
     }
 
