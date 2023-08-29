@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject UIBackGround;
 
+    [SerializeField]
+    public List<GameObject> m_EnemyOBJList = new List<GameObject>();
+
+    public static Dictionary<int, GameObject> m_EnemyDic = new Dictionary<int, GameObject>();
+
     private void Awake()
     {
         if (Instace == null)
@@ -31,17 +36,38 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
-        SetPlayer();
     }
 
     void Start()
     {
+        xmlManager = XmlManager.Instance;
+        SetPlayer();
+        SetEnemy();
     }
 
 
     void Update()
     {
         SetUI();
+    }
+
+    private void SetEnemy()
+    {
+        int count = m_EnemyOBJList.Count;
+        for (int i = 0; i > count; i++)
+        {
+            GameObject unit = m_EnemyOBJList[i];
+            UnitBase unitdata = unit.GetComponent<Enemy>().m_UnitBase;
+            if (unitdata == null)
+            {
+                unitdata = unit.AddComponent<Enemy>().m_UnitBase;
+            }
+            int unitXmlID = 100000 + i;
+            unitdata = xmlManager.TransXmlUnit(xmlManager.GetUnitData(unitXmlID));
+            m_EnemyDic.Add(unitdata.Id, unit);
+            Debug.Log("¼º°ø");
+
+        }
     }
 
     private void SetPlayer()
@@ -56,10 +82,10 @@ public class GameManager : MonoBehaviour
             }
             StaticPlayer = player.GetComponent<Player>();
         }
-        StaticPlayer.m_UnitBase = XmlManager.Instance.TransXmlUnit(XmlManager.Instance.GetUnitData(1));
-
+        StaticPlayer.m_UnitBase = xmlManager.TransXmlUnit(xmlManager.GetUnitData(1));
 
     }
+
 
     private void SetUI()
     {
@@ -79,4 +105,10 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    private void GetUnit()
+    {
+
+    }
+
 }

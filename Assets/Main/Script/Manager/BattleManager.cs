@@ -38,7 +38,9 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     private int WaveTime;
 
-    private float Timer;
+    private float m_Timer;
+
+    private int m_UnitTimer;
 
     private bool IsBossDead = false;
 
@@ -58,7 +60,7 @@ public class BattleManager : MonoBehaviour
     private void Update()
     {
         UpdateWave();
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.F) && _wavestate == e_WaveState.Prepare)
         {
             WaveStart();
         }
@@ -77,16 +79,21 @@ public class BattleManager : MonoBehaviour
             _wavestate = e_WaveState.EnemyWave;
         }
         WaveTime = 30 + ((_waveCount / 5) * 5);
-        Timer = 0;
+        m_Timer = 0;
+        m_UnitTimer = 0;
     }
 
     private void UpdateWave()
     {
         switch (_wavestate)
         {
+            case e_WaveState.Prepare:
+                break;
+
             case e_WaveState.EnemyWave:
-                Timer += Time.deltaTime;
-                if (Timer >= WaveTime)
+                m_Timer += Time.deltaTime;
+                CreateUnit();
+                if (m_Timer >= WaveTime)
                 {
                     WaveEnd();
                 }
@@ -98,13 +105,28 @@ public class BattleManager : MonoBehaviour
                     WaveEnd();
                 }
                 break;
+
         }
 
     }
 
+    private void CreateUnit()
+    {
+
+        if (m_UnitTimer != (int)m_Timer)
+        {
+            int count = GameManager.Instace.m_EnemyOBJList.Count;
+            int rand = Random.Range(0, count);
+
+            GameObject unit = Instantiate(GameManager.Instace.m_EnemyOBJList[rand], transform);
+            m_Enemy.Add(unit);
+        }
+        m_UnitTimer = (int)m_Timer;
+    }
+
     private void WaveEnd()
     {
-        Timer = 0;
+        m_Timer = 0;
         foreach (GameObject enemy in m_Enemy)
         {
             m_Enemy.Remove(enemy);
@@ -115,7 +137,7 @@ public class BattleManager : MonoBehaviour
 
     public int GetCount()
     {
-        int count = WaveTime - (int)Timer;
+        int count = WaveTime - (int)m_Timer;
         return count;
     }
 }

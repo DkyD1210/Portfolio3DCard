@@ -19,14 +19,14 @@ public class CardManager : MonoBehaviour
     private Vector3 HandEnd;
 
 
-    public List<CardBase> m_Deck;
+    public List<CardFrame> m_Deck;
 
     [Tooltip("뽑을 패")]
-    private List<CardBase> m_BeforeDummy = new List<CardBase>();
+    private List<CardFrame> m_BeforeDummy = new List<CardFrame>();
     [Tooltip("손패")]
     private List<CardFrame> m_Hand = new List<CardFrame>();
     [Tooltip("버린 패")]
-    private List<CardBase> m_AfterDummy = new List<CardBase>();
+    private List<CardFrame> m_AfterDummy = new List<CardFrame>();
 
     private bool m_IsFirst = true;
 
@@ -78,7 +78,8 @@ public class CardManager : MonoBehaviour
         {
             foreach (int i in Startdeck)
             {
-                CardBase card = XmlManager.Instance.TransXmlCard(XmlManager.Instance.GetCardData(i));
+                CardBase data = XmlManager.Instance.TransXmlCard(XmlManager.Instance.GetCardData(i));
+                CardFrame card = MakeCard(data);
                 m_Deck.Add(card);
             }
         }
@@ -87,15 +88,15 @@ public class CardManager : MonoBehaviour
         DrawCard(10);
     }
 
-    private List<CardBase> DeckSufle(List<CardBase> _list)
+    private List<CardFrame> DeckSufle(List<CardFrame> _list)
     {
-        List<CardBase> resultList = new List<CardBase>();
+        List<CardFrame> resultList = new List<CardFrame>();
 
         int count = _list.Count;
         for (int i = count - 1; i > -1; i--)
         {
             int randomcard = Random.Range(0, i);
-            CardBase card = _list[randomcard];
+            CardFrame card = _list[randomcard];
             resultList.Add(card);
             _list.Remove(card);
         }
@@ -116,18 +117,22 @@ public class CardManager : MonoBehaviour
                 m_BeforeDummy.AddRange(m_AfterDummy);
                 m_AfterDummy.Clear();
             }
-            CardBase drawCard = m_BeforeDummy[0];
+            CardFrame drawCard = m_BeforeDummy[0];
 
 
-            GameObject objCard = Instantiate(m_CardObject, CardLayer);
-
-            CardFrame resultCard = objCard.GetComponent<CardFrame>();
-            resultCard.m_CardBase = new CardBase(drawCard);
-            m_Hand.Add(resultCard);
 
             m_BeforeDummy.Remove(drawCard);
         }
 
+    }
+
+    private CardFrame MakeCard(CardBase data)
+    {
+        GameObject objCard = Instantiate(m_CardObject, CardLayer);
+
+        CardFrame resultCard = objCard.GetComponent<CardFrame>();
+        resultCard.m_CardBase = new CardBase(data);
+        return resultCard;
     }
 
 
@@ -136,7 +141,7 @@ public class CardManager : MonoBehaviour
 
         int count = m_Hand.Count;
 
-        if(count <= 0)
+        if (count <= 0)
         {
             DrawCard(5);
             return;
@@ -191,7 +196,7 @@ public class CardManager : MonoBehaviour
     private void CardUse(CardFrame card)
     {
         //card.m_CardBase.Script.OnUse(player);
-        m_AfterDummy.Add(card.m_CardBase);
+        m_AfterDummy.Add(card);
 
         m_Hand.Remove(card);
         Destroy(card.gameObject);
