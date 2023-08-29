@@ -34,8 +34,7 @@ public class UnitBase
     {
         get
         {
-            float Num = (float)UnitData.Hp;
-            return (int)Num;
+            return UnitData.Hp;
         }
     }
 

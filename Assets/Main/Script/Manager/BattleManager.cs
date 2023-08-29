@@ -127,8 +127,10 @@ public class BattleManager : MonoBehaviour
     private void WaveEnd()
     {
         m_Timer = 0;
-        foreach (GameObject enemy in m_Enemy)
+        int count = m_Enemy.Count;
+        for (int i = count -1; i > -1; i--)
         {
+            GameObject enemy = m_Enemy[i];
             m_Enemy.Remove(enemy);
             Destroy(enemy);
         }
