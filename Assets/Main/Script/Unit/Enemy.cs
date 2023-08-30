@@ -9,14 +9,13 @@ public class Enemy : MonoBehaviour
 
     private NavMeshAgent m_NavMesh;
 
-
     private Animator m_Animator;
 
     private Player m_player;
 
     public UnitBase m_UnitBase;
 
-    private bool IsAttack = false;
+    private bool IsRunning = true;
 
     private RaycastHit[] m_HitTarget;
 
@@ -35,7 +34,7 @@ public class Enemy : MonoBehaviour
 
     private void EnemyMove()
     {
-        if (IsAttack == false)
+        if (IsRunning == true)
         {
             transform.LookAt(m_player.transform);
             m_NavMesh.speed = m_UnitBase.Speed;
@@ -46,8 +45,8 @@ public class Enemy : MonoBehaviour
 
     private void EnemyRayCast()
     {
-        m_HitTarget = Physics.BoxCastAll(transform.position, transform.lossyScale * 1.2f, Vector3.forward, transform.rotation, 2f, LayerMask.GetMask("Player"));
-        if (IsAttack == true)
+        m_HitTarget = Physics.BoxCastAll(transform.position, transform.lossyScale * 1.2f, Vector3.forward, transform.rotation, 0f, LayerMask.GetMask("Player"));
+        if (IsRunning == false)
         {
             return;
         }
@@ -59,24 +58,29 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
     private IEnumerator EnemyAttack(RaycastHit hit)
     {
-        IsAttack = true;
-        m_Animator.SetBool("Attack", IsAttack);
-        yield return new WaitForSeconds(1.5f);
+        IsRunning = false;
+        m_Animator.SetTrigger("Attack");
+        yield return new WaitForSeconds(0.3f);
         int count = m_HitTarget.Length;
         if (count >= 1)
         {
             for (int i = count - 1; i > -1; i--)
             {
                 GameObject unit = m_HitTarget[i].transform.gameObject;
+                UnitBase target = unit.GetUnitBase();
+                target.LoseHp(m_UnitBase.UnitData.Damage);
 
+                Debug.Log("°ø°ÝÇÔ");
             }
         }
-        IsAttack = false;
+        yield return new WaitForSeconds(1.0f);
+        m_Animator.SetTrigger("Running");
+        IsRunning = true;
 
     }
-
 
 
 }

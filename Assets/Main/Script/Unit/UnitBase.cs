@@ -5,8 +5,13 @@ using UnityEngine;
 using CardGame_Xml;
 
 [Serializable]
-public class UnitBase
+public class UnitBase 
 {
+
+    public UnitBase()
+    {
+
+    }
 
     public UnitBase(int id)
     {
@@ -58,6 +63,7 @@ public class UnitBase
     public int LoseHp(int dmg)
     {
         int beforeHp = (int)this.hp;
+        dmg = (int)((float)dmg * UnitData.GetDamageReduce);
         if(dmg <= 0)
         {
             dmg = 1;

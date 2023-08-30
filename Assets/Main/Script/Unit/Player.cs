@@ -21,6 +21,9 @@ public class Player : MonoBehaviour
 
     public UnitBase m_UnitBase;
 
+    public int hp;
+
+    private float Gravity = 9.81f;
 
 
 
@@ -34,8 +37,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         PlayerMove();
+        PlayerGravity();
         PlayerRotating();
         PlayerAnimation();
+        hp = (int)m_UnitBase.hp;
     }
 
 
@@ -70,6 +75,14 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             transform.Rotate(new Vector3(0, -100 * Time.deltaTime, 0));
+        }
+    }
+
+    private void PlayerGravity()
+    {
+        if (m_Controller.isGrounded == false)
+        {
+            MoveDir.y -= Gravity * Time.deltaTime;
         }
     }
 

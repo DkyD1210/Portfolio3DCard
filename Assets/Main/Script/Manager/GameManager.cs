@@ -36,12 +36,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+        xmlManager = XmlManager.Instance;
+        SetPlayer();
     }
 
     void Start()
     {
-        xmlManager = XmlManager.Instance;
-        SetPlayer();
         SetEnemy();
     }
 

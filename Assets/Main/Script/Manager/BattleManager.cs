@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 public class BattleManager : MonoBehaviour
 {
 
@@ -45,6 +46,14 @@ public class BattleManager : MonoBehaviour
     private bool IsBossDead = false;
 
 
+    private Transform PlayerTrs;
+
+    [SerializeField]
+    private Transform SummonTrs;
+
+    [SerializeField]
+    private Transform EnemyLayer;
+
     private void Awake()
     {
         if (Instance == null)
@@ -55,6 +64,12 @@ public class BattleManager : MonoBehaviour
         {
             Destroy(this);
         }
+    }
+
+
+    private void Start()
+    {
+        PlayerTrs = GameManager.StaticPlayer.transform;
     }
 
     private void Update()
@@ -118,17 +133,19 @@ public class BattleManager : MonoBehaviour
             int count = GameManager.Instace.m_EnemyOBJList.Count;
             int rand = Random.Range(0, count);
 
-            GameObject unit = Instantiate(GameManager.Instace.m_EnemyOBJList[rand], transform);
+            GameObject unit = Instantiate(GameManager.Instace.m_EnemyOBJList[rand], SummonTrs.position, Quaternion.identity, transform);
             m_Enemy.Add(unit);
         }
         m_UnitTimer = (int)m_Timer;
     }
 
+
+
     private void WaveEnd()
     {
         m_Timer = 0;
         int count = m_Enemy.Count;
-        for (int i = count -1; i > -1; i--)
+        for (int i = count - 1; i > -1; i--)
         {
             GameObject enemy = m_Enemy[i];
             m_Enemy.Remove(enemy);
@@ -142,4 +159,5 @@ public class BattleManager : MonoBehaviour
         int count = WaveTime - (int)m_Timer;
         return count;
     }
+
 }
