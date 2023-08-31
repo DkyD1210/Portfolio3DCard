@@ -8,6 +8,11 @@ public class BattleManager : MonoBehaviour
 
     public static BattleManager Instance;
 
+    private CardManager cardManager;
+
+    private GameManager gameManager;
+
+
 
     [SerializeField]
     private List<GameObject> m_AllUnits = new List<GameObject>();
@@ -70,6 +75,8 @@ public class BattleManager : MonoBehaviour
     private void Start()
     {
         PlayerTrs = GameManager.StaticPlayer.transform;
+        cardManager = CardManager.Instance;
+        gameManager = GameManager.Instace;
     }
 
     private void Update()
@@ -96,7 +103,7 @@ public class BattleManager : MonoBehaviour
         WaveTime = 30 + ((_waveCount / 5) * 5);
         m_Timer = 0;
         m_UnitTimer = 0;
-        CardManager.Instance.HandSupply();
+        cardManager.HandSupply();
     }
 
     private void UpdateWave()
@@ -131,10 +138,10 @@ public class BattleManager : MonoBehaviour
 
         if (m_UnitTimer != (int)m_Timer)
         {
-            int count = GameManager.Instace.m_EnemyOBJList.Count;
+            int count = gameManager.m_EnemyOBJList.Count;
             int rand = Random.Range(0, count);
 
-            GameObject unit = Instantiate(GameManager.Instace.m_EnemyOBJList[rand], SummonTrs.position, Quaternion.identity, transform);
+            GameObject unit = Instantiate(gameManager.m_EnemyOBJList[rand], SummonTrs.position, Quaternion.identity, transform);
             m_Enemy.Add(unit);
         }
         m_UnitTimer = (int)m_Timer;
@@ -152,6 +159,7 @@ public class BattleManager : MonoBehaviour
             m_Enemy.Remove(enemy);
             Destroy(enemy);
         }
+        cardManager.ClrearDeck();
         _wavestate = e_WaveState.Prepare;
     }
 

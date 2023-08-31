@@ -52,6 +52,8 @@ public class CardBase
 
     public CardScript Script;
 
+    public Type _script;
+
     public int Damage;
 
     public int Barrier;
@@ -64,15 +66,19 @@ public class CardBase
 }
 
 
-
+[Serializable]
 public class CardScript
 {
+
+    public string test = "B";
+
     public CardScript()
     {
     }
 
     public CardScript(Type type)
     {
+        
     }
 
     public virtual string CardName
@@ -85,17 +91,23 @@ public class CardScript
     }
 
 
-    public virtual void OnUse(Player player, CardBase cardBase, CardScript cardScript)
+    public virtual void OnUse(Player player, CardBase cardBase)
     {
-        cardScript = cardBase.Script;
         return;
     }
 
 }
 
 
-class Script_BaseMeleeAttack : CardScript
+public class CardScript_BaseMeleeAttack : CardScript
 {
+
+    private string _test
+    {
+        get { return "A"; }
+        set { test = value; }
+    }
+
     public override string CardName
     {
         get
@@ -112,10 +124,20 @@ class Script_BaseMeleeAttack : CardScript
     }
 
 
-    public override void OnUse(Player player, CardBase cardBase, CardScript cardScript)
+    public override void OnUse(Player player, CardBase cardBase)
     {
-        base.OnUse(player, cardBase, cardScript);
-        Script_BaseMeleeAttack sript = (Script_BaseMeleeAttack)cardScript;
+        base.OnUse(player, cardBase);
+        Debug.Log("플레이어 공격!");
+        Vector3 hitBox = new Vector3(3f, 3f, 1f);
+        RaycastHit[] hit = Physics.BoxCastAll(player.transform.position + new Vector3(0, 1, 0), hitBox, player.transform.rotation * Vector3.forward, Quaternion.identity, 2f, LayerMask.GetMask("Enemy"));
+        int count = hit.Length;
+        for (int i = count - 1; i >= 0; i--)
+        {
+            GameObject unit = hit[i].transform.gameObject;
+            UnitBase target = unit.GetUnitBase();
+            target.LoseHp(cardBase.Damage);
+
+        }
     }
 
 }
@@ -123,27 +145,17 @@ class Script_BaseMeleeAttack : CardScript
 
 class Script_BaseRangeAttack : CardScript
 {
-    public override void OnUse(Player player, CardBase cardBase, CardScript cardScript)
-    {
-        base.OnUse(player, cardBase, cardScript);
-        Script_BaseRangeAttack sript = (Script_BaseRangeAttack)cardScript;
 
-    }
+
+
 }
 
 class Script_BaseDodgeRoll : CardScript
 {
-    public override void OnUse(Player player, CardBase cardBase, CardScript cardScript)
-    {
-        base.OnUse(player, cardBase, cardScript);
-        Script_BaseDodgeRoll sript = (Script_BaseDodgeRoll)cardScript;
-    }
+
 }
 class Script_BaseSpeedBuf : CardScript
 {
-    public override void OnUse(Player player, CardBase cardBase, CardScript cardScript)
-    {
-        base.OnUse(player, cardBase, cardScript);
-        Script_BaseSpeedBuf sript = (Script_BaseSpeedBuf)cardScript;
-    }
+
+
 }

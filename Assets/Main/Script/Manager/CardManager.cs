@@ -91,6 +91,11 @@ public class CardManager : MonoBehaviour
         player = GameManager.StaticPlayer;
         HandStart = new Vector3((CardLayer.rect.width * 0.5f) * -1, 0, 0);
         HandEnd = new Vector3(CardLayer.rect.width * 0.5f, 0, 0);
+        if (m_IsFirst == true)
+        {
+            SetStartDeck();
+            m_IsFirst = false;
+        }
 
     }
 
@@ -105,11 +110,6 @@ public class CardManager : MonoBehaviour
 
     public void HandSupply()
     {
-        if (m_IsFirst == true)
-        {
-            SetStartDeck();
-            m_IsFirst = false;
-        }
 
         int count = m_Deck.Count;
         for (int i = 0; i < count; i++)
@@ -212,7 +212,7 @@ public class CardManager : MonoBehaviour
             switch (card.CardState)
             {
                 case CardState.MouseEnter:
-                    pos.y = card.transform.localPosition.y + 50;
+                    pos.y = CardLayer.transform.position.y + 25;
                     card.transform.localPosition = pos;
 
                     card.transform.localScale = new Vector3(1.2f, 1.2f, 2f);
@@ -248,15 +248,47 @@ public class CardManager : MonoBehaviour
 
     private void CardUse(CardFrame card)
     {
-        //card.m_CardBase.Script.OnUse(player);
+        card.m_CardBase.Script.OnUse(player, card.m_CardBase);
+
         m_AfterDummy.Add(card);
 
         card.transform.SetParent(after, false);
+
+        card.CardState = CardState.MouseExit;
+        card.CardUse = false;
+        card.transform.localRotation = Quaternion.Euler(0, 0, 0);
 
         m_Hand.Remove(card);
 
     }
 
+    public void ClrearDeck()
+    {
+        CardFrame card = new CardFrame();
+        int count = m_BeforeDummy.Count;
+        for (int i1 = count - 1; i1 >= 0; i1--)
+        {
+            card = m_BeforeDummy[i1];
+            m_BeforeDummy.Remove(card);
+            Destroy(card.gameObject);
+        }
+
+        int count2 = m_Hand.Count;
+        for (int i2 = count - 1; i2 >= 0; i2--)
+        {
+            card = m_Hand[i2];
+            m_Hand.Remove(card);
+            Destroy(card.gameObject);
+        }
+
+        int count3 = m_AfterDummy.Count;
+        for (int i3 = count - 1; i3 >= 0; i3--)
+        {
+            card = m_Hand[i3];
+            m_Hand.Remove(card);
+            Destroy(card.gameObject);
+        }
+    }
 
 
 }

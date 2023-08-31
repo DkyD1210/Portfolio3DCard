@@ -23,7 +23,9 @@ public class XmlManager : MonoBehaviour
 
     public Dictionary<int, CardXmlInfo> CardDataDic = new Dictionary<int, CardXmlInfo>();
 
-    public Dictionary<string, CardScript> m_ScriptDic = new Dictionary<string, CardScript>();
+    public Dictionary<string, Type> ScriptDataDic = new Dictionary<string, Type>();
+
+    public List<CardScript> a;
 
     private const string Path = "Assets/Main/Xml/Data/";
 
@@ -169,27 +171,6 @@ public class XmlManager : MonoBehaviour
         }
     }
 
-
-    private void AddScriptDic(string xmlName)
-    {
-        string scrptName = "Script_" + xmlName;
-
-
-        var scrpt = Type.GetType(scrptName);
-        CardScript a = new CardScript(scrpt);
-
-        if (scrpt != null)
-        {
-            Debug.Log("찾았다 : " + scrptName);
-            m_ScriptDic.Add(xmlName, a);
-        }
-        else
-        {
-            Debug.Log("못찾음 : " + scrptName);
-        }
-
-    }
-
     #region 유닛 부분 함수들
 
     public UnitBase TransXmlUnit(UnitXmlInfo xmlBase)
@@ -238,9 +219,9 @@ public class XmlManager : MonoBehaviour
     public CardBase TransXmlCard(CardXmlInfo xmlBase)
     {
         CardBase card = new CardBase(xmlBase);
-        if (m_ScriptDic.TryGetValue(xmlBase.CardEffect.script, out CardScript script))
+        if (ScriptDataDic.TryGetValue(xmlBase.CardEffect.script, out var script))
         {
-            card.Script = script;
+            card._script = script;
         }
         else
         {
@@ -271,6 +252,27 @@ public class XmlManager : MonoBehaviour
         };
         Debug.LogError("카드 에러남");
         return result;
+    }
+
+
+    private void AddScriptDic(string xmlName)
+    {
+        string scrptName = "Script_" + xmlName;
+
+
+        var scrpt = Type.GetType(scrptName);
+        //살
+
+        if (scrpt != null)
+        {
+            Debug.Log("찾았다 : " + scrptName);
+            ScriptDataDic.Add(xmlName, scrpt);
+        }
+        else
+        {
+            Debug.Log("못찾음 : " + scrptName);
+        }
+
     }
 
 

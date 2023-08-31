@@ -35,21 +35,21 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public CardState CardState;
 
-    private bool CardUse = false;
+    public bool CardUse = false;
 
     [SerializeField]
     private List<Color> m_RairityColorList = new List<Color>();
 
     void Start()
     {
-        InitCardImage();
-        m_CardName = transform.Find("CardName").GetComponent<TMP_Text>();
-        m_CardDesc = transform.Find("CardDesc").GetComponent<TMP_Text>();
 
 
 
         m_CardFrame = transform.Find("CardFrame").GetComponent<Image>();
         m_CardFrame.color = m_RairityColorList[(int)m_CardBase.Rarity];
+
+        InitCardImage();
+        InitNameText();
 
     }
 
@@ -60,7 +60,6 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             CardState = CardState.CardUse;
             return;
         }
-        NameText();
     }
 
     private void InitCardImage()
@@ -69,13 +68,15 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         m_ArtWork = Resources.Load<Sprite>("CardImage/" + m_CardBase.Artwork);
         m_CardImage.sprite = m_ArtWork;
     }
-    private void NameText()
+    private void InitNameText()
     {
+        m_CardName = transform.Find("CardName").GetComponent<TMP_Text>();
         m_CardName.text = m_CardBase.Name;
     }
 
     private void DescText()
     {
+        m_CardDesc = transform.Find("CardDesc").GetComponent<TMP_Text>();
 
     }
 
@@ -111,12 +112,14 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (Input.mousePosition.y >= Screen.height / 3 && transform.parent.tag == "CardLayer")
+
+        if (Input.mousePosition.y >= Screen.height / 3)
         {
             Debug.Log($"»ç¿ëÇÔ : {gameObject.name}");
-            CardUse = true;
             CardState = CardState.CardUse;
+            CardUse = true;
         }
+
 
     }
 }
