@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEditor;
+using UnityEngine.Jobs;
 
 public class CardManager : MonoBehaviour
 {
+    public static CardManager Instance;
+
+
+    private XmlManager xmlManager;
+
 
     Player player;
 
@@ -18,14 +25,28 @@ public class CardManager : MonoBehaviour
     private Vector3 HandStart;
     private Vector3 HandEnd;
 
+    [SerializeField]
+    private Transform deck;
+
+    [SerializeField]
+    private Transform before;
+
+    [SerializeField]
+    private Transform after;
+
+
+
 
     public List<CardFrame> m_Deck;
 
     [Tooltip("뽑을 패")]
+    [SerializeField]
     private List<CardFrame> m_BeforeDummy = new List<CardFrame>();
     [Tooltip("손패")]
+    [SerializeField]
     private List<CardFrame> m_Hand = new List<CardFrame>();
     [Tooltip("버린 패")]
+    [SerializeField]
     private List<CardFrame> m_AfterDummy = new List<CardFrame>();
 
     private bool m_IsFirst = true;
@@ -51,16 +72,25 @@ public class CardManager : MonoBehaviour
             100004,
         };
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
 
     void Start()
     {
-
+        xmlManager = XmlManager.Instance;
         player = GameManager.StaticPlayer;
         HandStart = new Vector3((CardLayer.rect.width * 0.5f) * -1, 0, 0);
         HandEnd = new Vector3(CardLayer.rect.width * 0.5f, 0, 0);
-        HandSupply();
-
 
     }
 
@@ -72,20 +102,36 @@ public class CardManager : MonoBehaviour
 
     }
 
-    private void HandSupply()
+
+    public void HandSupply()
     {
         if (m_IsFirst == true)
         {
-            foreach (int i in Startdeck)
-            {
-                CardBase data = XmlManager.Instance.TransXmlCard(XmlManager.Instance.GetCardData(i));
-                CardFrame card = MakeCard(data);
-                m_Deck.Add(card);
-            }
+            SetStartDeck();
+            m_IsFirst = false;
         }
-        m_BeforeDummy.AddRange(m_Deck);
+
+        int count = m_Deck.Count;
+        for (int i = 0; i < count; i++)
+        {
+            CardBase data = m_Deck[i].m_CardBase;
+            CardFrame card = MakeCard(data);
+            m_BeforeDummy.Add(card);
+            card.transform.SetParent(before, false);
+        }
         m_BeforeDummy = DeckSufle(m_BeforeDummy);
-        DrawCard(10);
+        DrawCard(5);
+    }
+
+    private void SetStartDeck()
+    {
+        foreach (int i in Startdeck)
+        {
+            CardBase data = xmlManager.TransXmlCard(xmlManager.GetCardData(i));
+            CardFrame card = MakeCard(data);
+            m_Deck.Add(card);
+            card.transform.SetParent(deck, false);
+        }
     }
 
     private List<CardFrame> DeckSufle(List<CardFrame> _list)
@@ -108,19 +154,26 @@ public class CardManager : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            if (m_BeforeDummy.Count < 1)
+            int beforeCount = m_BeforeDummy.Count;
+            if (beforeCount < 1)
             {
-                if (m_AfterDummy.Count < 1)
+                int afterCount = m_AfterDummy.Count;
+                if (afterCount < 1)
                 {
                     return;
                 }
-                m_BeforeDummy.AddRange(m_AfterDummy);
-                m_AfterDummy.Clear();
+                for (int j = 0; j < afterCount; j++)
+                {
+                    CardFrame card = m_AfterDummy[0];
+                    m_BeforeDummy.Add(card);
+                    m_AfterDummy.Remove(card);
+                    card.transform.SetParent(before, false);
+                }
             }
             CardFrame drawCard = m_BeforeDummy[0];
 
-
-
+            drawCard.transform.SetParent(CardLayer, false);
+            m_Hand.Add(drawCard);
             m_BeforeDummy.Remove(drawCard);
         }
 
@@ -159,7 +212,7 @@ public class CardManager : MonoBehaviour
             switch (card.CardState)
             {
                 case CardState.MouseEnter:
-                    pos.y = Input.mousePosition.y;
+                    pos.y = card.transform.localPosition.y + 50;
                     card.transform.localPosition = pos;
 
                     card.transform.localScale = new Vector3(1.2f, 1.2f, 2f);
@@ -179,7 +232,7 @@ public class CardManager : MonoBehaviour
                     card.transform.localPosition = pos;
 
                     card.transform.localScale = new Vector3(1f, 1f, 0);
-                    card.transform.localRotation = Quaternion.Euler(0, 0, 25 * (0.5f - value));
+                    card.transform.localRotation = Quaternion.Euler(0, 0, 30 * (0.5f - value));
                     card.transform.SetAsFirstSibling();
                     break;
 
@@ -198,8 +251,10 @@ public class CardManager : MonoBehaviour
         //card.m_CardBase.Script.OnUse(player);
         m_AfterDummy.Add(card);
 
+        card.transform.SetParent(after, false);
+
         m_Hand.Remove(card);
-        Destroy(card.gameObject);
+
     }
 
 

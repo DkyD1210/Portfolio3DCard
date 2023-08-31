@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class UIManager : MonoBehaviour
 
     private BattleManager battleManager;
 
+    [Header("배경 필터")]
+    [SerializeField]
+    private GameObject _UIBackGround;
+
+    public static GameObject UIBackGround;
 
     [Header("웨이브 관련")]
     [SerializeField]
@@ -21,6 +27,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject BossImage;
+
 
     [Header("플레이어 관련")]
     private Player player;
@@ -34,6 +41,17 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private TMP_Text PlayerHPText;
+
+
+    [Header("카드 관련")]
+    [SerializeField]
+    private GameObject DeckUI;
+
+    [SerializeField]
+    private GameObject BeforeUI;
+
+    [SerializeField]
+    private GameObject AfterUI;
 
     private void Awake()
     {
@@ -49,6 +67,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        UIBackGround = _UIBackGround;
         battleManager = BattleManager.Instance;
         player = GameManager.StaticPlayer;
         InitWaveUI();
@@ -60,6 +79,18 @@ public class UIManager : MonoBehaviour
     {
         UpdateWaveUI();
         UpdateHPUI();
+        if (Input.GetKeyUp(KeyCode.Alpha1))
+        {
+            ShowDeckUI();
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha2))
+        {
+            ShowBforekUI();
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha3))
+        {
+            ShowAfterkUI();
+        }
     }
 
     private void InitWaveUI()
@@ -98,4 +129,31 @@ public class UIManager : MonoBehaviour
         string hpText = $"{PlayerHP}/{PlayerMaxHP}";
         PlayerHPText.text = hpText;
     }
+
+
+    #region 카드 UI 세팅
+
+    public void ShowDeckUI()
+    {
+        bool activeSelf = !DeckUI.activeSelf;
+        _UIBackGround.SetActive(activeSelf);
+        DeckUI.SetActive(activeSelf);
+    }
+
+    public void ShowBforekUI()
+    {
+        bool activeSelf = !BeforeUI.activeSelf;
+        _UIBackGround.SetActive(activeSelf);
+        BeforeUI.SetActive(activeSelf);
+    }
+
+    public void ShowAfterkUI()
+    {
+        bool activeSelf = !AfterUI.activeSelf;
+        _UIBackGround.SetActive(activeSelf);
+        AfterUI.SetActive(activeSelf);
+    }
+
+
+    #endregion
 }

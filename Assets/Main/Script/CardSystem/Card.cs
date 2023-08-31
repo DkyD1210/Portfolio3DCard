@@ -79,6 +79,7 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     }
 
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         //Debug.Log($"들어옴 : {gameObject.name}");
@@ -110,7 +111,7 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (Input.mousePosition.y >= Screen.height / 3)
+        if (Input.mousePosition.y >= Screen.height / 3 && transform.parent.tag == "CardLayer")
         {
             Debug.Log($"사용함 : {gameObject.name}");
             CardUse = true;

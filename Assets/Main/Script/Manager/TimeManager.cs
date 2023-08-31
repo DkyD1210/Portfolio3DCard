@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public enum GameTime
@@ -50,6 +51,11 @@ public class TimeManager : MonoBehaviour
 
     private void SetGameTime()
     {
+        if(UIManager.UIBackGround.activeSelf == true)
+        {
+            Time.timeScale = 0f;
+            return;
+        }
         m_GameTime = (float)TimeSet / 10;
         Time.timeScale = m_GameTime;
     }

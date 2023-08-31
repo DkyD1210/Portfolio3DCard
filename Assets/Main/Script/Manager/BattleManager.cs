@@ -96,6 +96,7 @@ public class BattleManager : MonoBehaviour
         WaveTime = 30 + ((_waveCount / 5) * 5);
         m_Timer = 0;
         m_UnitTimer = 0;
+        CardManager.Instance.HandSupply();
     }
 
     private void UpdateWave()

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4172019812797607969}
   - component: {fileID: 2430763041457037997}
   - component: {fileID: 5926861783343203425}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: CardFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 1308204460172439133}
   - component: {fileID: 6394994880911116970}
   - component: {fileID: 1846094368605767138}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: CardName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 1
   m_fontSizeMax: 28
   m_fontStyle: 1
   m_HorizontalAlignment: 2
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 1800097577213310262}
   - component: {fileID: 3113886502625435925}
   - component: {fileID: 5979718636777345803}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Card
   m_TagString: Card
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3253900886654580690}
   - {fileID: 4172019812797607969}
@@ -302,7 +302,7 @@ GameObject:
   - component: {fileID: 5201972715125899966}
   - component: {fileID: 297166609685189665}
   - component: {fileID: 2077710202752019484}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: CardDesc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,7 +392,7 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 1
   m_fontSizeMax: 24
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -441,7 +441,7 @@ GameObject:
   - component: {fileID: 3253900886654580690}
   - component: {fileID: 5461285089509302089}
   - component: {fileID: 3317372052392522220}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: CardImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
