@@ -23,11 +23,6 @@ public class SummonTransform : MonoBehaviour
         TrsTimer();
     }
 
-    private void OnBecameVisible()
-    {
-        Debug.Log("소환 위치 이동");
-        transform.position = RandTrs();
-    }
     private void TrsTimer()
     {
         timer += Time.deltaTime;
@@ -39,17 +34,16 @@ public class SummonTransform : MonoBehaviour
 
     }
 
-
     private Vector3 RandTrs()
     {
         while (true)
         {
             Vector3 randPos = Random.insideUnitSphere;
-            Vector3 creatVector = PlayerTrs.position + randPos + (randPos * 30f);
+            Vector3 creatVector = PlayerTrs.position + (randPos * 30f);
 
             if (NavMesh.SamplePosition(creatVector, out NavMeshHit hit, 30f, NavMesh.AllAreas))
             {
-                if (Vector3.Distance(PlayerTrs.position, creatVector) >= 30)
+                if (Vector3.Distance(PlayerTrs.position, hit.position) >= 20)
                 {
                     return hit.position;
                 }

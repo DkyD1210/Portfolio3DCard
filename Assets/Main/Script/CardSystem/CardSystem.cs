@@ -52,8 +52,6 @@ public class CardBase
 
     public CardScript Script;
 
-    public Type _script;
-
     public int Damage;
 
     public int Barrier;
@@ -76,10 +74,6 @@ public class CardScript
     {
     }
 
-    public CardScript(Type type)
-    {
-        
-    }
 
     public virtual string CardName
     {
@@ -102,11 +96,7 @@ public class CardScript
 public class CardScript_BaseMeleeAttack : CardScript
 {
 
-    private string _test
-    {
-        get { return "A"; }
-        set { test = value; }
-    }
+
 
     public override string CardName
     {
@@ -119,7 +109,7 @@ public class CardScript_BaseMeleeAttack : CardScript
     {
         get
         {
-            return "테스트용 설명";
+            return $"전방에 검을 휘둘러 피해를 8 입힙니다.";
         }
     }
 
@@ -127,15 +117,15 @@ public class CardScript_BaseMeleeAttack : CardScript
     public override void OnUse(Player player, CardBase cardBase)
     {
         base.OnUse(player, cardBase);
-        Debug.Log("플레이어 공격!");
         Vector3 hitBox = new Vector3(3f, 3f, 1f);
-        RaycastHit[] hit = Physics.BoxCastAll(player.transform.position + new Vector3(0, 1, 0), hitBox, player.transform.rotation * Vector3.forward, Quaternion.identity, 2f, LayerMask.GetMask("Enemy"));
+        RaycastHit[] hit = Physics.BoxCastAll(player.transform.position + new Vector3(0, 1, 0), hitBox * 2, player.transform.rotation * Vector3.forward, Quaternion.identity, 2f, LayerMask.GetMask("Enemy"));
         int count = hit.Length;
         for (int i = count - 1; i >= 0; i--)
         {
             GameObject unit = hit[i].transform.gameObject;
             UnitBase target = unit.GetUnitBase();
             target.LoseHp(cardBase.Damage);
+            Debug.Log("플레이어 공격!");
 
         }
     }
@@ -143,19 +133,26 @@ public class CardScript_BaseMeleeAttack : CardScript
 }
 
 
-class Script_BaseRangeAttack : CardScript
+class CardScript_BaseRangeAttack : CardScript
 {
-
 
 
 }
 
-class Script_BaseDodgeRoll : CardScript
+class CardScript_BaseDodgeRoll : CardScript
 {
+    public override void OnUse(Player player, CardBase cardBase)
+    {
+        base.OnUse(player, cardBase);
+        Vector3 a = new Vector3(player.transform.position.x, player.transform.position.y , player.transform.position.z + 5);
+        player.transform.position = a;
+        Debug.Log("플레이어 구르기!");
+    }
 
 }
-class Script_BaseSpeedBuf : CardScript
+class CardScript_BaseSpeedBuf : CardScript
 {
+
 
 
 }

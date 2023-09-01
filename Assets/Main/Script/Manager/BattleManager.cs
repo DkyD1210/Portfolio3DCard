@@ -100,7 +100,7 @@ public class BattleManager : MonoBehaviour
         {
             _wavestate = e_WaveState.EnemyWave;
         }
-        WaveTime = 30 + ((_waveCount / 5) * 5);
+        //WaveTime = 30 + ((_waveCount / 5) * 5);
         m_Timer = 0;
         m_UnitTimer = 0;
         cardManager.HandSupply();

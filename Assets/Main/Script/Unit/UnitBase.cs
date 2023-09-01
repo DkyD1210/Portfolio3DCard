@@ -77,6 +77,11 @@ public class UnitBase
     {
         return hp <= 0;
     }
+
+    public void Init()
+    {
+        this.hp = MaxHp;
+    }
 }
 
 [Serializable]

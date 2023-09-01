@@ -266,28 +266,28 @@ public class CardManager : MonoBehaviour
     {
         CardFrame card = new CardFrame();
         int count = m_BeforeDummy.Count;
-        for (int i1 = count - 1; i1 >= 0; i1--)
+        for (int i1 = count - 1; i1 > -1; i1--)
         {
             card = m_BeforeDummy[i1];
-            m_BeforeDummy.Remove(card);
             Destroy(card.gameObject);
         }
+        m_BeforeDummy.Clear();
 
         int count2 = m_Hand.Count;
-        for (int i2 = count - 1; i2 >= 0; i2--)
+        for (int i2 = count2 - 1; i2 > -1; i2--)
         {
             card = m_Hand[i2];
-            m_Hand.Remove(card);
             Destroy(card.gameObject);
         }
+        m_Hand.Clear();
 
         int count3 = m_AfterDummy.Count;
-        for (int i3 = count - 1; i3 >= 0; i3--)
+        for (int i3 = count3 - 1; i3 > -1; i3--)
         {
-            card = m_Hand[i3];
-            m_Hand.Remove(card);
+            card = m_AfterDummy[i3];
             Destroy(card.gameObject);
         }
+        m_AfterDummy.Clear();
     }
 
 

@@ -50,6 +50,7 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
         InitCardImage();
         InitNameText();
+        DescText();
 
     }
 
@@ -71,12 +72,13 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     private void InitNameText()
     {
         m_CardName = transform.Find("CardName").GetComponent<TMP_Text>();
-        m_CardName.text = m_CardBase.Name;
+        m_CardName.text = m_CardBase.Script.CardName;
     }
 
     private void DescText()
     {
         m_CardDesc = transform.Find("CardDesc").GetComponent<TMP_Text>();
+        m_CardDesc.text = m_CardBase.Script.CardDesc;
 
     }
 

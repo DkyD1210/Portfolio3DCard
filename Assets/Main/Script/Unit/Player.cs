@@ -21,8 +21,6 @@ public class Player : MonoBehaviour
 
     public UnitBase m_UnitBase;
 
-    public int hp;
-
     private float Gravity = 9.81f;
 
 
@@ -31,6 +29,7 @@ public class Player : MonoBehaviour
     {
         m_Ainimator = GetComponent<Animator>();
         m_Controller = GetComponent<CharacterController>();
+        m_UnitBase.Init();
     }
 
 
@@ -40,7 +39,6 @@ public class Player : MonoBehaviour
         PlayerGravity();
         PlayerRotating();
         PlayerAnimation();
-        hp = (int)m_UnitBase.hp;
     }
 
 

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Linq;
 using UnityEngine;
 using CardGame_Xml;
 
@@ -23,9 +24,9 @@ public class XmlManager : MonoBehaviour
 
     public Dictionary<int, CardXmlInfo> CardDataDic = new Dictionary<int, CardXmlInfo>();
 
-    public Dictionary<string, Type> ScriptDataDic = new Dictionary<string, Type>();
+    public Dictionary<string, CardScript> ScriptDataDic = new Dictionary<string, CardScript>();
 
-    public List<CardScript> a;
+    public List<CardScript> CardScriptList;
 
     private const string Path = "Assets/Main/Xml/Data/";
 
@@ -44,6 +45,7 @@ public class XmlManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this);
+        InitScript();
         //CreateXmlDataTest(XmlPath.CardInfo);
         LoadXmlData(XmlPath.UnitInfo);
         LoadXmlData(XmlPath.CardInfo);
@@ -162,9 +164,7 @@ public class XmlManager : MonoBehaviour
                         addData.Rarity = data.Rarity;
                         addData.CardEffect = data.CardEffect;
 
-
                         CardDataDic.Add(addData._id, addData);
-                        AddScriptDic(addData.CardEffect.script);
                     }
                     break;
             }
@@ -221,8 +221,9 @@ public class XmlManager : MonoBehaviour
         CardBase card = new CardBase(xmlBase);
         if (ScriptDataDic.TryGetValue(xmlBase.CardEffect.script, out var script))
         {
-            card._script = script;
+            card.Script = script;
         }
+
         else
         {
             Debug.LogError("Script 없음 : " + xmlBase.CardEffect.script);
@@ -255,22 +256,26 @@ public class XmlManager : MonoBehaviour
     }
 
 
-    private void AddScriptDic(string xmlName)
+    private void InitScript()
     {
-        string scrptName = "Script_" + xmlName;
 
-
-        var scrpt = Type.GetType(scrptName);
-        //살
-
-        if (scrpt != null)
+        CardScriptList = new List<CardScript>
         {
-            Debug.Log("찾았다 : " + scrptName);
-            ScriptDataDic.Add(xmlName, scrpt);
-        }
-        else
+            new CardScript_BaseMeleeAttack(),
+            new CardScript_BaseRangeAttack(),
+            new CardScript_BaseDodgeRoll(),
+            new CardScript_BaseSpeedBuf(),
+        };
+
+        int count = CardScriptList.Count;
+        for (int i = 0; i < count; i++)
         {
-            Debug.Log("못찾음 : " + scrptName);
+            string scriptName = CardScriptList[i].GetType().ToString();
+            string name = scriptName.Replace("CardScript_", "");
+
+            ScriptDataDic.Add(name, CardScriptList[i]);
+            Debug.Log($"{name}");
+
         }
 
     }

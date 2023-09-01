@@ -17,19 +17,36 @@ public class Enemy : MonoBehaviour
 
     private bool IsRunning = true;
 
+    private bool UnitDie = false;
+
     private RaycastHit[] m_HitTarget;
+
+
 
     void Start()
     {
         m_Animator = GetComponent<Animator>();
         m_NavMesh = GetComponent<NavMeshAgent>();
         m_player = GameManager.StaticPlayer;
+        m_UnitBase.Init();
     }
 
     void Update()
     {
+        EnemyAnima();
         EnemyMove();
         EnemyRayCast();
+    }
+    private void EnemyAnima()
+    {
+        if(UnitDie == true)
+        {
+            return;
+        }
+        if(m_UnitBase.Ondie() == true)
+        {
+            StartCoroutine(EnemyDie());
+        }
     }
 
     private void EnemyMove()
@@ -82,5 +99,12 @@ public class Enemy : MonoBehaviour
 
     }
 
+    private IEnumerator EnemyDie()
+    {
+        UnitDie = true;
+        m_Animator.SetTrigger("Die");
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
+    }
 
 }
