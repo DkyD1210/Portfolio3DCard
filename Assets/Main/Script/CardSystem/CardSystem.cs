@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [Serializable]
 public class CardBase
@@ -109,7 +110,7 @@ public class CardScript_BaseMeleeAttack : CardScript
     {
         get
         {
-            return $"전방에 검을 휘둘러 피해를 8 입힙니다.";
+            return $"전방에 검을 휘둘러 피해를 8 입힙니다";
         }
     }
 
@@ -135,24 +136,72 @@ public class CardScript_BaseMeleeAttack : CardScript
 
 class CardScript_BaseRangeAttack : CardScript
 {
-
+    public override string CardName
+    {
+        get
+        {
+            return "카드던지기";
+        }
+    }
+    public override string CardDesc
+    {
+        get
+        {
+            return $"카드를 던져 피해를 5 입힙니다";
+        }
+    }
 
 }
 
 class CardScript_BaseDodgeRoll : CardScript
 {
+    public override string CardName
+    {
+        get
+        {
+            return "구르기";
+        }
+    }
+    public override string CardDesc
+    {
+        get
+        {
+            return $"이동 방향으로 구릅니다";
+        }
+    }
+
     public override void OnUse(Player player, CardBase cardBase)
     {
         base.OnUse(player, cardBase);
-        Vector3 a = new Vector3(player.transform.position.x, player.transform.position.y , player.transform.position.z + 5);
-        player.transform.position = a;
-        Debug.Log("플레이어 구르기!");
+        Vector3 Rollposition = player.transform.position + (player.transform.rotation * player.MoveDir * 5f);
+
+        if (NavMesh.SamplePosition(Rollposition, out NavMeshHit hit, 50f, NavMesh.AllAreas))
+        {
+            Debug.Log(Rollposition);
+            Debug.Log(hit.position);
+            Debug.Log("플레이어 구르기!");
+            player.StartCoroutine(player.PlayerRollAnima(hit.position, 0.6f));
+        }
     }
+
 
 }
 class CardScript_BaseSpeedBuf : CardScript
 {
-
+    public override string CardName
+    {
+        get
+        {
+            return "도주";
+        }
+    }
+    public override string CardDesc
+    {
+        get
+        {
+            return $"5초동안 이동속도가 40% 증가합니다";
+        }
+    }
 
 
 }

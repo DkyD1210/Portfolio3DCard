@@ -6,14 +6,14 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    private CharacterController m_Controller;
+    public CharacterController m_Controller;
 
     public GameObject Effect;
 
-    private Animator m_Ainimator;
+    public Animator m_Ainimator;
 
     //플레이어 이동
-    private Vector3 MoveDir;
+    public Vector3 MoveDir;
 
     //카메라 조작
     [SerializeField]
@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     public UnitBase m_UnitBase;
 
     private float Gravity = 9.81f;
+
+    private bool IsRoll = false;
 
 
 
@@ -44,6 +46,10 @@ public class Player : MonoBehaviour
 
     private void PlayerMove()
     {
+        if (IsRoll == true)
+        {
+            return;
+        }
         //전후
         MoveDir.z = Input.GetAxisRaw("Vertical");
         //좌우
@@ -90,6 +96,24 @@ public class Player : MonoBehaviour
         m_Ainimator.SetFloat("Vertical", MoveDir.z);
 
 
+    }
+
+    public IEnumerator PlayerRollAnima(Vector3 target, float _time)
+    {
+        m_Ainimator.SetTrigger("Roll");
+        m_Ainimator.SetFloat("RollSpeed", (1.1f / _time));
+        IsRoll = true;
+        Vector3 a = transform.position;
+        float timer = 0;
+        while (timer <= 1)
+        {
+            timer += Time.deltaTime / _time;
+            //m_Controller.Move(Vector3.Lerp(a, target, timer));
+            transform.position = Vector3.Lerp(a, target, timer);
+            yield return null;
+        }
+        IsRoll = false;
+        m_Ainimator.SetTrigger("Roll");
     }
 }
 

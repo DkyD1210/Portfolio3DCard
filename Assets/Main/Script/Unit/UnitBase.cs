@@ -70,6 +70,7 @@ public class UnitBase
         }
         this.hp -= dmg;
         int resultHp = (int)this.hp;
+        IsHit = true;
         return resultHp;
     }
 
@@ -82,6 +83,8 @@ public class UnitBase
     {
         this.hp = MaxHp;
     }
+
+    public bool IsHit = false;
 }
 
 [Serializable]

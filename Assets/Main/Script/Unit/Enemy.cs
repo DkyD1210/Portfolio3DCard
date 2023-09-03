@@ -33,19 +33,20 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        EnemyAnima();
-        EnemyMove();
-        EnemyRayCast();
-    }
-    private void EnemyAnima()
-    {
-        if(UnitDie == true)
+        if (UnitDie == true)
         {
             return;
         }
-        if(m_UnitBase.Ondie() == true)
+        EnemyHit();
+        EnemyMove();
+        EnemyRayCast();
+    }
+    private void EnemyHit()
+    {
+        if (m_UnitBase.IsHit == true)
         {
-            StartCoroutine(EnemyDie());
+            StartCoroutine(EnemyHitAnima());
+            m_UnitBase.IsHit = false;
         }
     }
 
@@ -80,31 +81,46 @@ public class Enemy : MonoBehaviour
     {
         IsRunning = false;
         m_Animator.SetTrigger("Attack");
-        yield return new WaitForSeconds(0.3f);
-        int count = m_HitTarget.Length;
-        if (count >= 1)
+        yield return new WaitForSeconds(0.45f);
+        if (UnitDie == false)
         {
-            for (int i = count - 1; i > -1; i--)
+            int count = m_HitTarget.Length;
+            if (count >= 1)
             {
-                GameObject unit = m_HitTarget[i].transform.gameObject;
-                UnitBase target = unit.GetUnitBase();
-                target.LoseHp(m_UnitBase.UnitData.Damage);
+                for (int i = count - 1; i > -1; i--)
+                {
+                    GameObject unit = m_HitTarget[i].transform.gameObject;
+                    UnitBase target = unit.GetUnitBase();
+                    target.LoseHp(m_UnitBase.UnitData.Damage);
 
-                Debug.Log("공격함");
+                    Debug.Log("공격함");
+                }
             }
+            yield return new WaitForSeconds(1.0f);
+            IsRunning = true;
+            m_Animator.SetTrigger("Running");
         }
-        yield return new WaitForSeconds(1.0f);
-        m_Animator.SetTrigger("Running");
-        IsRunning = true;
-
     }
 
-    private IEnumerator EnemyDie()
+    private IEnumerator EnemyHitAnima()
     {
-        UnitDie = true;
-        m_Animator.SetTrigger("Die");
-        yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
+        if (m_UnitBase.Ondie() == true)
+        {
+            UnitDie = true;
+            m_Animator.applyRootMotion = true;
+            m_Animator.SetTrigger("Die");
+            yield return new WaitForSeconds(3f);
+            Destroy(gameObject);
+        }
+        else
+        {
+            IsRunning = false;
+            m_Animator.SetTrigger("Hit");
+            yield return new WaitForSeconds(1f);
+            IsRunning = true;
+            m_Animator.SetTrigger("Running");
+
+        }
     }
 
 }
