@@ -241,7 +241,6 @@ public class CardManager : MonoBehaviour
                     break;
             }
 
-
         }
     }
 

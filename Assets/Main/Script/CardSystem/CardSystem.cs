@@ -150,6 +150,10 @@ class CardScript_BaseRangeAttack : CardScript
             return $"카드를 던져 피해를 5 입힙니다";
         }
     }
+    public override void OnUse(Player player, CardBase cardBase)
+    {
+            
+    }
 
 }
 
@@ -203,5 +207,44 @@ class CardScript_BaseSpeedBuf : CardScript
         }
     }
 
+
+}
+
+public class CardScript_PierceAttack : CardScript
+{
+
+
+
+    public override string CardName
+    {
+        get
+        {
+            return "찌르기";
+        }
+    }
+    public override string CardDesc
+    {
+        get
+        {
+            return $"전방에 검을 휘둘러 피해를 12 입힙니다";
+        }
+    }
+
+
+    public override void OnUse(Player player, CardBase cardBase)
+    {
+        base.OnUse(player, cardBase);
+        Vector3 hitBox = new Vector3(1f, 1f, 4f);
+        RaycastHit[] hit = Physics.BoxCastAll(player.transform.position + new Vector3(0, 1, 0), hitBox * 2, player.transform.rotation * Vector3.forward, Quaternion.identity, 2f, LayerMask.GetMask("Enemy"));
+        int count = hit.Length;
+        for (int i = count - 1; i >= 0; i--)
+        {
+            GameObject unit = hit[i].transform.gameObject;
+            UnitBase target = unit.GetUnitBase();
+            target.LoseHp(cardBase.Damage);
+            Debug.Log("플레이어 공격!");
+
+        }
+    }
 
 }
