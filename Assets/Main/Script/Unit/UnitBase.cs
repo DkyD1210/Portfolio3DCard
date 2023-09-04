@@ -50,10 +50,20 @@ public class UnitBase
 
     public float Speed
     {
-        get { return this.UnitData.Speed; }
+        get { return this._speed; }
         set { _speed = value; }
     }
 
+    public int Damage;
+
+    public bool IsHit = false;
+
+    public void Init()
+    {
+        SetHp(MaxHp);
+        this.Speed = _unitData.Speed;
+        this.Damage = _unitData.Damage;
+    }
 
     public float SetHp(int newHp)
     {
@@ -79,12 +89,19 @@ public class UnitBase
         return hp <= 0;
     }
 
-    public void Init()
+
+
+    public List<CardBuffBase> BuffList = new List<CardBuffBase>();
+
+    public void AddBuff(CardBuffBase _buff)
     {
-        this.hp = MaxHp;
+        BuffList.Add(_buff);
     }
 
-    public bool IsHit = false;
+    public void RemoveBuff(CardBuffBase _buff)
+    {
+        BuffList.Remove(_buff);
+    }
 }
 
 [Serializable]

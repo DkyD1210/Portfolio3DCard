@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        PlayerApplyBuff();
         PlayerMove();
         PlayerGravity();
         PlayerRotating();
@@ -64,10 +65,6 @@ public class Player : MonoBehaviour
             m_Controller.Move(transform.rotation * MoveDir * m_UnitBase.Speed * Time.deltaTime);
         }
 
-        if (Input.GetKey(KeyCode.Space))
-        {
-            Effect.SetActive(true);
-        }
     }
 
     private void PlayerRotating()
@@ -96,6 +93,25 @@ public class Player : MonoBehaviour
         m_Ainimator.SetFloat("Vertical", MoveDir.z);
 
 
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Effect.SetActive(true);
+        }
+
+
+    }
+
+    private void PlayerApplyBuff()
+    {
+        int count = m_UnitBase.BuffList.Count;
+        //if(count <= 0)
+        //{
+        //    return;
+        //}
+        for (int i = count - 1; i > -1; i--)
+        {
+            m_UnitBase.BuffList[i].ActivateBuff();
+        }
     }
 
     public IEnumerator PlayerRollAnima(Vector3 target, float _time)

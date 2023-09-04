@@ -69,13 +69,13 @@ public class CardBase
 public class CardScript
 {
 
-    public string test = "B";
-
     public CardScript()
     {
     }
 
+    protected Player m_Player;
 
+    protected int _Damage;
     public virtual string CardName
     {
         get { return "이름를 안넣어서 나오는 텍스트"; }
@@ -88,7 +88,8 @@ public class CardScript
 
     public virtual void OnUse(Player player, CardBase cardBase)
     {
-        return;
+        m_Player = player;
+        _Damage = cardBase.Damage + player.m_UnitBase.Damage;
     }
 
 }
@@ -97,20 +98,18 @@ public class CardScript
 public class CardScript_BaseMeleeAttack : CardScript
 {
 
-
-
     public override string CardName
     {
         get
         {
-            return "휘두르기";
+            return "찌르기";
         }
     }
     public override string CardDesc
     {
         get
         {
-            return $"전방에 검을 휘둘러 피해를 8 입힙니다";
+            return $"전방의 적을 찔러 피해를 12 입힙니다";
         }
     }
 
@@ -118,18 +117,19 @@ public class CardScript_BaseMeleeAttack : CardScript
     public override void OnUse(Player player, CardBase cardBase)
     {
         base.OnUse(player, cardBase);
-        Vector3 hitBox = new Vector3(3f, 3f, 1f);
+        Vector3 hitBox = new Vector3(1f, 1f, 4f);
         RaycastHit[] hit = Physics.BoxCastAll(player.transform.position + new Vector3(0, 1, 0), hitBox * 2, player.transform.rotation * Vector3.forward, Quaternion.identity, 2f, LayerMask.GetMask("Enemy"));
         int count = hit.Length;
         for (int i = count - 1; i >= 0; i--)
         {
             GameObject unit = hit[i].transform.gameObject;
             UnitBase target = unit.GetUnitBase();
-            target.LoseHp(cardBase.Damage);
+            target.LoseHp(_Damage);
             Debug.Log("플레이어 공격!");
 
         }
     }
+
 
 }
 
@@ -152,7 +152,7 @@ class CardScript_BaseRangeAttack : CardScript
     }
     public override void OnUse(Player player, CardBase cardBase)
     {
-            
+    
     }
 
 }
@@ -207,26 +207,32 @@ class CardScript_BaseSpeedBuf : CardScript
         }
     }
 
+    public override void OnUse(Player player, CardBase cardBase)
+    {
+        base.OnUse(player, cardBase);
+        CardBuff_SpeedBuff _buff = new CardBuff_SpeedBuff(5f, 40f);
+        m_Player.m_UnitBase.AddBuff(_buff);
+        _buff.Init(m_Player);
+        
+    }
 
 }
 
-public class CardScript_PierceAttack : CardScript
+public class CardScript_SlashAttack : CardScript
 {
-
-
 
     public override string CardName
     {
         get
         {
-            return "찌르기";
+            return "휘두르기";
         }
     }
     public override string CardDesc
     {
         get
         {
-            return $"전방에 검을 휘둘러 피해를 12 입힙니다";
+            return $"전방에 검을 휘둘러 피해를 8 입힙니다";
         }
     }
 
@@ -234,17 +240,19 @@ public class CardScript_PierceAttack : CardScript
     public override void OnUse(Player player, CardBase cardBase)
     {
         base.OnUse(player, cardBase);
-        Vector3 hitBox = new Vector3(1f, 1f, 4f);
-        RaycastHit[] hit = Physics.BoxCastAll(player.transform.position + new Vector3(0, 1, 0), hitBox * 2, player.transform.rotation * Vector3.forward, Quaternion.identity, 2f, LayerMask.GetMask("Enemy"));
+        Vector3 hitBox = new Vector3(3f, 3f, 1f);
+        RaycastHit[] hit = Physics.BoxCastAll(m_Player.transform.position + new Vector3(0, 1, 0), hitBox * 2, m_Player.transform.rotation * Vector3.forward, Quaternion.identity, 2f, LayerMask.GetMask("Enemy"));
         int count = hit.Length;
         for (int i = count - 1; i >= 0; i--)
         {
             GameObject unit = hit[i].transform.gameObject;
             UnitBase target = unit.GetUnitBase();
-            target.LoseHp(cardBase.Damage);
+            target.LoseHp(_Damage);
             Debug.Log("플레이어 공격!");
 
         }
     }
+
+
 
 }
