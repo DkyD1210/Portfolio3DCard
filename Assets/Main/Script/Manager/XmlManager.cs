@@ -101,7 +101,6 @@ public class XmlManager : MonoBehaviour
                 {
                     _id = 1,
                     Name = "테스트용_기본공격",
-                    _textId = 1,
                     artWork = string.Empty,
                     CardRange = CardRangeType.Melee,
                     CardEffect = new CardEffect
@@ -158,7 +157,6 @@ public class XmlManager : MonoBehaviour
                         CardXmlInfo addData = new CardXmlInfo();
                         addData._id = data._id;
                         addData.Name = data.Name;
-                        addData._textId = data._textId;
                         addData.artWork = data.artWork;
                         addData.CardRange = data.CardRange;
                         addData.Rarity = data.Rarity;

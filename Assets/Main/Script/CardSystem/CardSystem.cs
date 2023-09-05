@@ -10,7 +10,6 @@ public class CardBase
     public CardBase(CardXmlInfo data)
     {
         this._id = data.Id.id;
-        this._textID = data._textId;
         this.Artwork = data.artWork;
         this.Name = data.Name;
         this.Damage = data.CardEffect.Damage;
@@ -22,7 +21,6 @@ public class CardBase
     public CardBase(CardBase data)
     {
         this._id = data._id;
-        this._textID = data._textID;
         this.Artwork = data.Artwork;
         this.Name = data.Name;
         this.Script = data.Script;
@@ -109,7 +107,7 @@ public class CardScript_BaseMeleeAttack : CardScript
     {
         get
         {
-            return $"전방의 적을 찔러 피해를 12 입힙니다";
+            return $"전방의 적을 찔러 피해를 {_Damage} 입힙니다";
         }
     }
 
@@ -232,7 +230,7 @@ public class CardScript_SlashAttack : CardScript
     {
         get
         {
-            return $"전방에 검을 휘둘러 피해를 8 입힙니다";
+            return $"전방에 검을 휘둘러 피해를 {_Damage} 입힙니다";
         }
     }
 

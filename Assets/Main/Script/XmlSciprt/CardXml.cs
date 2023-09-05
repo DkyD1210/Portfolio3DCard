@@ -23,18 +23,6 @@ public class CardXmlInfo : XmlIdData
         }
     }
 
-    [XmlElement("TextID")]
-    public int _textId = 0;
-
-    [XmlIgnore]
-    public XmlId TextID
-    {
-        get
-        {
-            return new XmlId(this._textId);
-        }
-    }
-
     [XmlElement("Artwork")]
     public string artWork = string.Empty;
 

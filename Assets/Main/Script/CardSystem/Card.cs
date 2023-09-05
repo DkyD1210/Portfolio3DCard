@@ -11,6 +11,7 @@ public enum CardState
     MouseEnter,
     MouseDrag,
     CardUse,
+    CardSelect,
 }
 
 
@@ -35,16 +36,12 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public CardState CardState;
 
-    public bool CardUse = false;
 
     [SerializeField]
     private List<Color> m_RairityColorList = new List<Color>();
 
     void Start()
     {
-
-
-
         m_CardFrame = transform.Find("CardFrame").GetComponent<Image>();
         m_CardFrame.color = m_RairityColorList[(int)m_CardBase.Rarity];
 
@@ -56,11 +53,7 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     void Update()
     {
-        if (CardUse == true)
-        {
-            CardState = CardState.CardUse;
-            return;
-        }
+
     }
 
     private void InitCardImage()
@@ -86,41 +79,60 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void OnPointerEnter(PointerEventData eventData)
     {
         //Debug.Log($"들어옴 : {gameObject.name}");
-        CardState = CardState.MouseEnter;
+        if (transform.parent.gameObject.layer == LayerMask.GetMask("CardLayer") && CardState != CardState.CardUse)
+        {
+            CardState = CardState.MouseEnter;
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         //Debug.Log($"나감 : {gameObject.name}");
-        CardState = CardState.MouseExit;
+        if (transform.parent.gameObject.layer == LayerMask.GetMask("CardLayer") && CardState != CardState.CardUse)
+        {
+            CardState = CardState.MouseExit;
+        }
+
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         //Debug.Log($"클릭함 : {gameObject.name}");
+        if (transform.parent.gameObject.layer == LayerMask.GetMask("CardSelect"))
+        {
+            this.CardState = CardState.CardSelect;
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         //Debug.Log($"드래그함 : {gameObject.name}");
-        CardState = CardState.MouseDrag;
+        if (transform.parent.gameObject.layer == LayerMask.GetMask("CardLayer") && CardState != CardState.CardUse)
+        {
+            CardState = CardState.MouseDrag;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         //Debug.Log($"드래그 안함 : {gameObject.name}");
-        CardState = CardState.MouseExit;
+        if (transform.parent.gameObject.layer == LayerMask.GetMask("CardLayer") && CardState != CardState.CardUse)
+        {
+            CardState = CardState.MouseExit;
+        }
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-
-        if (Input.mousePosition.y >= Screen.height / 3)
+        if (transform.parent.gameObject.layer == LayerMask.GetMask("CardLayer") && CardState != CardState.CardUse)
         {
-            Debug.Log($"사용함 : {gameObject.name}");
-            CardState = CardState.CardUse;
-            CardUse = true;
+            if (Input.mousePosition.y >= Screen.height / 3)
+            {
+                Debug.Log($"사용함 : {gameObject.name}");
+                CardState = CardState.CardUse;
+            }
         }
+
 
 
     }

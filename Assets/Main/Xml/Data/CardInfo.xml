@@ -2,11 +2,10 @@
 <CardXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Card ID="100001">
 		<Name>기본근접공격</Name>
-		<TextID>100001</TextID>
 		<Artwork>forest</Artwork>
 		<CardRange>Melee</CardRange>
 		<CardEffect>
-			<Damage>7</Damage>
+			<Damage>11</Damage>
 			<Barrier>0</Barrier>
 			<Script>BaseMeleeAttack</Script>
 		</CardEffect>
@@ -15,7 +14,6 @@
 	
 	<Card ID="100002">
 		<Name>기본원거리공격</Name>
-		<TextID>100002</TextID>
 		<Artwork>forest</Artwork>
 		<CardRange>Range</CardRange>
 		<CardEffect>
@@ -23,12 +21,11 @@
 			<Barrier>0</Barrier>
 			<Script>BaseRangeAttack</Script>
 		</CardEffect>
-		<Rarity>Common</Rarity>
+		<Rarity>Basic</Rarity>
 	</Card>
 	
 	<Card ID="100003">
 		<Name>기본구르기</Name>
-		<TextID>100003</TextID>
 		<Artwork>forest</Artwork>
 		<CardRange>Act</CardRange>
 		<CardEffect>
@@ -36,12 +33,11 @@
 			<Barrier>0</Barrier>
 			<Script>BaseDodgeRoll</Script>
 		</CardEffect>
-		<Rarity>Uncommon</Rarity>
+		<Rarity>Basic</Rarity>
 	</Card>
 	
 	<Card ID="100004">
 		<Name>기본도주</Name>
-		<TextID>100004</TextID>
 		<Artwork>forest</Artwork>
 		<CardRange>Act</CardRange>
 		<CardEffect>
@@ -49,6 +45,18 @@
 			<Barrier>0</Barrier>
 			<Script>BaseSpeedBuf</Script>
 		</CardEffect>
-		<Rarity>Rare</Rarity>
+		<Rarity>Basic</Rarity>
+	</Card>
+
+	<Card ID="100005">
+		<Name>휘두르기</Name>
+		<Artwork>forest</Artwork>
+		<CardRange>Melee</CardRange>
+		<CardEffect>
+			<Damage>8</Damage>
+			<Barrier>0</Barrier>
+			<Script>SlashAttack</Script>
+		</CardEffect>
+		<Rarity>Common</Rarity>
 	</Card>
 </CardXmlRoot>

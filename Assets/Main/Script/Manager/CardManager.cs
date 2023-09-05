@@ -179,9 +179,9 @@ public class CardManager : MonoBehaviour
 
     }
 
-    private CardFrame MakeCard(CardBase data)
+    public CardFrame MakeCard(CardBase data)
     {
-        GameObject objCard = Instantiate(m_CardObject, CardLayer);
+        GameObject objCard = Instantiate(m_CardObject);
 
         CardFrame resultCard = objCard.GetComponent<CardFrame>();
         resultCard.m_CardBase = new CardBase(data);
@@ -254,7 +254,6 @@ public class CardManager : MonoBehaviour
         card.transform.SetParent(after, false);
 
         card.CardState = CardState.MouseExit;
-        card.CardUse = false;
         card.transform.localRotation = Quaternion.Euler(0, 0, 0);
 
         m_Hand.Remove(card);
