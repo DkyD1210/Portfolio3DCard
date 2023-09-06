@@ -11,7 +11,6 @@ public enum CardState
     MouseEnter,
     MouseDrag,
     CardUse,
-    CardSelect,
 }
 
 
@@ -79,7 +78,7 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void OnPointerEnter(PointerEventData eventData)
     {
         //Debug.Log($"들어옴 : {gameObject.name}");
-        if (transform.parent.gameObject.layer == LayerMask.GetMask("CardLayer") && CardState != CardState.CardUse)
+        if (CardState != CardState.CardUse)
         {
             CardState = CardState.MouseEnter;
         }
@@ -88,7 +87,7 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void OnPointerExit(PointerEventData eventData)
     {
         //Debug.Log($"나감 : {gameObject.name}");
-        if (transform.parent.gameObject.layer == LayerMask.GetMask("CardLayer") && CardState != CardState.CardUse)
+        if (CardState != CardState.CardUse)
         {
             CardState = CardState.MouseExit;
         }
@@ -100,14 +99,14 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         //Debug.Log($"클릭함 : {gameObject.name}");
         if (transform.parent.gameObject.layer == LayerMask.GetMask("CardSelect"))
         {
-            this.CardState = CardState.CardSelect;
+            CardManager.Instance.AddCardReward(this);
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         //Debug.Log($"드래그함 : {gameObject.name}");
-        if (transform.parent.gameObject.layer == LayerMask.GetMask("CardLayer") && CardState != CardState.CardUse)
+        if (CardState != CardState.CardUse)
         {
             CardState = CardState.MouseDrag;
         }
@@ -116,7 +115,7 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void OnEndDrag(PointerEventData eventData)
     {
         //Debug.Log($"드래그 안함 : {gameObject.name}");
-        if (transform.parent.gameObject.layer == LayerMask.GetMask("CardLayer") && CardState != CardState.CardUse)
+        if (CardState != CardState.CardUse)
         {
             CardState = CardState.MouseExit;
         }
@@ -124,7 +123,7 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (transform.parent.gameObject.layer == LayerMask.GetMask("CardLayer") && CardState != CardState.CardUse)
+        if (CardState != CardState.CardUse)
         {
             if (Input.mousePosition.y >= Screen.height / 3)
             {

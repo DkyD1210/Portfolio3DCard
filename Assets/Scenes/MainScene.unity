@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1987,7 +1987,7 @@ GameObject:
   - component: {fileID: 731026292}
   - component: {fileID: 731026291}
   - component: {fileID: 731026290}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: CardLayerCanvas
   m_TagString: CardLayer
   m_Icon: {fileID: 0}
@@ -3696,10 +3696,10 @@ MonoBehaviour:
   deck: {fileID: 352778034}
   before: {fileID: 955942857}
   after: {fileID: 324195558}
-  m_Deck: []
-  m_BeforeDummy: []
-  m_Hand: []
-  m_AfterDummy: []
+  m_DeckList: []
+  m_BeforeDummyList: []
+  m_HandList: []
+  m_AfterDummyList: []
 --- !u!1 &1246104951
 GameObject:
   m_ObjectHideFlags: 0

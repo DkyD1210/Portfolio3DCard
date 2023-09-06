@@ -251,6 +251,31 @@ public class CardScript_SlashAttack : CardScript
         }
     }
 
+}
 
+public class CardScript_DrawOneCard : CardScript
+{
+
+    public override string CardName
+    {
+        get
+        {
+            return "카드뽑기";
+        }
+    }
+    public override string CardDesc
+    {
+        get
+        {
+            return $"카드를 한장 뽑습니다";
+        }
+    }
+
+
+    public override void OnUse(Player player, CardBase cardBase)
+    {
+        base.OnUse(player, cardBase);
+        CardManager.Instance.DrawCard(1);
+    }
 
 }

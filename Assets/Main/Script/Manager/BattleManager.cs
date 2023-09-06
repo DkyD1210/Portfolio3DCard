@@ -74,9 +74,9 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        PlayerTrs = GameManager.StaticPlayer.transform;
         cardManager = CardManager.Instance;
         gameManager = GameManager.Instace;
+        PlayerTrs = GameManager.StaticPlayer.transform;
     }
 
     private void Update()
@@ -104,7 +104,6 @@ public class BattleManager : MonoBehaviour
         m_Timer = 0;
         m_UnitTimer = 0;
         cardManager.HandSupply();
-        CreateUnit();
     }
 
     private void UpdateWave()
@@ -120,6 +119,7 @@ public class BattleManager : MonoBehaviour
                 {
                     WaveEnd();
                 }
+                CreateUnit();
                 break;
             case e_WaveState.BossWave:
                 if (IsBossDead == true)
@@ -133,10 +133,11 @@ public class BattleManager : MonoBehaviour
 
     }
 
+
     private void CreateUnit()
     {
 
-        //if (m_UnitTimer != (int)m_Timer)
+        if (m_UnitTimer != (int)m_Timer)
         {
             int count = gameManager.m_EnemyOBJList.Count;
             int rand = Random.Range(0, count);
@@ -144,7 +145,7 @@ public class BattleManager : MonoBehaviour
             GameObject unit = Instantiate(gameManager.m_EnemyOBJList[rand], SummonTrs.position, Quaternion.identity, transform);
             m_Enemy.Add(unit);
         }
-        //m_UnitTimer = (int)m_Timer;
+        m_UnitTimer = (int)m_Timer;
     }
 
 

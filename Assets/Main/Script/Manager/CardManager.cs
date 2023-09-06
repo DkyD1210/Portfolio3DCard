@@ -35,19 +35,17 @@ public class CardManager : MonoBehaviour
     private Transform after;
 
 
-
-
-    public List<CardFrame> m_Deck;
+    public List<CardFrame> m_DeckList;
 
     [Tooltip("뽑을 패")]
     [SerializeField]
-    private List<CardFrame> m_BeforeDummy = new List<CardFrame>();
+    private List<CardFrame> m_BeforeDummyList = new List<CardFrame>();
     [Tooltip("손패")]
     [SerializeField]
-    private List<CardFrame> m_Hand = new List<CardFrame>();
+    private List<CardFrame> m_HandList = new List<CardFrame>();
     [Tooltip("버린 패")]
     [SerializeField]
-    private List<CardFrame> m_AfterDummy = new List<CardFrame>();
+    private List<CardFrame> m_AfterDummyList = new List<CardFrame>();
 
     private bool m_IsFirst = true;
 
@@ -72,6 +70,10 @@ public class CardManager : MonoBehaviour
             100004,
         };
 
+    [SerializeField]
+    private Transform RewardLayer;
+
+    private List<CardFrame> m_RewardCardList = new List<CardFrame>();
     private void Awake()
     {
         if (Instance == null)
@@ -108,29 +110,13 @@ public class CardManager : MonoBehaviour
     }
 
 
-    public void HandSupply()
-    {
-
-        int count = m_Deck.Count;
-        for (int i = 0; i < count; i++)
-        {
-            CardBase data = m_Deck[i].m_CardBase;
-            CardFrame card = MakeCard(data);
-            m_BeforeDummy.Add(card);
-            card.transform.SetParent(before, false);
-        }
-        m_BeforeDummy = DeckSufle(m_BeforeDummy);
-        DrawCard(5);
-    }
-
     private void SetStartDeck()
     {
         foreach (int i in Startdeck)
         {
             CardBase data = xmlManager.TransXmlCard(xmlManager.GetCardData(i));
-            CardFrame card = MakeCard(data);
-            m_Deck.Add(card);
-            card.transform.SetParent(deck, false);
+            CardFrame card = MakeCard(data, deck);
+            m_DeckList.Add(card);
         }
     }
 
@@ -150,49 +136,11 @@ public class CardManager : MonoBehaviour
         return resultList;
     }
 
-    private void DrawCard(int count = 1)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            int beforeCount = m_BeforeDummy.Count;
-            if (beforeCount < 1)
-            {
-                int afterCount = m_AfterDummy.Count;
-                if (afterCount < 1)
-                {
-                    return;
-                }
-                for (int j = 0; j < afterCount; j++)
-                {
-                    CardFrame card = m_AfterDummy[0];
-                    m_BeforeDummy.Add(card);
-                    m_AfterDummy.Remove(card);
-                    card.transform.SetParent(before, false);
-                }
-            }
-            CardFrame drawCard = m_BeforeDummy[0];
-
-            drawCard.transform.SetParent(CardLayer, false);
-            m_Hand.Add(drawCard);
-            m_BeforeDummy.Remove(drawCard);
-        }
-
-    }
-
-    public CardFrame MakeCard(CardBase data)
-    {
-        GameObject objCard = Instantiate(m_CardObject);
-
-        CardFrame resultCard = objCard.GetComponent<CardFrame>();
-        resultCard.m_CardBase = new CardBase(data);
-        return resultCard;
-    }
-
 
     private void CardHand()
     {
 
-        int count = m_Hand.Count;
+        int count = m_HandList.Count;
 
         if (count <= 0)
         {
@@ -203,7 +151,7 @@ public class CardManager : MonoBehaviour
         for (int i = count - 1; i > -1; i--)
         {
 
-            CardFrame card = m_Hand[i];
+            CardFrame card = m_HandList[i];
 
 
             float value = (float)(i + 1) / (count + 1);
@@ -244,49 +192,137 @@ public class CardManager : MonoBehaviour
         }
     }
 
-
     private void CardUse(CardFrame card)
     {
         card.m_CardBase.Script.OnUse(player, card.m_CardBase);
 
-        m_AfterDummy.Add(card);
+        m_AfterDummyList.Add(card);
+
+        m_HandList.Remove(card);
 
         card.transform.SetParent(after, false);
 
         card.CardState = CardState.MouseExit;
         card.transform.localRotation = Quaternion.Euler(0, 0, 0);
 
-        m_Hand.Remove(card);
 
+    }
+
+    public void HandSupply()
+    {
+
+        int count = m_DeckList.Count;
+        for (int i = 0; i < count; i++)
+        {
+            CardBase data = m_DeckList[i].m_CardBase;
+            CardFrame card = MakeCard(data);
+            m_BeforeDummyList.Add(card);
+            card.transform.SetParent(before, false);
+        }
+        m_BeforeDummyList = DeckSufle(m_BeforeDummyList);
+        DrawCard(5);
+    }
+
+    public void DrawCard(int count = 1)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            int beforeCount = m_BeforeDummyList.Count;
+            if (beforeCount < 1)
+            {
+                int afterCount = m_AfterDummyList.Count;
+                if (afterCount < 1)
+                {
+                    return;
+                }
+                for (int j = 0; j < afterCount; j++)
+                {
+                    CardFrame card = m_AfterDummyList[0];
+                    m_BeforeDummyList.Add(card);
+                    m_AfterDummyList.Remove(card);
+                    card.transform.SetParent(before, false);
+                }
+            }
+            CardFrame drawCard = m_BeforeDummyList[0];
+
+            drawCard.transform.SetParent(CardLayer, false);
+            m_HandList.Add(drawCard);
+            m_BeforeDummyList.Remove(drawCard);
+        }
+
+    }
+
+    public CardFrame MakeCard(CardBase data)
+    {
+        GameObject objCard = Instantiate(m_CardObject);
+
+        CardFrame resultCard = objCard.GetComponent<CardFrame>();
+        resultCard.m_CardBase = new CardBase(data);
+        return resultCard;
+    }
+
+    public CardFrame MakeCard(CardBase data, Transform layer)
+    {
+        GameObject objCard = Instantiate(m_CardObject, layer, false);
+
+        CardFrame resultCard = objCard.GetComponent<CardFrame>();
+        resultCard.m_CardBase = new CardBase(data);
+        return resultCard;
     }
 
     public void ClrearDeck()
     {
         CardFrame card = new CardFrame();
-        int count = m_BeforeDummy.Count;
+        int count = m_BeforeDummyList.Count;
         for (int i1 = count - 1; i1 > -1; i1--)
         {
-            card = m_BeforeDummy[i1];
+            card = m_BeforeDummyList[i1];
             Destroy(card.gameObject);
         }
-        m_BeforeDummy.Clear();
+        m_BeforeDummyList.Clear();
 
-        int count2 = m_Hand.Count;
+        int count2 = m_HandList.Count;
         for (int i2 = count2 - 1; i2 > -1; i2--)
         {
-            card = m_Hand[i2];
+            card = m_HandList[i2];
             Destroy(card.gameObject);
         }
-        m_Hand.Clear();
+        m_HandList.Clear();
 
-        int count3 = m_AfterDummy.Count;
+        int count3 = m_AfterDummyList.Count;
         for (int i3 = count3 - 1; i3 > -1; i3--)
         {
-            card = m_AfterDummy[i3];
+            card = m_AfterDummyList[i3];
             Destroy(card.gameObject);
         }
-        m_AfterDummy.Clear();
+        m_AfterDummyList.Clear();
     }
+
+
+
+    public void SetCardReward(int count)
+    {
+        for(int i = 0; i < count; i++)
+        {
+            //MakeCard(, RewardLayer);
+        }
+
+    }
+
+    public void AddCardReward(CardFrame card)
+    {
+        card.transform.SetParent(deck, false);
+        m_DeckList.Add(card);
+
+        int count = m_RewardCardList.Count;
+        for(int i = count -1; i > -1; i--)
+        {
+            CardFrame frame = m_RewardCardList[i];
+            Destroy(frame.gameObject);
+        }
+        m_RewardCardList.Clear();
+    }
+
 
 
 }
