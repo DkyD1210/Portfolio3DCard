@@ -40,7 +40,7 @@ public class TimeManager : MonoBehaviour
 
     void Start()
     {
-        gameManager = GameManager.Instace;
+        gameManager = GameManager.Instance;
     }
 
     // Update is called once per frame

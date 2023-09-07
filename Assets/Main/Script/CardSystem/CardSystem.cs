@@ -107,7 +107,7 @@ public class CardScript_BaseMeleeAttack : CardScript
     {
         get
         {
-            return $"전방의 적을 찔러 피해를 {_Damage} 입힙니다";
+            return $"전방의 적을 찔러 피해를 11 입힙니다";
         }
     }
 
@@ -145,12 +145,15 @@ class CardScript_BaseRangeAttack : CardScript
     {
         get
         {
-            return $"카드를 던져 피해를 {_Damage} 입힙니다";
+            return $"카드를 던져 피해를 6 입힙니다";
         }
     }
     public override void OnUse(Player player, CardBase cardBase)
     {
-    
+        base.OnUse(player, cardBase);
+        Bullet a = GameManager.Instance.CreatBullet(player.transform, 0).GetComponent<Bullet>();
+        a.Damage = _Damage;
+
     }
 
 }
@@ -211,7 +214,36 @@ class CardScript_BaseSpeedBuf : CardScript
         CardBuff_SpeedBuff _buff = new CardBuff_SpeedBuff(5f, 40f);
         m_Player.m_UnitBase.AddBuff(_buff);
         _buff.Init(m_Player);
-        
+
+    }
+
+}
+public class CardScript_DamageReduceBuff : CardScript
+{
+
+    public override string CardName
+    {
+        get
+        {
+            return "버티기";
+        }
+    }
+    public override string CardDesc
+    {
+        get
+        {
+            return $"3초간 30% 피해를 적게 받습니다";
+        }
+    }
+
+
+    public override void OnUse(Player player, CardBase cardBase)
+    {
+        base.OnUse(player, cardBase);
+        CardBuff_DamageReduceBuff _buff = new CardBuff_DamageReduceBuff(3f, 30f);
+        m_Player.m_UnitBase.AddBuff(_buff);
+        _buff.Init(m_Player);
+
     }
 
 }
@@ -230,7 +262,7 @@ public class CardScript_SlashAttack : CardScript
     {
         get
         {
-            return $"전방에 검을 휘둘러 피해를 {_Damage} 입힙니다";
+            return $"전방에 검을 휘둘러 피해를 8 입힙니다";
         }
     }
 

@@ -48,63 +48,31 @@
 		<Rarity>Basic</Rarity>
 	</Card>
 
-	<Card ID="100005">
-		<Name>휘두르기</Name>
-		<Artwork>forest</Artwork>
-		<CardRange>Melee</CardRange>
-		<CardEffect>
-			<Damage>8</Damage>
-			<Barrier>0</Barrier>
-			<Script>SlashAttack</Script>
-		</CardEffect>
-		<Rarity>Common</Rarity>
-	</Card>
-
-
-	<Card ID="100006">
-		<Name>테스트1</Name>
-		<Artwork>forest</Artwork>
-		<CardRange>Melee</CardRange>
-		<CardEffect>
-			<Damage>8</Damage>
-			<Barrier>0</Barrier>
-			<Script>SlashAttack</Script>
-		</CardEffect>
-		<Rarity>Uncommon</Rarity>
-	</Card>
 	<Card ID="100007">
-		<Name>테스트2</Name>
+		<Name>카드뽑기</Name>
 		<Artwork>forest</Artwork>
-		<CardRange>Melee</CardRange>
+		<CardRange>Act</CardRange>
 		<CardEffect>
-			<Damage>8</Damage>
+			<Damage>0</Damage>
 			<Barrier>0</Barrier>
-			<Script>SlashAttack</Script>
+			<Script>DrawOneCard</Script>
 		</CardEffect>
 		<Rarity>Common</Rarity>
 	</Card>
-	<Card ID="100008">
-		<Name>테스트3</Name>
+	
+	<Card ID="100006">
+		<Name>버티기</Name>
 		<Artwork>forest</Artwork>
-		<CardRange>Melee</CardRange>
+		<CardRange>Act</CardRange>
 		<CardEffect>
-			<Damage>8</Damage>
+			<Damage>0</Damage>
 			<Barrier>0</Barrier>
-			<Script>SlashAttack</Script>
+			<Script>DamageReduceBuff</Script>
 		</CardEffect>
 		<Rarity>Uncommon</Rarity>
 	</Card>
-	<Card ID="100009">
-		<Name>테스트4</Name>
-		<Artwork>forest</Artwork>
-		<CardRange>Melee</CardRange>
-		<CardEffect>
-			<Damage>8</Damage>
-			<Barrier>0</Barrier>
-			<Script>SlashAttack</Script>
-		</CardEffect>
-		<Rarity>Rare</Rarity>
-	</Card>
+	
+	
 	<Card ID="100010">
 		<Name>테스트5</Name>
 		<Artwork>forest</Artwork>
@@ -116,4 +84,5 @@
 		</CardEffect>
 		<Rarity>Rare</Rarity>
 	</Card>
+	
 </CardXmlRoot>

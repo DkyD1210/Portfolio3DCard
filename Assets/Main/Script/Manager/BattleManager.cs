@@ -75,8 +75,17 @@ public class BattleManager : MonoBehaviour
     private void Start()
     {
         cardManager = CardManager.Instance;
-        gameManager = GameManager.Instace;
+        gameManager = GameManager.Instance;
         PlayerTrs = GameManager.StaticPlayer.transform;
+
+        if (SaveManager.instace.IsSaveData == true)
+        {
+            _waveCount = SaveManager.instace.saveData.waveCount;
+        }
+        else
+        {
+            _waveCount = 0;
+        }
     }
 
     private void Update()
@@ -88,8 +97,10 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private void WaveStart()
+    public void WaveStart()
     {
+        cardManager.ClearCardReward();
+
         _waveCount++;
         Debug.Log(_waveCount.ToString());
         if (_waveCount % 5 == 0)
@@ -163,6 +174,7 @@ public class BattleManager : MonoBehaviour
         cardManager.ClrearDeck();
         cardManager.SetCardReward(3);
         _wavestate = e_WaveState.Prepare;
+        UIManager.Instace.ShowWaveEndUI();
     }
 
     public int GetCount()

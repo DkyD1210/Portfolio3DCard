@@ -63,7 +63,6 @@ public class CardManager : MonoBehaviour
     [SerializeField]
     private List<CardFrame> m_AfterDummyList = new List<CardFrame>();
 
-    private bool m_IsFirst = true;
 
     private List<int> Startdeck = new List<int>
         {
@@ -105,15 +104,22 @@ public class CardManager : MonoBehaviour
 
     void Start()
     {
+
+        HandStart = new Vector3((CardLayer.rect.width * 0.5f) * -1, 0, 0);
+        HandEnd = new Vector3(CardLayer.rect.width * 0.5f, 0, 0);
+
         xmlManager = XmlManager.Instance;
         player = GameManager.StaticPlayer;
         InitAllCardBase();
-        HandStart = new Vector3((CardLayer.rect.width * 0.5f) * -1, 0, 0);
-        HandEnd = new Vector3(CardLayer.rect.width * 0.5f, 0, 0);
-        if (m_IsFirst == true)
+
+
+        if (SaveManager.instace.IsSaveData == true)
+        {
+            m_DeckList = SaveManager.instace.saveData.deck;
+        }
+        else
         {
             SetStartDeck();
-            m_IsFirst = false;
         }
 
     }
@@ -346,7 +352,6 @@ public class CardManager : MonoBehaviour
 
             card.CardState = CardState.CardSelect;
         }
-        UIManager.Instace.ShowCardRewardUI();
     }
 
     public void AddCardReward(CardFrame card)
@@ -368,7 +373,6 @@ public class CardManager : MonoBehaviour
             Destroy(frame.gameObject);
         }
         m_RewardCardList.Clear();
-        UIManager.Instace.ShowCardRewardUI();
     }
 
 

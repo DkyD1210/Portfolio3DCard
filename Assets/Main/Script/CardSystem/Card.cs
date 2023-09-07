@@ -78,7 +78,6 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        //Debug.Log($"들어옴 : {gameObject.name}");
         if (CardState != CardState.CardUse && CardState != CardState.CardSelect)
         {
             CardState = CardState.MouseEnter;
@@ -87,7 +86,6 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        //Debug.Log($"나감 : {gameObject.name}");
         if (CardState != CardState.CardUse && CardState != CardState.CardSelect)
         {
             CardState = CardState.MouseExit;
@@ -98,7 +96,6 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnDrag(PointerEventData eventData)
     {
-        //Debug.Log($"드래그함 : {gameObject.name}");
         if (CardState != CardState.CardUse && CardState != CardState.CardSelect)
         {
             CardState = CardState.MouseDrag;
@@ -107,7 +104,6 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        //Debug.Log($"드래그 안함 : {gameObject.name}");
         if (CardState != CardState.CardUse && CardState != CardState.CardSelect)
         {
             CardState = CardState.MouseExit;
@@ -128,11 +124,12 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        //Debug.Log($"클릭함 : {gameObject.name}");
         if (CardState == CardState.CardSelect)
         {
             CardManager.Instance.AddCardReward(this);
             CardManager.Instance.ClearCardReward();
+            UIManager.Instace.ShowWaveEndUI();
+            UIManager.Instace.ShowCardRewardUI();
         }
     }
 

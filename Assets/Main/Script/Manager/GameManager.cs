@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    public static GameManager Instace;
+    public static GameManager Instance;
 
     private XmlManager xmlManager;
 
@@ -26,11 +26,14 @@ public class GameManager : MonoBehaviour
 
     public static Dictionary<int, GameObject> m_EnemyDic = new Dictionary<int, GameObject>();
 
+    [SerializeField]
+    public List<GameObject> m_BulletList = new List<GameObject>();
+
     private void Awake()
     {
-        if (Instace == null)
+        if (Instance == null)
         {
-            Instace = this;
+            Instance = this;
         }
         else
         {
@@ -82,7 +85,15 @@ public class GameManager : MonoBehaviour
             }
             StaticPlayer = player.GetComponent<Player>();
         }
-        StaticPlayer.m_UnitBase = xmlManager.TransXmlUnit(xmlManager.GetUnitData(1));
+
+        if (SaveManager.instace.IsSaveData == true)
+        {
+            StaticPlayer.m_UnitBase = SaveManager.instace.saveData.playerData;
+        }
+        else
+        {
+            StaticPlayer.m_UnitBase = xmlManager.TransXmlUnit(xmlManager.GetUnitData(1));
+        }
 
     }
 
@@ -106,9 +117,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void GetUnit()
+    public GameObject CreatBullet(Transform _trs, int listNum)
     {
-
+        GameObject bullet = Instantiate(m_BulletList[listNum], _trs.position, _trs.rotation);
+        return bullet;
     }
 
 }

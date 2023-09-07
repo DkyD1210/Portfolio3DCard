@@ -56,6 +56,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject CardRewardUI;
 
+    [SerializeField]
+    private GameObject WaveEndUI;
+
     private void Awake()
     {
         if (Instace == null)
@@ -132,7 +135,7 @@ public class UIManager : MonoBehaviour
         string hpText = $"{PlayerHP}/{PlayerMaxHP}";
         PlayerHPText.text = hpText;
 
-        float _hp = (float)PlayerHP / PlayerMaxHP ;
+        float _hp = (float)PlayerHP / PlayerMaxHP;
         PlayerHpBar.value = _hp;
     }
 
@@ -166,10 +169,12 @@ public class UIManager : MonoBehaviour
         bool activeSelf = !CardRewardUI.activeSelf;
         CardRewardUI.SetActive(activeSelf);
         _UIBackGround.SetActive(activeSelf);
-        if (activeSelf == false)
-        {
-            _UIBackGround.SetActive(false);
-        }
+    }
+
+    public void ShowWaveEndUI()
+    {
+        bool activeSelf = !WaveEndUI.activeSelf;
+        WaveEndUI.SetActive(activeSelf);
     }
 
 

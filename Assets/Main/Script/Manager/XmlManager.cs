@@ -263,7 +263,9 @@ public class XmlManager : MonoBehaviour
             new CardScript_BaseRangeAttack(),
             new CardScript_BaseDodgeRoll(),
             new CardScript_BaseSpeedBuf(),
+            new CardScript_DamageReduceBuff(),
             new CardScript_SlashAttack(),
+            new CardScript_DrawOneCard(),
         };
 
         int count = CardScriptList.Count;

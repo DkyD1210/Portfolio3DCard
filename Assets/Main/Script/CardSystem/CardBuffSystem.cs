@@ -37,7 +37,7 @@ public class CardBuff_SpeedBuff : CardBuffBase
     {
         base.Init(player);
         Debug.Log(m_UnitBase.Speed);
-        AddedSpeed += m_UnitBase.Speed * Coefficent;
+        AddedSpeed = m_UnitBase.Speed * Coefficent;
         m_UnitBase.Speed += AddedSpeed;
         Debug.Log(m_UnitBase.Speed);
     }
@@ -51,6 +51,36 @@ public class CardBuff_SpeedBuff : CardBuffBase
             m_UnitBase.Speed -= AddedSpeed;
             m_UnitBase.RemoveBuff(this);
             Debug.Log(m_UnitBase.Speed);
+        }
+    }
+}
+
+public class CardBuff_DamageReduceBuff : CardBuffBase
+{
+    private float AddedReduce;
+
+    private float Coefficent;
+
+    public CardBuff_DamageReduceBuff(float _time, float _coeff)
+    {
+        BuffTime = _time;
+        Coefficent = _coeff * 0.01f;
+    }
+
+    public override void Init(Player player)
+    {
+        base.Init(player);
+        AddedReduce = Coefficent;
+        m_UnitBase.UnitData.GetDamageReduce -= AddedReduce;
+    }
+
+    public override void ActivateBuff()
+    {
+        base.ActivateBuff();
+        if (BuffTime <= _timer)
+        {
+            m_UnitBase.UnitData.GetDamageReduce += AddedReduce;
+            m_UnitBase.RemoveBuff(this);
         }
     }
 }
