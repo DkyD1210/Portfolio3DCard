@@ -161,6 +161,7 @@ public class BattleManager : MonoBehaviour
             Destroy(enemy);
         }
         cardManager.ClrearDeck();
+        cardManager.SetCardReward(3);
         _wavestate = e_WaveState.Prepare;
     }
 

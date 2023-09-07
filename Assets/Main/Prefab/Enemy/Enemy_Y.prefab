@@ -2122,7 +2122,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -2177,6 +2177,9 @@ MonoBehaviour:
       GetDamageReduce: 1
       UnitFaction: 0
       UnitType: 0
+    Damage: 0
+    IsHit: 0
+  m_AttackCoolDown: 1.5
 --- !u!1 &8376363751515695375
 GameObject:
   m_ObjectHideFlags: 0

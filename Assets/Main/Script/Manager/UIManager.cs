@@ -37,7 +37,7 @@ public class UIManager : MonoBehaviour
     private int PlayerHP;
 
     [SerializeField]
-    private GameObject PlayerHPBar;
+    private UnityEngine.UI.Slider PlayerHpBar;
 
     [SerializeField]
     private TMP_Text PlayerHPText;
@@ -52,6 +52,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject AfterUI;
+
+    [SerializeField]
+    private GameObject CardRewardUI;
 
     private void Awake()
     {
@@ -128,6 +131,9 @@ public class UIManager : MonoBehaviour
         PlayerMaxHP = player.m_UnitBase.MaxHp;
         string hpText = $"{PlayerHP}/{PlayerMaxHP}";
         PlayerHPText.text = hpText;
+
+        float _hp = (float)PlayerHP / PlayerMaxHP ;
+        PlayerHpBar.value = _hp;
     }
 
 
@@ -136,24 +142,38 @@ public class UIManager : MonoBehaviour
     public void ShowDeckUI()
     {
         bool activeSelf = !DeckUI.activeSelf;
-        _UIBackGround.SetActive(activeSelf);
         DeckUI.SetActive(activeSelf);
+        _UIBackGround.SetActive(activeSelf);
     }
 
     public void ShowBforekUI()
     {
         bool activeSelf = !BeforeUI.activeSelf;
-        _UIBackGround.SetActive(activeSelf);
         BeforeUI.SetActive(activeSelf);
+        _UIBackGround.SetActive(activeSelf);
     }
 
     public void ShowAfterkUI()
     {
         bool activeSelf = !AfterUI.activeSelf;
-        _UIBackGround.SetActive(activeSelf);
         AfterUI.SetActive(activeSelf);
+        _UIBackGround.SetActive(activeSelf);
+    }
+
+
+    public void ShowCardRewardUI()
+    {
+        bool activeSelf = !CardRewardUI.activeSelf;
+        CardRewardUI.SetActive(activeSelf);
+        _UIBackGround.SetActive(activeSelf);
+        if (activeSelf == false)
+        {
+            _UIBackGround.SetActive(false);
+        }
     }
 
 
     #endregion
+
+
 }

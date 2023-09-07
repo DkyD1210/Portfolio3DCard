@@ -19,6 +19,22 @@ public class CardManager : MonoBehaviour
     [SerializeField]
     private GameObject m_CardObject;
 
+
+    private List<List<int>> m_RarityLIst = new List<List<int>>
+    {
+        //Rarity.Basic
+        new List<int>(), 
+
+        //Rarity.Common
+        new List<int>(), 
+
+        //Rarity.Uncommon
+        new List<int>(), 
+
+        //Rarity.Rare
+        new List<int>(),
+    };
+
     [Header("카드 UI 공간")]
     [SerializeField]
     private RectTransform CardLayer;
@@ -91,6 +107,7 @@ public class CardManager : MonoBehaviour
     {
         xmlManager = XmlManager.Instance;
         player = GameManager.StaticPlayer;
+        InitAllCardBase();
         HandStart = new Vector3((CardLayer.rect.width * 0.5f) * -1, 0, 0);
         HandEnd = new Vector3(CardLayer.rect.width * 0.5f, 0, 0);
         if (m_IsFirst == true)
@@ -101,13 +118,21 @@ public class CardManager : MonoBehaviour
 
     }
 
-
-
     void Update()
     {
         CardHand();
 
     }
+
+    private void InitAllCardBase()
+    {
+        foreach (int id in xmlManager.CardDataDic.Keys)
+        {
+            Rarity rarity = xmlManager.GetCardData(id).Rarity;
+            m_RarityLIst[(int)rarity].Add(id);
+        }
+    }
+
 
 
     private void SetStartDeck()
@@ -170,7 +195,7 @@ public class CardManager : MonoBehaviour
 
                 case CardState.MouseDrag:
                     pos = Input.mousePosition;
-                    card.transform.localScale = new Vector3(1.2f, 1.2f, 0f);
+                    card.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
                     card.transform.localRotation = Quaternion.Euler(0, 0, 0);
                     card.transform.position = pos;
                     break;
@@ -179,7 +204,7 @@ public class CardManager : MonoBehaviour
                     pos.y = CardLayer.position.y * (Mathf.Abs(0.5f - value) * -1);
                     card.transform.localPosition = pos;
 
-                    card.transform.localScale = new Vector3(1f, 1f, 0);
+                    card.transform.localScale = new Vector3(1f, 1f, 1f);
                     card.transform.localRotation = Quaternion.Euler(0, 0, 30 * (0.5f - value));
                     card.transform.SetAsFirstSibling();
                     break;
@@ -200,12 +225,30 @@ public class CardManager : MonoBehaviour
 
         m_HandList.Remove(card);
 
-        card.transform.SetParent(after, false);
-
         card.CardState = CardState.MouseExit;
         card.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        card.transform.localScale = new Vector3(1f, 1f, 1f);
 
+        card.transform.SetParent(after, false);
 
+    }
+
+    public CardFrame MakeCard(CardBase data)
+    {
+        GameObject objCard = Instantiate(m_CardObject);
+
+        CardFrame resultCard = objCard.GetComponent<CardFrame>();
+        resultCard.m_CardBase = new CardBase(data);
+        return resultCard;
+    }
+
+    public CardFrame MakeCard(CardBase data, Transform layer)
+    {
+        GameObject objCard = Instantiate(m_CardObject, layer, false);
+
+        CardFrame resultCard = objCard.GetComponent<CardFrame>();
+        resultCard.m_CardBase = new CardBase(data);
+        return resultCard;
     }
 
     public void HandSupply()
@@ -252,23 +295,6 @@ public class CardManager : MonoBehaviour
 
     }
 
-    public CardFrame MakeCard(CardBase data)
-    {
-        GameObject objCard = Instantiate(m_CardObject);
-
-        CardFrame resultCard = objCard.GetComponent<CardFrame>();
-        resultCard.m_CardBase = new CardBase(data);
-        return resultCard;
-    }
-
-    public CardFrame MakeCard(CardBase data, Transform layer)
-    {
-        GameObject objCard = Instantiate(m_CardObject, layer, false);
-
-        CardFrame resultCard = objCard.GetComponent<CardFrame>();
-        resultCard.m_CardBase = new CardBase(data);
-        return resultCard;
-    }
 
     public void ClrearDeck()
     {
@@ -302,25 +328,47 @@ public class CardManager : MonoBehaviour
 
     public void SetCardReward(int count)
     {
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
-            //MakeCard(, RewardLayer);
-        }
+            int rarityLIstCount = m_RarityLIst.Count;
 
+            int listNum = Random.Range(1, rarityLIstCount);
+
+            int idListCount = m_RarityLIst[listNum].Count;
+
+            int idNum = Random.Range(0, idListCount);
+
+            int id = m_RarityLIst[listNum][idNum];
+
+            CardBase data = xmlManager.TransXmlCard(xmlManager.GetCardData(id));
+            CardFrame card = MakeCard(data, RewardLayer);
+            m_RewardCardList.Add(card);
+
+            card.CardState = CardState.CardSelect;
+        }
+        UIManager.Instace.ShowCardRewardUI();
     }
 
     public void AddCardReward(CardFrame card)
     {
         card.transform.SetParent(deck, false);
         m_DeckList.Add(card);
+        m_RewardCardList.Remove(card);
+        card.CardState = CardState.MouseExit;
 
+
+    }
+
+    public void ClearCardReward()
+    {
         int count = m_RewardCardList.Count;
-        for(int i = count -1; i > -1; i--)
+        for (int i = count - 1; i > -1; i--)
         {
             CardFrame frame = m_RewardCardList[i];
             Destroy(frame.gameObject);
         }
         m_RewardCardList.Clear();
+        UIManager.Instace.ShowCardRewardUI();
     }
 
 

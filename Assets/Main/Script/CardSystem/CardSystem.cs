@@ -145,7 +145,7 @@ class CardScript_BaseRangeAttack : CardScript
     {
         get
         {
-            return $"카드를 던져 피해를 5 입힙니다";
+            return $"카드를 던져 피해를 {_Damage} 입힙니다";
         }
     }
     public override void OnUse(Player player, CardBase cardBase)
