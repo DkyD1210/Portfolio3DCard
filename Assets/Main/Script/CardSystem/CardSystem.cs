@@ -38,13 +38,6 @@ public class CardBase
         get { return this._id; }
     }
 
-    private int _textID;
-
-    public int TextID
-    {
-        get { return this._textID; }
-    }
-
     public string Name;
 
     public string Artwork;
@@ -145,14 +138,15 @@ class CardScript_BaseRangeAttack : CardScript
     {
         get
         {
-            return $"카드를 던져 피해를 6 입힙니다";
+            return $"전방에 카드를 던져 피해를 6 입힙니다";
         }
     }
     public override void OnUse(Player player, CardBase cardBase)
     {
         base.OnUse(player, cardBase);
-        Bullet a = GameManager.Instance.CreatBullet(player.transform, 0).GetComponent<Bullet>();
-        a.Damage = _Damage;
+        Bullet bullet = GameManager.Instance.CreatBullet(player.transform, 0).GetComponent<Bullet>();
+        bullet.Damage = _Damage;
+        bullet.Speed = 20;
 
     }
 
@@ -188,7 +182,6 @@ class CardScript_BaseDodgeRoll : CardScript
             player.StartCoroutine(player.PlayerRollAnima(hit.position, 0.6f));
         }
     }
-
 
 }
 class CardScript_BaseSpeedBuf : CardScript

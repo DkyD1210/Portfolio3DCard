@@ -80,7 +80,7 @@ public class BattleManager : MonoBehaviour
 
         if (SaveManager.instace.IsSaveData == true)
         {
-            _waveCount = SaveManager.instace.saveData.waveCount;
+            _waveCount = SaveManager.instace.GetSaveData().waveCount;
         }
         else
         {

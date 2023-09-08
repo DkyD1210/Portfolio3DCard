@@ -113,14 +113,8 @@ public class CardManager : MonoBehaviour
         InitAllCardBase();
 
 
-        if (SaveManager.instace.IsSaveData == true)
-        {
-            m_DeckList = SaveManager.instace.saveData.deck;
-        }
-        else
-        {
             SetStartDeck();
-        }
+        
 
     }
 
@@ -132,6 +126,11 @@ public class CardManager : MonoBehaviour
 
     private void InitAllCardBase()
     {
+        List<int> _deck = Startdeck;
+        if (SaveManager.instace.IsSaveData == true)
+        {
+            _deck = SaveManager.instace.GetSaveData().deck;
+        }
         foreach (int id in xmlManager.CardDataDic.Keys)
         {
             Rarity rarity = xmlManager.GetCardData(id).Rarity;
@@ -143,7 +142,12 @@ public class CardManager : MonoBehaviour
 
     private void SetStartDeck()
     {
-        foreach (int i in Startdeck)
+        List<int> idLIst = Startdeck;
+        if (SaveManager.instace.IsSaveData == true)
+        {
+            idLIst = SaveManager.instace.GetSaveData().deck;
+        }
+        foreach (int i in idLIst)
         {
             CardBase data = xmlManager.TransXmlCard(xmlManager.GetCardData(i));
             CardFrame card = MakeCard(data, deck);

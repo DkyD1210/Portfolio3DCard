@@ -253,9 +253,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 387251}
-        m_TargetAssemblyTypeName: TitleManager, Assembly-CSharp
-        m_MethodName: ShowCollection
+      - m_Target: {fileID: 422677762}
+        m_TargetAssemblyTypeName: SaveManager, Assembly-CSharp
+        m_MethodName: LoadGameData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -602,19 +602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0cbb4ea97c885f4898756c7217d0f48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveData:
-    playerData:
-      _unitData:
-        Hp: 0
-        Speed: 0
-        Damage: 0
-        GetDamageReduce: 0
-        UnitFaction: 0
-        UnitType: 0
-      Damage: 0
-      IsHit: 0
-    deck: []
-    waveCount: 0
+  IsSaveData: 0
 --- !u!4 &422677763
 Transform:
   m_ObjectHideFlags: 0

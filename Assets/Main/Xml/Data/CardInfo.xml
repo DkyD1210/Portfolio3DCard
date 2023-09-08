@@ -17,7 +17,7 @@
 		<Artwork>forest</Artwork>
 		<CardRange>Range</CardRange>
 		<CardEffect>
-			<Damage>5</Damage>
+			<Damage>6</Damage>
 			<Barrier>0</Barrier>
 			<Script>BaseRangeAttack</Script>
 		</CardEffect>

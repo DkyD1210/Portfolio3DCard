@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -88,7 +90,7 @@ public class GameManager : MonoBehaviour
 
         if (SaveManager.instace.IsSaveData == true)
         {
-            StaticPlayer.m_UnitBase = SaveManager.instace.saveData.playerData;
+            StaticPlayer.m_UnitBase = SaveManager.instace.GetSaveData().playerData;
         }
         else
         {
@@ -119,8 +121,15 @@ public class GameManager : MonoBehaviour
 
     public GameObject CreatBullet(Transform _trs, int listNum)
     {
-        GameObject bullet = Instantiate(m_BulletList[listNum], _trs.position, _trs.rotation);
+        GameObject prefab = m_BulletList[listNum];
+        GameObject bullet = Instantiate(prefab, _trs.position + new Vector3(0, 1f, 0), prefab.transform.rotation, UnitLayer);
         return bullet;
+    }
+
+    public void GameSaveAndExit()
+    {
+        SaveManager.instace.SaveGameData();
+        SceneManager.LoadScene((int)SceneType.TitleScene);
     }
 
 }
