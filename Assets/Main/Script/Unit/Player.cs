@@ -37,6 +37,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if(m_UnitBase.Ondie())
+        {
+            m_Ainimator.SetBool("Die", true);
+            return;
+        }
         PlayerApplyBuff();
         PlayerMove();
         PlayerGravity();

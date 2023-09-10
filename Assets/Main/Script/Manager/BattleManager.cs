@@ -171,6 +171,8 @@ public class BattleManager : MonoBehaviour
             m_Enemy.Remove(enemy);
             Destroy(enemy);
         }
+        Player player = GameManager.StaticPlayer;
+        player.m_UnitBase.ClearBuff();
         cardManager.ClrearDeck();
         cardManager.SetCardReward(3);
         _wavestate = e_WaveState.Prepare;

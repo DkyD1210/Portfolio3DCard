@@ -113,8 +113,8 @@ public class CardManager : MonoBehaviour
         InitAllCardBase();
 
 
-            SetStartDeck();
-        
+        SetStartDeck();
+
 
     }
 
@@ -340,9 +340,23 @@ public class CardManager : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            int rarityLIstCount = m_RarityLIst.Count;
+            int listNum = (int)Rarity.Basic;
 
-            int listNum = Random.Range(1, rarityLIstCount);
+            int randomNum = Random.Range(0, 100);
+
+            if (randomNum >= 90)
+            {
+                listNum = (int)Rarity.Rare;
+            }
+            else if (randomNum >= 60)
+            {
+                listNum = (int)Rarity.Uncommon;
+            }
+            else
+            {
+                listNum = (int)Rarity.Common;
+            }
+
 
             int idListCount = m_RarityLIst[listNum].Count;
 

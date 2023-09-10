@@ -15,10 +15,6 @@ public class Enemy : MonoBehaviour
 
     public UnitBase m_UnitBase;
 
-
-    [SerializeField]
-    private float m_AttackCoolDown;
-
     private bool IsRunning = true;
 
     private bool UnitDie = false;
@@ -100,7 +96,7 @@ public class Enemy : MonoBehaviour
                     Debug.Log("°ø°ÝÇÔ");
                 }
             }
-            yield return new WaitForSeconds(m_AttackCoolDown);
+            yield return new WaitForSeconds(2f);
             IsRunning = true;
             m_Animator.SetTrigger("Running");
         }

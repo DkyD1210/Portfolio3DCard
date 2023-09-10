@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
     public GameObject CreatBullet(Transform _trs, int listNum)
     {
         GameObject prefab = m_BulletList[listNum];
-        GameObject bullet = Instantiate(prefab, _trs.position + new Vector3(0, 1f, 0), prefab.transform.rotation, UnitLayer);
+        GameObject bullet = Instantiate(prefab, _trs.position + new Vector3(0, 1f, 0), _trs.rotation * prefab.transform.rotation, UnitLayer);
         return bullet;
     }
 

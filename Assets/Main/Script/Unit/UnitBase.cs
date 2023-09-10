@@ -5,12 +5,21 @@ using UnityEngine;
 using CardGame_Xml;
 
 [Serializable]
-public class UnitBase 
+public class UnitBase
 {
 
     public UnitBase()
     {
 
+    }
+    public UnitBase(UnitBase model)
+    {
+        this._id = model.Id;
+        this._unitData = model.UnitData;
+        this.BuffList = model.BuffList;
+        this.hp = model.hp;
+        this.Speed = model.Speed;
+        this.Damage = model.Damage;
     }
 
     public UnitBase(int id)
@@ -60,9 +69,12 @@ public class UnitBase
 
     public void Init()
     {
-        SetHp(MaxHp);
-        this.Speed = _unitData.Speed;
-        this.Damage = _unitData.Damage;
+        if (SaveManager.instace.IsSaveData == false)
+        {
+            SetHp(MaxHp);
+            this.Speed = _unitData.Speed;
+            this.Damage = _unitData.Damage;
+        }
     }
 
     public float SetHp(int newHp)
@@ -74,7 +86,7 @@ public class UnitBase
     {
         int beforeHp = (int)this.hp;
         dmg = (int)((float)dmg * UnitData.GetDamageReduce);
-        if(dmg <= 0)
+        if (dmg <= 0)
         {
             dmg = 1;
         }
@@ -102,11 +114,18 @@ public class UnitBase
     {
         BuffList.Remove(_buff);
     }
+
+    public void ClearBuff()
+    {
+        BuffList.Clear();
+    }
+
 }
 
 [Serializable]
 public class UnitData
 {
+
     public UnitData(UnitEffect data)
     {
         this.Hp = data.Hp;

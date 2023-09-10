@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
-using UnityEngine.SceneManagement;
+
 
 public class SaveManager : MonoBehaviour
 {
@@ -35,14 +35,14 @@ public class SaveManager : MonoBehaviour
     public void SaveGameData()
     {
         List<int> list = new List<int>();
-        foreach(CardFrame i in CardManager.Instance.m_DeckList)
+        foreach (CardFrame i in CardManager.Instance.m_DeckList)
         {
             list.Add(i.m_CardBase.Id);
         }
 
         saveData = new SaveData()
         {
-            playerData = GameManager.StaticPlayer.m_UnitBase,
+            playerData = new UnitBase(GameManager.StaticPlayer.m_UnitBase),
             deck = list,
             waveCount = BattleManager.WaveCount
         };
@@ -61,7 +61,6 @@ public class SaveManager : MonoBehaviour
             SaveData _savedata = JsonConvert.DeserializeObject<SaveData>(data);
             saveData = _savedata;
             IsSaveData = true;
-            SceneManager.LoadScene((int)SceneType.MainScene);
         }
         else
         {
