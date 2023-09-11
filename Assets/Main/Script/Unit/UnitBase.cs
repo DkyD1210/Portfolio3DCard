@@ -52,7 +52,7 @@ public class UnitBase
         }
     }
 
-    public float hp { get; private set; }
+    public int hp { get; private set; }
 
 
     private float _speed;
@@ -69,7 +69,7 @@ public class UnitBase
 
     public void Init()
     {
-        if (SaveManager.instace.IsSaveData == false)
+        if (SaveManager.instance.IsSaveData == false)
         {
             SetHp(MaxHp);
             this.Speed = _unitData.Speed;
@@ -90,7 +90,15 @@ public class UnitBase
         {
             dmg = 1;
         }
-        this.hp -= dmg;
+        if (hp <= 0)
+        {
+            hp = 0;
+        }
+        else
+        {
+            this.hp -= dmg;
+        }
+
         int resultHp = (int)this.hp;
         IsHit = true;
         return resultHp;
@@ -125,6 +133,19 @@ public class UnitBase
 [Serializable]
 public class UnitData
 {
+    public UnitData()
+    {
+    }
+
+    public UnitData(UnitData data)
+    {
+        this.Hp = data.Hp;
+        this.Speed = data.Speed;
+        this.Damage = data.Damage;
+        this.GetDamageReduce = data.GetDamageReduce;
+        this.UnitFaction = data.UnitFaction;
+        this.UnitType = data.UnitType;
+    }
 
     public UnitData(UnitEffect data)
     {

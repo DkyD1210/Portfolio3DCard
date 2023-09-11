@@ -127,9 +127,9 @@ public class CardManager : MonoBehaviour
     private void InitAllCardBase()
     {
         List<int> _deck = Startdeck;
-        if (SaveManager.instace.IsSaveData == true)
+        if (SaveManager.instance.IsSaveData == true)
         {
-            _deck = SaveManager.instace.GetSaveData().deck;
+            _deck = SaveManager.instance.GetSaveData().deck;
         }
         foreach (int id in xmlManager.CardDataDic.Keys)
         {
@@ -143,9 +143,9 @@ public class CardManager : MonoBehaviour
     private void SetStartDeck()
     {
         List<int> idLIst = Startdeck;
-        if (SaveManager.instace.IsSaveData == true)
+        if (SaveManager.instance.IsSaveData == true)
         {
-            idLIst = SaveManager.instace.GetSaveData().deck;
+            idLIst = SaveManager.instance.GetSaveData().deck;
         }
         foreach (int i in idLIst)
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-public enum GameTime
+public enum e_GameTime
 {
     Stop = 0,
     Slow = 5,
@@ -23,7 +23,7 @@ public class TimeManager : MonoBehaviour
     [SerializeField]
     private float m_GameTime = 1.0f;
 
-    public static GameTime TimeSet = GameTime.Defualt;
+    private e_GameTime TimeSet = e_GameTime.Defualt;
 
 
     private void Awake()
@@ -46,18 +46,18 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetGameTime();
+        SetTimeScale();
     }
 
-    private void SetGameTime()
+    private void SetTimeScale()
     {
-        if(UIManager.UIBackGround.activeSelf == true)
-        {
-            Time.timeScale = 0f;
-            return;
-        }
         m_GameTime = (float)TimeSet / 10;
         Time.timeScale = m_GameTime;
+    }
+
+    public void SetTimeSet(e_GameTime _set)
+    {
+        TimeSet = _set;
     }
 
 }

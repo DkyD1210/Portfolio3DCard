@@ -24,7 +24,7 @@ public class TitleManager : MonoBehaviour
     }
     public void LoadMainSceneWithSave()
     {
-        SaveManager.instace.LoadGameData();
+        SaveManager.instance.LoadGameData();
         SceneManager.LoadScene((int)SceneType.MainScene);
     }
 

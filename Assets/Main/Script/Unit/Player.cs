@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
 
     private bool IsRoll = false;
 
+    private bool GameEnd = false;
+
 
 
     void Start()
@@ -32,14 +34,22 @@ public class Player : MonoBehaviour
         m_Ainimator = GetComponent<Animator>();
         m_Controller = GetComponent<CharacterController>();
         m_UnitBase.Init();
+        if (SaveManager.instance.IsSaveData == true)
+        {
+            int _hp = SaveManager.instance.GetSaveData().PlayerHp;
+            m_UnitBase.SetHp(_hp);
+        }
     }
 
 
     void Update()
     {
-        if(m_UnitBase.Ondie())
+        if (m_UnitBase.Ondie())
         {
-            m_Ainimator.SetBool("Die", true);
+            if (GameEnd == false)
+            {
+                StartCoroutine(PlayerDie());
+            }
             return;
         }
         PlayerApplyBuff();
@@ -135,6 +145,17 @@ public class Player : MonoBehaviour
         }
         IsRoll = false;
         m_Ainimator.SetTrigger("Roll");
+    }
+
+    private IEnumerator PlayerDie()
+    {
+        GameEnd = true;
+        m_Ainimator.SetBool("Die", GameEnd);
+        TimeManager.Instance.SetTimeSet(e_GameTime.Slow);
+        yield return new WaitForSeconds(3f);
+        TimeManager.Instance.SetTimeSet(e_GameTime.Stop);
+        UIManager.Instance.GameEnd();
+
     }
 }
 

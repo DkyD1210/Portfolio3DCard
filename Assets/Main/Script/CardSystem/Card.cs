@@ -128,8 +128,8 @@ public class CardFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         {
             CardManager.Instance.AddCardReward(this);
             CardManager.Instance.ClearCardReward();
-            UIManager.Instace.ShowWaveEndUI();
-            UIManager.Instace.ShowCardRewardUI();
+            UIManager.Instance.ShowWaveEndUI();
+            UIManager.Instance.ShowCardRewardUI();
         }
     }
 

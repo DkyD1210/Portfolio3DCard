@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 public class SaveManager : MonoBehaviour
 {
-    public static SaveManager instace;
+    public static SaveManager instance;
 
     public bool IsSaveData = false;
 
@@ -15,9 +15,9 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instace == null)
+        if (instance == null)
         {
-            instace = this;
+            instance = this;
         }
         else
         {
@@ -42,7 +42,7 @@ public class SaveManager : MonoBehaviour
 
         saveData = new SaveData()
         {
-            playerData = new UnitBase(GameManager.StaticPlayer.m_UnitBase),
+            PlayerHp = GameManager.StaticPlayer.m_UnitBase.hp,
             deck = list,
             waveCount = BattleManager.WaveCount
         };
@@ -58,8 +58,7 @@ public class SaveManager : MonoBehaviour
         if (PlayerPrefs.HasKey("SaveData"))
         {
             string data = PlayerPrefs.GetString("SaveData");
-            SaveData _savedata = JsonConvert.DeserializeObject<SaveData>(data);
-            saveData = _savedata;
+            saveData = JsonConvert.DeserializeObject<SaveData>(data);
             IsSaveData = true;
         }
         else
@@ -79,8 +78,7 @@ public class SaveManager : MonoBehaviour
 [System.Serializable]
 public class SaveData
 {
-
-    public UnitBase playerData;
+    public int PlayerHp;
 
     public List<int> deck;
 

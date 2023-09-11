@@ -80,22 +80,15 @@ public class GameManager : MonoBehaviour
         StaticPlayer = FindObjectOfType<Player>();
         if (StaticPlayer == null)
         {
-            GameObject player = Instantiate(m_PlayerOBJ, UnitLayer);
-            if (player.TryGetComponent(out Player playerCompenet) == false)
-            {
-                player.AddComponent<Player>();
-            }
+            GameObject player = Instantiate(m_PlayerOBJ, UnitLayer.transform.position + new Vector3(0, 2.5f, 0), Quaternion.identity, UnitLayer);
             StaticPlayer = player.GetComponent<Player>();
+            if (StaticPlayer == null)
+            {
+                StaticPlayer = player.AddComponent<Player>();
+                Debug.LogError("플레이어 컴포넌트 없음");
+            }
         }
-
-        if (SaveManager.instace.IsSaveData == true)
-        {
-            StaticPlayer.m_UnitBase = SaveManager.instace.GetSaveData().playerData;
-        }
-        else
-        {
-            StaticPlayer.m_UnitBase = xmlManager.TransXmlUnit(xmlManager.GetUnitData(1));
-        }
+        StaticPlayer.m_UnitBase = xmlManager.TransXmlUnit(xmlManager.GetUnitData(1));
 
     }
 
@@ -108,13 +101,13 @@ public class GameManager : MonoBehaviour
             {
                 UIBackGround.SetActive(true);
                 CameraManager.m_NoCursor = false;
-                TimeManager.TimeSet = GameTime.Stop;
+                TimeManager.Instance.SetTimeSet(e_GameTime.Stop);
             }
             else
             {
                 UIBackGround.SetActive(false);
                 CameraManager.m_NoCursor = true;
-                TimeManager.TimeSet = GameTime.Defualt;
+                TimeManager.Instance.SetTimeSet(e_GameTime.Defualt);
             }
         }
     }
@@ -128,8 +121,15 @@ public class GameManager : MonoBehaviour
 
     public void GameSaveAndExit()
     {
-        SaveManager.instace.SaveGameData();
+        SaveManager.instance.SaveGameData();
         SceneManager.LoadScene((int)SceneType.TitleScene);
     }
+
+    public void GameExit()
+    {
+        SceneManager.LoadScene((int)SceneType.TitleScene);
+    }
+
+
 
 }

@@ -78,9 +78,9 @@ public class BattleManager : MonoBehaviour
         gameManager = GameManager.Instance;
         PlayerTrs = GameManager.StaticPlayer.transform;
 
-        if (SaveManager.instace.IsSaveData == true)
+        if (SaveManager.instance.IsSaveData == true)
         {
-            _waveCount = SaveManager.instace.GetSaveData().waveCount;
+            _waveCount = SaveManager.instance.GetSaveData().waveCount;
         }
         else
         {
@@ -176,7 +176,7 @@ public class BattleManager : MonoBehaviour
         cardManager.ClrearDeck();
         cardManager.SetCardReward(3);
         _wavestate = e_WaveState.Prepare;
-        UIManager.Instace.ShowWaveEndUI();
+        UIManager.Instance.ShowWaveEndUI();
     }
 
     public int GetCount()

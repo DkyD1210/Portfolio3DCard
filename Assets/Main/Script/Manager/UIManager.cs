@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.UIElements;
+using UnityEngine.Analytics;
 
 public class UIManager : MonoBehaviour
 {
 
-    public static UIManager Instace;
+    public static UIManager Instance;
 
     private BattleManager battleManager;
 
@@ -45,6 +46,9 @@ public class UIManager : MonoBehaviour
 
     [Header("카드 관련")]
     [SerializeField]
+    private GameObject CardLayer;
+
+    [SerializeField]
     private GameObject DeckUI;
 
     [SerializeField]
@@ -56,14 +60,19 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject CardRewardUI;
 
+    [Header("그 외")]
+
     [SerializeField]
     private GameObject WaveEndUI;
+    
+    [SerializeField]
+    private GameObject GameEndUI;
 
     private void Awake()
     {
-        if (Instace == null)
+        if (Instance == null)
         {
-            Instace = this;
+            Instance = this;
         }
         else
         {
@@ -139,6 +148,12 @@ public class UIManager : MonoBehaviour
         PlayerHpBar.value = _hp;
     }
 
+    public void GameEnd()
+    {
+        CardLayer.SetActive(false);
+        GameEndUI.SetActive(true);
+        Debug.Log("게임종료");
+    }
 
     #region 카드 UI 세팅
 
