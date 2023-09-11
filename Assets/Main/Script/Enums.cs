@@ -3,7 +3,8 @@
 public enum SceneType
 {
     TitleScene = 0,
-    MainScene = 1,
+    LoadScene = 1,
+    MainScene = 2,
 }
 
 

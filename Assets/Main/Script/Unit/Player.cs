@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 
     public GameObject Effect;
 
-    public Animator m_Ainimator;
+    public Animator m_Animator;
 
     //플레이어 이동
     public Vector3 MoveDir;
@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        m_Ainimator = GetComponent<Animator>();
+        m_Animator = GetComponent<Animator>();
         m_Controller = GetComponent<CharacterController>();
         m_UnitBase.Init();
         if (SaveManager.instance.IsSaveData == true)
@@ -104,8 +104,8 @@ public class Player : MonoBehaviour
 
     private void PlayerAnimation()
     {
-        m_Ainimator.SetFloat("Horizontal", MoveDir.x);
-        m_Ainimator.SetFloat("Vertical", MoveDir.z);
+        m_Animator.SetFloat("Horizontal", MoveDir.x);
+        m_Animator.SetFloat("Vertical", MoveDir.z);
 
 
         if (Input.GetKey(KeyCode.Space))
@@ -131,8 +131,8 @@ public class Player : MonoBehaviour
 
     public IEnumerator PlayerRollAnima(Vector3 target, float _time)
     {
-        m_Ainimator.SetTrigger("Roll");
-        m_Ainimator.SetFloat("RollSpeed", (1.1f / _time));
+        m_Animator.SetTrigger("Roll");
+        m_Animator.SetFloat("RollSpeed", (1.1f / _time));
         IsRoll = true;
         Vector3 a = transform.position;
         float timer = 0;
@@ -144,13 +144,13 @@ public class Player : MonoBehaviour
             yield return null;
         }
         IsRoll = false;
-        m_Ainimator.SetTrigger("Roll");
+        m_Animator.SetTrigger("Roll");
     }
 
     private IEnumerator PlayerDie()
     {
         GameEnd = true;
-        m_Ainimator.SetBool("Die", GameEnd);
+        m_Animator.SetBool("Die", GameEnd);
         TimeManager.Instance.SetTimeSet(e_GameTime.Slow);
         yield return new WaitForSeconds(3f);
         TimeManager.Instance.SetTimeSet(e_GameTime.Stop);
