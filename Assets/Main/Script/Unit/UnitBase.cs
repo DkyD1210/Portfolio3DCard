@@ -69,12 +69,10 @@ public class UnitBase
 
     public void Init()
     {
-        if (SaveManager.instance.IsSaveData == false)
-        {
-            SetHp(MaxHp);
-            this.Speed = _unitData.Speed;
-            this.Damage = _unitData.Damage;
-        }
+
+        SetHp(MaxHp);
+        this.Speed = _unitData.Speed;
+        this.Damage = _unitData.Damage;
     }
 
     public float SetHp(int newHp)

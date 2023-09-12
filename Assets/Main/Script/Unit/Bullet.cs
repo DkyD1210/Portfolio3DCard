@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         m_Collider = transform.GetComponent<BoxCollider>();
+        Destroy(gameObject, 20f);
     }
 
     // Update is called once per frame

@@ -7,30 +7,26 @@ public class TitleManager : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject CollectionUI;
-
-    [SerializeField]
     private GameObject ConfigUI;
 
     void Start()
     {
-        
+
     }
 
 
-    public void LoadMainScene()
+    public void LoadMainSceneNewGame()
     {
+        SaveManager.instance.DeleteSaveData();
         SceneManager.LoadScene((int)SceneType.LoadScene);
     }
     public void LoadMainSceneWithSave()
     {
         SaveManager.instance.LoadGameData();
-        SceneManager.LoadScene((int)SceneType.LoadScene);
-    }
-
-    public void ShowCollection()
-    {
-        CollectionUI.SetActive(!CollectionUI.activeSelf);
+        if (SaveManager.instance.GetSaveData() != null)
+        {
+            SceneManager.LoadScene((int)SceneType.LoadScene);
+        }
     }
 
     public void ShowConfig()

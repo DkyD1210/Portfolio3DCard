@@ -13,7 +13,6 @@ public class BattleManager : MonoBehaviour
     private GameManager gameManager;
 
 
-
     [SerializeField]
     private List<GameObject> m_AllUnits = new List<GameObject>();
 
@@ -21,7 +20,7 @@ public class BattleManager : MonoBehaviour
     private List<GameObject> m_Enemy = new List<GameObject>();
 
     [SerializeField]
-    private List<GameObject> m_Neutral = new List<GameObject>();
+    private List<GameObject> m_Boss = new List<GameObject>();
 
     [SerializeField]
     private List<GameObject> m_Player = new List<GameObject>();
@@ -106,6 +105,7 @@ public class BattleManager : MonoBehaviour
         if (_waveCount % 5 == 0)
         {
             _wavestate = e_WaveState.BossWave;
+            CreatBoss();
         }
         else
         {
@@ -153,12 +153,26 @@ public class BattleManager : MonoBehaviour
             int count = gameManager.m_EnemyOBJList.Count;
             int rand = Random.Range(0, count);
 
-            GameObject unit = Instantiate(gameManager.m_EnemyOBJList[rand], SummonTrs.position, Quaternion.identity, transform);
+            GameObject unit = Instantiate(gameManager.m_EnemyOBJList[rand], SummonTrs.position, Quaternion.identity, EnemyLayer);
             m_Enemy.Add(unit);
         }
         m_UnitTimer = (int)m_Timer;
     }
 
+    private void CreatBoss()
+    {
+        //GameObject unit = Instantiate(gameManager.m_EnemyOBJList[2], SummonTrs.position, Quaternion.identity, EnemyLayer);
+        //m_Boss.Add(unit);
+
+        IsBossDead = false;
+
+        Invoke("a", 20f);
+    }
+
+    private void a()
+    {
+        IsBossDead = true;
+    }
 
 
     private void WaveEnd()

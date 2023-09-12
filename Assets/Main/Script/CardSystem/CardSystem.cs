@@ -138,13 +138,18 @@ class CardScript_BaseRangeAttack : CardScript
     {
         get
         {
-            return $"전방에 카드를 던져 피해를 6 입힙니다";
+            return $"적에게 카드를 던져 피해를 6 입힙니다";
         }
     }
     public override void OnUse(Player player, CardBase cardBase)
     {
         base.OnUse(player, cardBase);
+        bool targetLock = Physics.Raycast(player.transform.position + new Vector3(0, 1, 0), player.transform.rotation * Vector3.forward, out RaycastHit hit, 2f, LayerMask.GetMask("Enemy"));
         Bullet bullet = GameManager.Instance.CreatBullet(player.transform, 0).GetComponent<Bullet>();
+        if (targetLock)
+        {
+            bullet.transform.LookAt(hit.transform);
+        }
         bullet.Damage = _Damage;
         bullet.Speed = 20;
 
@@ -304,3 +309,40 @@ public class CardScript_DrawOneCard : CardScript
     }
 
 }
+
+public class CardScript_SpredRangeAttack : CardScript
+{
+    public override string CardName
+    {
+        get
+        {
+            return "카드 흩뿌리기";
+        }
+    }
+    public override string CardDesc
+    {
+        get
+        {
+            return $"전방에 카드들을 던져 피해를 6 입힙니다";
+        }
+    }
+
+    public override void OnUse(Player player, CardBase cardBase)
+    {
+        base.OnUse(player, cardBase);
+        int count = 6;
+        for (int i = 0; i < count; i++)
+        {
+            Vector3 angle = new Vector3(0, 0, 40 * i);
+            bool targetLock = Physics.Raycast(player.transform.position + new Vector3(0, 1, 0), player.transform.rotation * angle, out RaycastHit hit, 2f, LayerMask.GetMask("Enemy"));
+            Bullet bullet = GameManager.Instance.CreatBullet(player.transform, 0).GetComponent<Bullet>();
+
+
+            bullet.Damage = _Damage;
+            bullet.Speed = 20;
+        }
+
+    }
+
+}
+

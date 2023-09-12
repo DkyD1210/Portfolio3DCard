@@ -67,11 +67,16 @@ public class SaveManager : MonoBehaviour
         }
 
     }
+    public void DeleteSaveData()
+    {
+        PlayerPrefs.DeleteKey("SaveData");
+    }
 
     public SaveData GetSaveData()
     {
         return saveData;
     }
+
 
 }
 

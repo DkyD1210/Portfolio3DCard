@@ -40,7 +40,7 @@ public class CardManager : MonoBehaviour
 
     [Header("카드 UI 공간")]
     [SerializeField]
-    private RectTransform CardLayer;
+    private RectTransform HandLayer;
     private Vector3 HandStart;
     private Vector3 HandEnd;
 
@@ -108,8 +108,8 @@ public class CardManager : MonoBehaviour
     void Start()
     {
 
-        HandStart = new Vector3((CardLayer.rect.width * 0.5f) * -1, 0, 0);
-        HandEnd = new Vector3(CardLayer.rect.width * 0.5f, 0, 0);
+        HandStart = new Vector3((HandLayer.rect.width * 0.5f) * -1, 0, 0);
+        HandEnd = new Vector3(HandLayer.rect.width * 0.5f, 0, 0);
 
         xmlManager = XmlManager.Instance;
         player = GameManager.StaticPlayer;
@@ -117,6 +117,7 @@ public class CardManager : MonoBehaviour
 
 
         SetStartDeck();
+        ConsoleAddCard(100008);
 
 
     }
@@ -198,7 +199,7 @@ public class CardManager : MonoBehaviour
             switch (card.CardState)
             {
                 case CardState.MouseEnter:
-                    pos.y = CardLayer.transform.position.y + 25;
+                    pos.y = HandLayer.transform.position.y + 25;
                     card.transform.localPosition = pos;
 
                     card.transform.localScale = new Vector3(1.2f, 1.2f, 2f);
@@ -214,7 +215,7 @@ public class CardManager : MonoBehaviour
                     break;
 
                 case CardState.MouseExit:
-                    pos.y = CardLayer.position.y * (Mathf.Abs(0.5f - value) * -1);
+                    pos.y = HandLayer.position.y * (Mathf.Abs(0.5f - value) * -1);
                     card.transform.localPosition = pos;
 
                     card.transform.localScale = new Vector3(1f, 1f, 1f);
@@ -244,6 +245,14 @@ public class CardManager : MonoBehaviour
 
         card.transform.SetParent(after, false);
 
+    }
+
+    private void ConsoleAddCard(int id)
+    {
+        CardBase data = xmlManager.TransXmlCard(xmlManager.GetCardData(id));
+        CardFrame card = MakeCard(data, HandLayer);
+        m_HandList.Add(card);
+        
     }
 
     public CardFrame MakeCard(CardBase data)
@@ -301,7 +310,7 @@ public class CardManager : MonoBehaviour
             }
             CardFrame drawCard = m_BeforeDummyList[0];
 
-            drawCard.transform.SetParent(CardLayer, false);
+            drawCard.transform.SetParent(HandLayer, false);
             m_HandList.Add(drawCard);
             m_BeforeDummyList.Remove(drawCard);
         }

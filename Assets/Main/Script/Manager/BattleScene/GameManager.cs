@@ -127,6 +127,7 @@ public class GameManager : MonoBehaviour
 
     public void GameExit()
     {
+        SaveManager.instance.DeleteSaveData();
         SceneManager.LoadScene((int)SceneType.TitleScene);
     }
 

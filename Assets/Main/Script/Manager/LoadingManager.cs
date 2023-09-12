@@ -33,9 +33,11 @@ public class LoadingManager : MonoBehaviour
 
         while (LoadDone == false)
         {
+
             timer += Time.deltaTime;
+
             float timeValue = (timer / LoadTimer) * 0.5f;
-            float loadValue =  asyncOperation.progress * 0.5f;
+            float loadValue = asyncOperation.progress * 0.5f;
             LoadSlider.value = timeValue + loadValue;
 
             if (timeValue + loadValue >= 1f)

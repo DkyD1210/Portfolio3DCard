@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoadSlider: {fileID: 368842985}
-  LoadTimer: 3
+  LoadTimer: 2
 --- !u!1 &639286504
 GameObject:
   m_ObjectHideFlags: 0

@@ -864,7 +864,7 @@ GameObject:
   - component: {fileID: 2627634316683005434}
   - component: {fileID: 5828048539238956279}
   - component: {fileID: 8526277984072900999}
-  - component: {fileID: 3002428458438364063}
+  - component: {fileID: -4455665639811585579}
   - component: {fileID: 2833054486264064179}
   m_Layer: 7
   m_Name: Enemy_X
@@ -957,7 +957,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!54 &3002428458438364063
+--- !u!54 &-4455665639811585579
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -980,7 +980,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1006,7 +1006,6 @@ MonoBehaviour:
       UnitType: 0
     Damage: 0
     IsHit: 0
-  m_AttackCoolDown: 2
 --- !u!1 &3654623977304597668
 GameObject:
   m_ObjectHideFlags: 0
