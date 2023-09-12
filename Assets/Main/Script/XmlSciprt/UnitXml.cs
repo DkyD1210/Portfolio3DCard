@@ -49,10 +49,10 @@ public class UnitEffect
     public float GetDamageReduce = 1.0f;
 
     [XmlElement("Faction")]
-    public Faction UnitFaction = Faction.Neutral;
+    public Faction UnitFaction;
 
     [XmlElement("Type")]
-    public UnitType UnitType = UnitType.Defualt;
+    public UnitType UnitType;
 }
 
 

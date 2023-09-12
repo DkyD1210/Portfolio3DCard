@@ -15,10 +15,6 @@ public class Player : MonoBehaviour
     //플레이어 이동
     public Vector3 MoveDir;
 
-    //카메라 조작
-    [SerializeField]
-    private GameObject FpsCamera;
-
     public UnitBase m_UnitBase;
 
     private float Gravity = 9.81f;

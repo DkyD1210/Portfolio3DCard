@@ -69,11 +69,11 @@ public class CardScript
     protected int _Damage;
     public virtual string CardName
     {
-        get { return "이름를 안넣어서 나오는 텍스트"; }
+        get { return "이름 없음"; }
     }
     public virtual string CardDesc
     {
-        get { return "스크립트 설명을 안넣어서 나오는 텍스트"; }
+        get { return "설명 없음"; }
     }
 
 
