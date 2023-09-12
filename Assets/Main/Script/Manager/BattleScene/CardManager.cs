@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using UnityEditor;
 using UnityEngine.Jobs;
+using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class CardManager : MonoBehaviour
     [SerializeField]
     private GameObject m_CardObject;
 
+    [SerializeField]
+    private GameObject CardRewardButton;
 
     private List<List<int>> m_RarityLIst = new List<List<int>>
     {
@@ -370,6 +373,7 @@ public class CardManager : MonoBehaviour
 
             card.CardState = CardState.CardSelect;
         }
+        CardRewardButton.SetActive(true);
     }
 
     public void AddCardReward(CardFrame card)
@@ -391,6 +395,7 @@ public class CardManager : MonoBehaviour
             Destroy(frame.gameObject);
         }
         m_RewardCardList.Clear();
+        CardRewardButton.SetActive(false);
     }
 
 

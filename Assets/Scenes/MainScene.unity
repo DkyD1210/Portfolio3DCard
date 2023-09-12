@@ -5017,6 +5017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CardObject: {fileID: 1494274585476200002, guid: 398c916c43dbf454f9295bce656d7a2a, type: 3}
+  CardRewardButton: {fileID: 1892992182}
   CardLayer: {fileID: 2014647234}
   deck: {fileID: 352778034}
   before: {fileID: 955942857}

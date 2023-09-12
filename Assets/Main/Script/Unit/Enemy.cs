@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour
         m_NavMesh = GetComponent<NavMeshAgent>();
         m_player = GameManager.StaticPlayer;
         m_UnitBase.Init();
+        m_NavMesh.speed = m_UnitBase.Speed;
+
     }
 
     void Update()
@@ -51,13 +53,12 @@ public class Enemy : MonoBehaviour
     }
 
     private void EnemyMove()
+
     {
         if (IsRunning == true)
         {
             transform.LookAt(m_player.transform);
-            m_NavMesh.speed = m_UnitBase.Speed;
             m_NavMesh.SetDestination(m_player.transform.position);
-
         }
     }
 
