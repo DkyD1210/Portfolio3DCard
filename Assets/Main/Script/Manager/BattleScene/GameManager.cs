@@ -119,6 +119,13 @@ public class GameManager : MonoBehaviour
         return bullet;
     }
 
+    public GameObject CreatBullet(Transform _trs, int listNum, Quaternion _quaternion)
+    {
+        GameObject prefab = m_BulletList[listNum];
+        GameObject bullet = Instantiate(prefab, _trs.position + new Vector3(0, 1f, 0), _trs.rotation * prefab.transform.rotation * _quaternion, UnitLayer);
+        return bullet;
+    }
+
     public void GameSaveAndExit()
     {
         SaveManager.instance.SaveGameData();

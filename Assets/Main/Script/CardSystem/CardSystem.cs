@@ -333,10 +333,8 @@ public class CardScript_SpredRangeAttack : CardScript
         int count = 6;
         for (int i = 0; i < count; i++)
         {
-            Vector3 angle = new Vector3(0, 0, 40 * i);
-            bool targetLock = Physics.Raycast(player.transform.position + new Vector3(0, 1, 0), player.transform.rotation * angle, out RaycastHit hit, 2f, LayerMask.GetMask("Enemy"));
-            Bullet bullet = GameManager.Instance.CreatBullet(player.transform, 0).GetComponent<Bullet>();
-
+            Quaternion angle = Quaternion.Euler(0, 0, -40 + (15 * i));
+            Bullet bullet = GameManager.Instance.CreatBullet(player.transform, 0, angle).GetComponent<Bullet>();
 
             bullet.Damage = _Damage;
             bullet.Speed = 20;
