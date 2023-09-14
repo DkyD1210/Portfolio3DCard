@@ -53,7 +53,6 @@ public class Enemy : MonoBehaviour
     }
 
     private void EnemyMove()
-
     {
         if (IsRunning == true)
         {

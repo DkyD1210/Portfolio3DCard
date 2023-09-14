@@ -40,13 +40,13 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (m_UnitBase.Ondie())
+        //if (m_UnitBase.Ondie())
         {
-            if (GameEnd == false)
+            //if (GameEnd == false)
             {
-                StartCoroutine(PlayerDie());
+                //StartCoroutine(PlayerDie());
             }
-            return;
+            //return;
         }
         PlayerApplyBuff();
         PlayerMove();
