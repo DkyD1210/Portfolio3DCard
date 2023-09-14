@@ -2666,7 +2666,7 @@ Transform:
   - {fileID: 6006085922710982298}
   - {fileID: 9169845234659591821}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3214753187261923208
 Animator:
@@ -2678,7 +2678,7 @@ Animator:
   m_GameObject: {fileID: 8120110641808369748}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: e5a20260669ba8541b85834eca824016, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 305ca008f57f9f741adfdf4715284e87, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2757,7 +2757,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -2783,6 +2783,7 @@ MonoBehaviour:
       UnitType: 0
     Damage: 0
     IsHit: 0
+  m_State: 0
 --- !u!1 &8284778039118326621
 GameObject:
   m_ObjectHideFlags: 0

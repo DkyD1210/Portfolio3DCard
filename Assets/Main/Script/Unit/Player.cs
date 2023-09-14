@@ -130,13 +130,14 @@ public class Player : MonoBehaviour
         m_Animator.SetTrigger("Roll");
         m_Animator.SetFloat("RollSpeed", (1.1f / _time));
         IsRoll = true;
-        Vector3 a = transform.position;
+        Vector3 position = transform.position;
+
         float timer = 0;
         while (timer <= 1)
         {
             timer += Time.deltaTime / _time;
             //m_Controller.Move(Vector3.Lerp(a, target, timer));
-            transform.position = Vector3.Lerp(a, target, timer);
+            transform.position = Vector3.Lerp(position, target, timer);
             yield return null;
         }
         IsRoll = false;

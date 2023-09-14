@@ -8909,22 +8909,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1605575825}
     m_Modifications:
-    - target: {fileID: 3214753187261923208, guid: 6d16c255f06951e4785291d0f407b3bf, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 305ca008f57f9f741adfdf4715284e87, type: 2}
-    - target: {fileID: 3214753187261923208, guid: 6d16c255f06951e4785291d0f407b3bf, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4615174577894891356, guid: 6d16c255f06951e4785291d0f407b3bf, type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4615174577894891356, guid: 6d16c255f06951e4785291d0f407b3bf, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6448391976408666781, guid: 6d16c255f06951e4785291d0f407b3bf, type: 3}
       propertyPath: m_RootOrder
       value: -1
