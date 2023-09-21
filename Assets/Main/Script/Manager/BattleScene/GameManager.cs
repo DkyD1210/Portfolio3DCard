@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     public List<GameObject> m_EnemyOBJList = new List<GameObject>();
 
-    public static Dictionary<int, GameObject> m_EnemyDic = new Dictionary<int, GameObject>();
+    [SerializeField]
+    public List<GameObject> m_BossOBJList = new List<GameObject>();
 
     [SerializeField]
     public List<GameObject> m_BulletList = new List<GameObject>();
@@ -67,11 +68,11 @@ public class GameManager : MonoBehaviour
             {
                 unitdata = unit.AddComponent<Enemy>().m_UnitBase;
             }
+
+
             int unitXmlID = 100000 + i;
             unitdata = xmlManager.TransXmlUnit(xmlManager.GetUnitData(unitXmlID));
-            m_EnemyDic.Add(unitdata.Id, unit);
             Debug.Log("¼º°ø");
-
         }
     }
 

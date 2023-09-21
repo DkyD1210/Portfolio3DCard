@@ -161,8 +161,8 @@ public class BattleManager : MonoBehaviour
 
     private void CreatBoss()
     {
-        //GameObject unit = Instantiate(gameManager.m_EnemyOBJList[2], SummonTrs.position, Quaternion.identity, EnemyLayer);
-        //m_Boss.Add(unit);
+        GameObject unit = Instantiate(gameManager.m_BossOBJList[0], SummonTrs.position, Quaternion.identity, EnemyLayer);
+        m_Boss.Add(unit);
 
         IsBossDead = false;
 

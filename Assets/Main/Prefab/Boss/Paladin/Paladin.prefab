@@ -2775,12 +2775,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UnitBase:
     _unitData:
-      Hp: 0
-      Speed: 0
-      Damage: 0
-      GetDamageReduce: 0
+      Hp: 320
+      Speed: 8
+      Damage: 17
+      GetDamageReduce: 0.9
       UnitFaction: 0
-      UnitType: 0
+      UnitType: 1
     Damage: 0
     IsHit: 0
   m_State: 0

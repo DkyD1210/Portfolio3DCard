@@ -22,7 +22,6 @@ public class Enemy : MonoBehaviour
     private RaycastHit[] m_HitTarget;
 
 
-
     void Start()
     {
         m_Animator = GetComponent<Animator>();

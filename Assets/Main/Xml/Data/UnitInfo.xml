@@ -5,7 +5,7 @@
 		<Name>플레이어</Name>
 		<UnitEffect>
 			<Hp>80</Hp>
-			<Speed>7</Speed>
+			<Speed>10</Speed>
 			<Damage>0</Damage>
 			<DamageReduce>1</DamageReduce>
 			<Faction>Player</Faction>
@@ -19,7 +19,7 @@
 		<Name>적_빨강</Name>
 		<UnitEffect>
 			<Hp>15</Hp>
-			<Speed>3</Speed>
+			<Speed>6</Speed>
 			<Damage>9</Damage>
 			<DamageReduce>1</DamageReduce>
 			<Faction>Enemy</Faction>
@@ -32,10 +32,22 @@
 		<UnitEffect>
 			<Hp>20</Hp>
 			<Speed>3</Speed>
-			<Damage>7</Damage>
+			<Damage>6</Damage>
 			<DamageReduce>1</DamageReduce>
 			<Faction>Enemy</Faction>
 			<Type>Defualt</Type>
+		</UnitEffect>
+	</Unit>
+	
+	<Unit ID="200001">
+		<Name>보스-팔라딘</Name>
+		<UnitEffect>
+			<Hp>320</Hp>
+			<Speed>8</Speed>
+			<Damage>17</Damage>
+			<DamageReduce>0.9</DamageReduce>
+			<Faction>Enemy</Faction>
+			<Type>Boss</Type>
 		</UnitEffect>
 	</Unit>
 </UnitRoots>
