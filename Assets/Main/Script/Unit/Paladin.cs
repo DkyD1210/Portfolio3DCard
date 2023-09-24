@@ -17,6 +17,9 @@ public class Boss_Paladin : MonoBehaviour
         Death,
     }
 
+    private SoundManager soundManager;
+
+
     private Animator m_Animator;
 
     private NavMeshAgent m_NavMesh;
@@ -35,6 +38,8 @@ public class Boss_Paladin : MonoBehaviour
 
     void Start()
     {
+        soundManager = SoundManager.Instance;
+
         m_Animator = GetComponent<Animator>();
         m_NavMesh = GetComponent<NavMeshAgent>();
         m_player = GameManager.StaticPlayer;
@@ -77,7 +82,7 @@ public class Boss_Paladin : MonoBehaviour
                     break;
 
                 default:
-                    float time = Random.Range(0.75f, 2.35f);
+                    float time = Random.Range(0.75f, 1.75f);
                     StartCoroutine(MoveSide(time));
                     break;
 
@@ -137,6 +142,7 @@ public class Boss_Paladin : MonoBehaviour
         {
             m_State = BossState.Defualt;
         }
+        yield return null;
     }
 
     private IEnumerator RunFoward()
@@ -173,7 +179,7 @@ public class Boss_Paladin : MonoBehaviour
                 break;
 
             default:
-                while (m_Distance >= 3.5)
+                while (m_Distance >= 2.5)
                 {
                     m_Distance = Vector3.Distance(m_player.transform.position, transform.position);
                     m_NavMesh.Move(transform.rotation * MoveDir * m_UnitBase.Speed * Time.deltaTime * 0.8f);
@@ -187,6 +193,7 @@ public class Boss_Paladin : MonoBehaviour
         {
             m_State = BossState.Defualt;
         }
+        yield return null;
     }
 
     private IEnumerator JumpAttack()
@@ -203,14 +210,14 @@ public class Boss_Paladin : MonoBehaviour
         float timer = 0f;
         while (timer <= 1f)
         {
-            timer += Time.deltaTime / 1.48f;
+            timer += Time.deltaTime / 1.2f;
 
             Vector3 JumpPos = Vector3.Lerp(position, tagetPos, timer);
             transform.position = JumpPos;
             yield return null;
         }
 
-        RaycastHit[] m_HitTarget = Physics.SphereCastAll(transform.position, transform.lossyScale.magnitude * 1.6f, Vector3.forward, 0f, LayerMask.GetMask("Player"));
+        RaycastHit[] m_HitTarget = Physics.SphereCastAll(transform.position, 1.8f, Vector3.up, 0f, LayerMask.GetMask("Player"));
         int count = m_HitTarget.Length;
         if (count >= 1)
         {
@@ -223,13 +230,15 @@ public class Boss_Paladin : MonoBehaviour
                 Debug.Log("보스 점프 공격함");
             }
         }
+        GameObject particle = GameManager.Instance.CreatParticle(transform, 0);
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.4f);
 
         if (m_State == BossState.JumpAttack)
         {
             m_State = BossState.Defualt;
         }
+        yield return null;
     }
 
 
@@ -238,18 +247,19 @@ public class Boss_Paladin : MonoBehaviour
         Debug.Log("<color=red>기본공격</color>");
         m_State = BossState.SlashAttack;
         m_Animator.SetTrigger("SlashAttack");
+        soundManager.PlaySFX(0);
 
         float timer = 0f;
         while (timer <= 1f)
         {
-            timer += Time.deltaTime / 0.45f;
+            timer += Time.deltaTime / 0.35f;
 
-            m_NavMesh.Move(transform.rotation * Vector3.forward * m_UnitBase.Speed * Time.deltaTime * 0.6f);
+            m_NavMesh.Move(transform.rotation * Vector3.forward * m_UnitBase.Speed * Time.deltaTime * 0.3f);
 
             yield return null;
         }
 
-        RaycastHit[] m_HitTarget = Physics.SphereCastAll(transform.position, transform.lossyScale.magnitude * 1.15f, Vector3.forward, 0f, LayerMask.GetMask("Player"));
+        RaycastHit[] m_HitTarget = Physics.SphereCastAll(transform.position, 1.6f, Vector3.up, 0f, LayerMask.GetMask("Player"));
         int count = m_HitTarget.Length;
         if (count >= 1)
         {
@@ -269,6 +279,7 @@ public class Boss_Paladin : MonoBehaviour
         {
             m_State = BossState.Defualt;
         }
+        yield return null;
     }
 
     private IEnumerator TurnAttack()
@@ -288,11 +299,11 @@ public class Boss_Paladin : MonoBehaviour
 
             m_NavMesh.Move(transform.rotation * Vector3.forward * m_UnitBase.Speed * Time.deltaTime * 1.5f);
 
-            if (CanAttack == true)
+            RaycastHit[] m_HitTarget = Physics.SphereCastAll(transform.position, 1.2f, Vector3.up, 0f, LayerMask.GetMask("Player"));
+            int count = m_HitTarget.Length;
+            if (count >= 1)
             {
-                RaycastHit[] m_HitTarget = Physics.SphereCastAll(transform.position, transform.lossyScale.magnitude * 1.1f, Vector3.forward, 0f, LayerMask.GetMask("Player"));
-                int count = m_HitTarget.Length;
-                if (count >= 1)
+                if (CanAttack == true)
                 {
                     for (int i = count - 1; i > -1; i--)
                     {
@@ -315,6 +326,7 @@ public class Boss_Paladin : MonoBehaviour
         {
             m_State = BossState.Defualt;
         }
+        yield return null;
     }
 
     private IEnumerator BossDie()
@@ -322,7 +334,9 @@ public class Boss_Paladin : MonoBehaviour
         m_State = BossState.Death;
         m_Animator.SetBool("Die", true);
         yield return new WaitForSeconds(3.3f);
-
+        BattleManager.Instance.IsBossDead = true;
+        yield return null;
     }
+
 
 }

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.UIElements;
-using UnityEngine.Analytics;
 
 public class UIManager : MonoBehaviour
 {
@@ -30,21 +28,27 @@ public class UIManager : MonoBehaviour
     private GameObject BossImage;
 
 
+
+
     [Header("플레이어 관련")]
+    [SerializeField]
+    private GameObject PlayerLayer;
+
+    [SerializeField]
+    private Slider PlayerHpBar;
+
+    [SerializeField]
+    private TMP_Text PlayerHPText;
+
     private Player player;
 
     private int PlayerMaxHP;
 
     private int PlayerHP;
 
-    [SerializeField]
-    private UnityEngine.UI.Slider PlayerHpBar;
-
-    [SerializeField]
-    private TMP_Text PlayerHPText;
-
 
     [Header("카드 관련")]
+
     [SerializeField]
     private GameObject CardLayer;
 
@@ -64,9 +68,12 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject WaveEndUI;
-    
+
     [SerializeField]
     private GameObject GameEndUI;
+
+    [SerializeField]
+    private GameObject GameWinUI;
 
     private void Awake()
     {
@@ -148,11 +155,37 @@ public class UIManager : MonoBehaviour
         PlayerHpBar.value = _hp;
     }
 
-    public void GameEnd()
+    public void GameEndBefore()
     {
+        PlayerLayer.SetActive(false);
         CardLayer.SetActive(false);
+    }
+
+    public void GameEndAfter()
+    {
         GameEndUI.SetActive(true);
         Debug.Log("게임종료");
+    }
+
+    public IEnumerator GameWin()
+    {
+        TimeManager.Instance.SetTimeSet(e_GameTime.Slow);
+
+        GameWinUI.SetActive(true);
+
+        Image image = GameWinUI.GetComponent<Image>();
+        Color alpha = image.color;
+
+        while (image.color.a >= 1)
+        {
+            alpha.a += Time.deltaTime / 1.5f;
+            image.color = alpha;
+
+            yield return null;
+        }
+
+        TimeManager.Instance.SetTimeSet(e_GameTime.Stop);
+        yield return null;
     }
 
     #region 카드 UI 세팅

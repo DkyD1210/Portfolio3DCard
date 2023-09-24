@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
 
     private Animator m_Animator;
 
+    private AudioSource m_AudioSource;
+
     private Player m_player;
 
     public UnitBase m_UnitBase;
@@ -26,7 +28,10 @@ public class Enemy : MonoBehaviour
     {
         m_Animator = GetComponent<Animator>();
         m_NavMesh = GetComponent<NavMeshAgent>();
+        m_AudioSource = GetComponent<AudioSource>();
         m_player = GameManager.StaticPlayer;
+
+
         m_UnitBase.Init();
         m_NavMesh.speed = m_UnitBase.Speed;
 
@@ -115,6 +120,7 @@ public class Enemy : MonoBehaviour
         {
             IsRunning = false;
             m_Animator.SetTrigger("Hit");
+            GameObject particle = GameManager.Instance.CreatParticle(transform, 1, transform.position + new Vector3(0f, 1f, 0f));
             yield return new WaitForSeconds(1f);
             IsRunning = true;
             m_Animator.SetTrigger("Running");

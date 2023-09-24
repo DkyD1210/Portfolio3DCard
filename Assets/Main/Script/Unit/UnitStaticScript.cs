@@ -15,6 +15,9 @@ public static class UnitBaseScrpit
             case "Enemy":
                 resultBase = _unit.GetComponent<Enemy>().m_UnitBase;
                 break;
+            case "Paladin":
+                resultBase = _unit.GetComponent<Boss_Paladin>().m_UnitBase;
+                break;
             default:
                 Debug.LogError("플레이어와 에네미 둘 다 없음");
                 break;

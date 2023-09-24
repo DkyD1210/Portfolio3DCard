@@ -998,7 +998,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UnitBase:
     _unitData:
-      Hp: 15
+      Hp: 5
       Speed: 3
       Damage: 9
       GetDamageReduce: 1

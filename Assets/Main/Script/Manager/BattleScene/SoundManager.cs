@@ -8,16 +8,16 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance;
 
 
-    public List<AudioClip> m_BGM;
+    public List<AudioClip> m_BGMList;
 
-    public List<AudioClip> m_SFX;
+    public List<AudioClip> m_SFXList;
 
 
-
+    [SerializeField]
     private AudioSource m_BGMPlayer;
 
-
-    private AudioSource[] m_SFXPlayer;
+    [SerializeField]
+    private List<AudioSource> m_SFXPlayer;
 
 
     private void Awake()
@@ -35,53 +35,47 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this);
+        InitPlayer();
 
+        PlayBGM(0);
+    }
+
+
+    private void InitPlayer()
+    {
         m_BGMPlayer = GetComponent<AudioSource>();
+        m_SFXPlayer.AddRange(GetComponentsInChildren<AudioSource>());
+        m_SFXPlayer.Remove(m_BGMPlayer);
+    }
 
-
-
-        m_BGMPlayer.clip = m_BGM[0];
+    public void PlayBGM(int _Num)
+    {
+        m_BGMPlayer.clip = m_BGMList[_Num];
         m_BGMPlayer.Play();
-
     }
 
 
-    void Update()
+    public void PlaySFX(int _Num)
     {
-        //InitSFXPlayer();
-    }
+        AudioClip sfx = m_SFXList[_Num];
 
-    private void InitSFXPlayer()
-    {
-        int count = m_SFXPlayer.Length;
-        for(int i = 0; i < count; i++)
+        int count = m_SFXPlayer.Count;
+        for (int i = 0; i < count; i++)
         {
-            if(m_SFXPlayer[i].isPlaying == false)
+            AudioSource audioSource = m_SFXPlayer[i];
+            if (audioSource.isPlaying == false)
             {
-                Destroy(m_SFXPlayer[i]);
+                audioSource.clip = sfx;
+                audioSource.Play();
+                return;
             }
         }
-    }
 
-    public void MusicPlaye(AudioClip _bgm)
-    {
-        AudioSource sfx = m_BGMPlayer;
-        sfx.clip = _bgm;
-        sfx.Play();
+        AudioSource source = gameObject.AddComponent<AudioSource>();
+        m_SFXPlayer.Add(source);
+        source.clip = sfx;
+        source.Play();
 
-    }
-    
-
-    public void SFXPlaye(AudioClip _sfx)
-    {
-
-        AudioSource sfx = m_SFXPlayer[0];
-        if(sfx.clip != _sfx)
-        { 
-            sfx = gameObject.AddComponent<AudioSource>();
-            sfx.clip = _sfx;
-        }
-        
     }
 
 }

@@ -109,7 +109,7 @@ public class CardScript_BaseMeleeAttack : CardScript
     {
         base.OnUse(player, cardBase);
         Vector3 hitBox = new Vector3(1f, 1f, 4f);
-        RaycastHit[] hit = Physics.BoxCastAll(player.transform.position + new Vector3(0, 1, 0), hitBox * 2, player.transform.rotation * Vector3.forward, Quaternion.identity, 2f, LayerMask.GetMask("Enemy"));
+        RaycastHit[] hit = Physics.BoxCastAll(player.transform.position + new Vector3(0, 1, 0), hitBox, player.transform.rotation * Vector3.forward, Quaternion.identity, 2f, LayerMask.GetMask("Enemy"));
         int count = hit.Length;
         for (int i = count - 1; i >= 0; i--)
         {

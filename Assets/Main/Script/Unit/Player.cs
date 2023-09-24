@@ -40,13 +40,13 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //if (m_UnitBase.Ondie())
+        if (m_UnitBase.Ondie())
         {
-            //if (GameEnd == false)
+            if (GameEnd == false)
             {
-                //StartCoroutine(PlayerDie());
+                StartCoroutine(PlayerDie());
             }
-            //return;
+            return;
         }
         PlayerApplyBuff();
         PlayerMove();
@@ -142,17 +142,23 @@ public class Player : MonoBehaviour
         }
         IsRoll = false;
         m_Animator.SetTrigger("Roll");
+        yield return null;
     }
 
     private IEnumerator PlayerDie()
     {
         GameEnd = true;
+        BattleManager.Instance.GameEnd = true;
         m_Animator.SetBool("Die", GameEnd);
         TimeManager.Instance.SetTimeSet(e_GameTime.Slow);
-        yield return new WaitForSeconds(3f);
-        TimeManager.Instance.SetTimeSet(e_GameTime.Stop);
-        UIManager.Instance.GameEnd();
+        SoundManager.Instance.PlayBGM(1);
+        UIManager.Instance.GameEndBefore();
 
+        yield return new WaitForSeconds(3f);
+
+        TimeManager.Instance.SetTimeSet(e_GameTime.Stop);
+        UIManager.Instance.GameEndAfter();
+        yield return null;
     }
 }
 

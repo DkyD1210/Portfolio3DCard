@@ -2643,7 +2643,7 @@ GameObject:
   - component: {fileID: 6221343589172396867}
   m_Layer: 7
   m_Name: Paladin
-  m_TagString: Enemy
+  m_TagString: Paladin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2681,7 +2681,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 305ca008f57f9f741adfdf4715284e87, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -2775,15 +2775,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UnitBase:
     _unitData:
-      Hp: 320
+      Hp: 1
       Speed: 8
       Damage: 17
       GetDamageReduce: 0.9
       UnitFaction: 0
       UnitType: 1
-    Damage: 0
+    Damage: 17
     IsHit: 0
   m_State: 0
+  m_Distance: 0
 --- !u!1 &8284778039118326621
 GameObject:
   m_ObjectHideFlags: 0

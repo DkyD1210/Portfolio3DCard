@@ -45,10 +45,13 @@ public class BattleManager : MonoBehaviour
 
     private float m_Timer;
 
-    private int m_UnitTimer;
+    private int m_EnemySpawnCount;
 
-    private bool IsBossDead = false;
+    public bool IsBossDead = false;
 
+    public bool GameEnd = false;
+
+    public bool Endless = false;
 
     private Transform PlayerTrs;
 
@@ -90,9 +93,14 @@ public class BattleManager : MonoBehaviour
     private void Update()
     {
         UpdateWave();
-        if (Input.GetKeyDown(KeyCode.F) && _wavestate == e_WaveState.Prepare)
+
+        if (Input.GetKeyUp(KeyCode.N))
         {
             WaveStart();
+        }
+        if (Input.GetKeyUp(KeyCode.M))
+        {
+            WaveEnd();
         }
     }
 
@@ -102,6 +110,10 @@ public class BattleManager : MonoBehaviour
 
         _waveCount++;
         Debug.Log(_waveCount.ToString());
+
+        WaveTime = 25 + ((int)(_waveCount * 0.5f) * 5);
+        m_EnemySpawnCount = 10 + (_waveCount * 3);
+
         if (_waveCount % 5 == 0)
         {
             _wavestate = e_WaveState.BossWave;
@@ -110,15 +122,19 @@ public class BattleManager : MonoBehaviour
         else
         {
             _wavestate = e_WaveState.EnemyWave;
+            StartCoroutine(CreateUnit());
         }
-        //WaveTime = 30 + ((_waveCount / 5) * 5);
+
         m_Timer = 0;
-        m_UnitTimer = 0;
         cardManager.HandSupply();
     }
 
     private void UpdateWave()
     {
+        if (GameEnd == true)
+        {
+            return;
+        }
         switch (_wavestate)
         {
             case e_WaveState.Prepare:
@@ -130,13 +146,17 @@ public class BattleManager : MonoBehaviour
                 {
                     WaveEnd();
                 }
-                CreateUnit();
                 break;
             case e_WaveState.BossWave:
                 if (IsBossDead == true)
                 {
                     IsBossDead = false;
                     WaveEnd();
+
+                    if (Endless == false)
+                    {
+                        StartCoroutine(UIManager.Instance.GameWin());
+                    }
                 }
                 break;
 
@@ -145,35 +165,36 @@ public class BattleManager : MonoBehaviour
     }
 
 
-    private void CreateUnit()
+    private IEnumerator CreateUnit()
     {
+        float unitTime = 10f / m_EnemySpawnCount;
 
-        if (m_UnitTimer != (int)m_Timer)
+        int unitCount = 0;
+
+        while (m_EnemySpawnCount > unitCount)
         {
             int count = gameManager.m_EnemyOBJList.Count;
             int rand = Random.Range(0, count);
 
             GameObject unit = Instantiate(gameManager.m_EnemyOBJList[rand], SummonTrs.position, Quaternion.identity, EnemyLayer);
             m_Enemy.Add(unit);
+
+            unitCount++;
+
+            yield return new WaitForSeconds(unitTime);
         }
-        m_UnitTimer = (int)m_Timer;
+
+        yield return null;
     }
 
     private void CreatBoss()
     {
-        GameObject unit = Instantiate(gameManager.m_BossOBJList[0], SummonTrs.position, Quaternion.identity, EnemyLayer);
+        GameObject unit = Instantiate(gameManager.m_BossOBJList[0], EnemyLayer.position + new Vector3(0, 2, 10), Quaternion.identity, EnemyLayer);
         m_Boss.Add(unit);
 
         IsBossDead = false;
 
-        Invoke("a", 20f);
     }
-
-    private void a()
-    {
-        IsBossDead = true;
-    }
-
 
     private void WaveEnd()
     {

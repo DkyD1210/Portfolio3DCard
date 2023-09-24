@@ -23,14 +23,13 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject UIBackGround;
 
-    [SerializeField]
-    public List<GameObject> m_EnemyOBJList = new List<GameObject>();
+    public List<GameObject> m_EnemyOBJList;
 
-    [SerializeField]
-    public List<GameObject> m_BossOBJList = new List<GameObject>();
+    public List<GameObject> m_BossOBJList;
 
-    [SerializeField]
-    public List<GameObject> m_BulletList = new List<GameObject>();
+    public List<GameObject> m_BulletList;
+
+    public List<GameObject> m_ParticleList;
 
     private void Awake()
     {
@@ -63,16 +62,16 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i > count; i++)
         {
             GameObject unit = m_EnemyOBJList[i];
-            UnitBase unitdata = unit.GetComponent<Enemy>().m_UnitBase;
-            if (unitdata == null)
+            Enemy enemy = unit.GetComponent<Enemy>();
+            if (enemy == null)
             {
-                unitdata = unit.AddComponent<Enemy>().m_UnitBase;
+                enemy = unit.AddComponent<Enemy>();
             }
 
-
             int unitXmlID = 100000 + i;
-            unitdata = xmlManager.TransXmlUnit(xmlManager.GetUnitData(unitXmlID));
-            Debug.Log("¼º°ø");
+            UnitBase unitdata = xmlManager.TransXmlUnit(xmlManager.GetUnitData(unitXmlID));
+
+            enemy.m_UnitBase = unitdata;
         }
     }
 
@@ -126,6 +125,21 @@ public class GameManager : MonoBehaviour
         GameObject bullet = Instantiate(prefab, _trs.position + new Vector3(0, 1f, 0), _trs.rotation * prefab.transform.rotation * _quaternion, UnitLayer);
         return bullet;
     }
+
+    public GameObject CreatParticle(Transform _trs, int listNum)
+    {
+        GameObject prefab = m_ParticleList[listNum];
+        GameObject particle = Instantiate(prefab, _trs.position, Quaternion.identity, _trs); 
+        return particle;
+    }
+
+    public GameObject CreatParticle(Transform _trs, int listNum, Vector3 _pos)
+    {
+        GameObject prefab = m_ParticleList[listNum];
+        GameObject particle = Instantiate(prefab, _pos, Quaternion.identity, _trs);
+        return particle;
+    }
+
 
     public void GameSaveAndExit()
     {
