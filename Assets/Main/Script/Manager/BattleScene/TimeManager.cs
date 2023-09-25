@@ -51,6 +51,11 @@ public class TimeManager : MonoBehaviour
 
     private void SetTimeScale()
     {
+        if(UIManager.UIBackGround.activeSelf == true)
+        {
+            Time.timeScale = 0f;
+            return;
+        }
         m_GameTime = (float)TimeSet / 10;
         Time.timeScale = m_GameTime;
     }

@@ -25,6 +25,9 @@ public class UIManager : MonoBehaviour
     private TMP_Text WaveCountDown;
 
     [SerializeField]
+    private TMP_Text WaveCountPanel;
+
+    [SerializeField]
     private GameObject BossImage;
 
 
@@ -92,7 +95,6 @@ public class UIManager : MonoBehaviour
         UIBackGround = _UIBackGround;
         battleManager = BattleManager.Instance;
         player = GameManager.StaticPlayer;
-        InitWaveUI();
 
     }
 
@@ -115,12 +117,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void InitWaveUI()
-    {
-    }
-
     private void UpdateWaveUI()
     {
+
+        WaveCountPanel.text = $"¿þÀÌºê : {BattleManager.WaveCount}";
 
         switch (BattleManager.BattleState)
         {

@@ -12,6 +12,7 @@ public class BattleManager : MonoBehaviour
 
     private GameManager gameManager;
 
+    private UIManager uiManager;
 
     [SerializeField]
     private List<GameObject> m_AllUnits = new List<GameObject>();
@@ -78,6 +79,7 @@ public class BattleManager : MonoBehaviour
     {
         cardManager = CardManager.Instance;
         gameManager = GameManager.Instance;
+        uiManager = UIManager.Instance;
         PlayerTrs = GameManager.StaticPlayer.transform;
 
         if (SaveManager.instance.IsSaveData == true)
@@ -86,7 +88,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            _waveCount = 0;
+            _waveCount = 1;
         }
     }
 
@@ -108,7 +110,6 @@ public class BattleManager : MonoBehaviour
     {
         cardManager.ClearCardReward();
 
-        _waveCount++;
         Debug.Log(_waveCount.ToString());
 
         WaveTime = 25 + ((int)(_waveCount * 0.5f) * 5);
@@ -155,7 +156,7 @@ public class BattleManager : MonoBehaviour
 
                     if (Endless == false)
                     {
-                        StartCoroutine(UIManager.Instance.GameWin());
+                        StartCoroutine(uiManager.GameWin());
                     }
                 }
                 break;
@@ -209,9 +210,12 @@ public class BattleManager : MonoBehaviour
         Player player = GameManager.StaticPlayer;
         player.m_UnitBase.ClearBuff();
         cardManager.ClrearDeck();
+
+        _waveCount++;
+
         cardManager.SetCardReward(3);
         _wavestate = e_WaveState.Prepare;
-        UIManager.Instance.ShowWaveEndUI();
+        uiManager.ShowWaveEndUI();
     }
 
     public int GetCount()
