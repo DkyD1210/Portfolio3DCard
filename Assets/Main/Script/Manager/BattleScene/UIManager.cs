@@ -169,21 +169,21 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator GameWin()
     {
-        TimeManager.Instance.SetTimeSet(e_GameTime.Slow);
-
         GameWinUI.SetActive(true);
+        ShowWaveEndUI();
 
         Image image = GameWinUI.GetComponent<Image>();
         Color alpha = image.color;
 
-        while (image.color.a >= 1)
+        while (image.color.a < 1)
         {
-            alpha.a += Time.deltaTime / 1.5f;
+            alpha.a += Time.deltaTime;
             image.color = alpha;
 
             yield return null;
         }
 
+        ShowWaveEndUI();
         TimeManager.Instance.SetTimeSet(e_GameTime.Stop);
         yield return null;
     }

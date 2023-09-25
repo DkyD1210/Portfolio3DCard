@@ -108,11 +108,17 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator EnemyHitAnima()
     {
+        GameObject particle = GameManager.Instance.CreatParticle(transform, 1, transform.position + new Vector3(0f, 1f, 0f));
+
         if (m_UnitBase.Ondie() == true)
         {
             UnitDie = true;
             m_Animator.applyRootMotion = true;
             m_Animator.SetTrigger("Die");
+
+            m_NavMesh.enabled = false;
+            this.enabled = false;
+
             yield return new WaitForSeconds(3f);
             Destroy(gameObject);
         }
@@ -120,7 +126,6 @@ public class Enemy : MonoBehaviour
         {
             IsRunning = false;
             m_Animator.SetTrigger("Hit");
-            GameObject particle = GameManager.Instance.CreatParticle(transform, 1, transform.position + new Vector3(0f, 1f, 0f));
             yield return new WaitForSeconds(1f);
             IsRunning = true;
             m_Animator.SetTrigger("Running");

@@ -117,11 +117,13 @@ public class BattleManager : MonoBehaviour
 
         if (_waveCount % 5 == 0)
         {
+            SoundManager.Instance.PlayBGM(2);
             _wavestate = e_WaveState.BossWave;
             CreatBoss();
         }
         else
         {
+            SoundManager.Instance.PlayBGM(1);
             _wavestate = e_WaveState.EnemyWave;
             StartCoroutine(CreateUnit());
         }
@@ -174,6 +176,10 @@ public class BattleManager : MonoBehaviour
 
         while (m_EnemySpawnCount > unitCount)
         {
+            if(BattleState == e_WaveState.BossWave)
+            {
+                break;
+            }
             int count = gameManager.m_EnemyOBJList.Count;
             int rand = Random.Range(0, count);
 

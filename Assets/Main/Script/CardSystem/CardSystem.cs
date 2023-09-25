@@ -108,8 +108,8 @@ public class CardScript_BaseMeleeAttack : CardScript
     public override void OnUse(Player player, CardBase cardBase)
     {
         base.OnUse(player, cardBase);
-        Vector3 hitBox = new Vector3(1f, 1f, 4f);
-        RaycastHit[] hit = Physics.BoxCastAll(player.transform.position + new Vector3(0, 1, 0), hitBox, player.transform.rotation * Vector3.forward, Quaternion.identity, 2f, LayerMask.GetMask("Enemy"));
+        Vector3 hitBox = new Vector3(1f, 1f, 3f);
+        RaycastHit[] hit = Physics.BoxCastAll(player.transform.position + new Vector3(0, 1, 0), hitBox, player.transform.rotation * Vector3.forward, Quaternion.identity, 0f, LayerMask.GetMask("Enemy"));
         int count = hit.Length;
         for (int i = count - 1; i >= 0; i--)
         {
@@ -144,11 +144,17 @@ class CardScript_BaseRangeAttack : CardScript
     public override void OnUse(Player player, CardBase cardBase)
     {
         base.OnUse(player, cardBase);
-        bool targetLock = Physics.Raycast(player.transform.position + new Vector3(0, 1, 0), player.transform.rotation * Vector3.forward, out RaycastHit hit, 2f, LayerMask.GetMask("Enemy"));
+        Vector3 hitBox = new Vector3(5f, 5f, 1f);
+        bool targetLock = Physics.BoxCast(player.transform.position + new Vector3(0, 1, 0), hitBox, player.transform.rotation * Vector3.forward, out RaycastHit hit, Quaternion.identity, 20f, LayerMask.GetMask("Enemy"));
         Bullet bullet = GameManager.Instance.CreatBullet(player.transform, 0).GetComponent<Bullet>();
-        if (targetLock)
+        if (targetLock == true)
         {
             bullet.transform.LookAt(hit.transform);
+            bullet.transform.Rotate(new Vector3(90f, 0, 0));
+        }
+        else
+        {
+
         }
         bullet.Damage = _Damage;
         bullet.Speed = 20;
@@ -268,8 +274,8 @@ public class CardScript_SlashAttack : CardScript
     public override void OnUse(Player player, CardBase cardBase)
     {
         base.OnUse(player, cardBase);
-        Vector3 hitBox = new Vector3(3f, 3f, 1f);
-        RaycastHit[] hit = Physics.BoxCastAll(m_Player.transform.position + new Vector3(0, 1, 0), hitBox * 2, m_Player.transform.rotation * Vector3.forward, Quaternion.identity, 2f, LayerMask.GetMask("Enemy"));
+        Vector3 hitBox = new Vector3(3f, 3f, 2f);
+        RaycastHit[] hit = Physics.BoxCastAll(m_Player.transform.position + new Vector3(0, 1, 0), hitBox, m_Player.transform.rotation * Vector3.forward, Quaternion.identity, 0f, LayerMask.GetMask("Enemy"));
         int count = hit.Length;
         for (int i = count - 1; i >= 0; i--)
         {
@@ -297,7 +303,8 @@ public class CardScript_DrawOneCard : CardScript
     {
         get
         {
-            return $"카드를 한장 뽑습니다";
+            return $"전방의 적에게 피해를 8 줍니다\n카드를 한장 뽑습니다";
+
         }
     }
 
@@ -306,6 +313,19 @@ public class CardScript_DrawOneCard : CardScript
     {
         base.OnUse(player, cardBase);
         CardManager.Instance.DrawCard(1);
+
+        base.OnUse(player, cardBase);
+        Vector3 hitBox = new Vector3(1f, 1f, 3f);
+        RaycastHit[] hit = Physics.BoxCastAll(player.transform.position + new Vector3(0, 1, 0), hitBox, player.transform.rotation * Vector3.forward, Quaternion.identity, 0f, LayerMask.GetMask("Enemy"));
+        int count = hit.Length;
+        for (int i = count - 1; i >= 0; i--)
+        {
+            GameObject unit = hit[i].transform.gameObject;
+            UnitBase target = unit.GetUnitBase();
+            target.LoseHp(_Damage);
+            Debug.Log("플레이어 공격!");
+
+        }
     }
 
 }
@@ -343,4 +363,30 @@ public class CardScript_SpredRangeAttack : CardScript
     }
 
 }
+
+class CardScript_Heal : CardScript
+{
+    public override string CardName
+    {
+        get
+        {
+            return "체력 회복";
+        }
+    }
+    public override string CardDesc
+    {
+        get
+        {
+            return $"체력을 3 회복합니다";
+        }
+    }
+    public override void OnUse(Player player, CardBase cardBase)
+    {
+        base.OnUse(player, cardBase);
+        player.m_UnitBase.RecoverHP(cardBase.Barrier);
+
+    }
+
+}
+
 

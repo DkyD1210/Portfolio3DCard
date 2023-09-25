@@ -19,7 +19,7 @@
 		<Name>적_빨강</Name>
 		<UnitEffect>
 			<Hp>15</Hp>
-			<Speed>4</Speed>
+			<Speed>6</Speed>
 			<Damage>9</Damage>
 			<DamageReduce>1</DamageReduce>
 			<Faction>Enemy</Faction>
@@ -31,7 +31,7 @@
 		<Name>적_파랑</Name>
 		<UnitEffect>
 			<Hp>20</Hp>
-			<Speed>4</Speed>
+			<Speed>6</Speed>
 			<Damage>6</Damage>
 			<DamageReduce>1</DamageReduce>
 			<Faction>Enemy</Faction>
@@ -39,11 +39,11 @@
 		</UnitEffect>
 	</Unit>
 	
-	<Unit ID="100003">
+	<Unit ID="200001">
 		<Name>보스-팔라딘</Name>
 		<UnitEffect>
-			<Hp>320</Hp> 
-			<Speed>3</Speed>
+			<Hp>180</Hp> 
+			<Speed>4</Speed>
 			<Damage>17</Damage>
 			<DamageReduce>0.9</DamageReduce>
 			<Faction>Enemy</Faction>

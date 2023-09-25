@@ -50,7 +50,19 @@ public class SoundManager : MonoBehaviour
 
     public void PlayBGM(int _Num)
     {
-        m_BGMPlayer.clip = m_BGMList[_Num];
+        if (_Num >= m_BGMList.Count)
+        {
+            m_BGMPlayer.Stop();
+            return;
+        }
+
+        AudioClip BGM = m_BGMList[_Num];
+
+        if (m_BGMPlayer.clip == BGM)
+        {
+            return;
+        }
+        m_BGMPlayer.clip = BGM;
         m_BGMPlayer.Play();
     }
 

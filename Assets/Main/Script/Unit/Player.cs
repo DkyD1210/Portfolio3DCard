@@ -151,7 +151,9 @@ public class Player : MonoBehaviour
         BattleManager.Instance.GameEnd = true;
         m_Animator.SetBool("Die", GameEnd);
         TimeManager.Instance.SetTimeSet(e_GameTime.Slow);
-        SoundManager.Instance.PlayBGM(1);
+        SoundManager.Instance.PlaySFX(2);
+        SoundManager.Instance.PlaySFX(3);
+        SoundManager.Instance.PlayBGM(99);
         UIManager.Instance.GameEndBefore();
 
         yield return new WaitForSeconds(3f);

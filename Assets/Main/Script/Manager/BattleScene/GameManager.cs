@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SetEnemy();
+        SetBoss();
     }
 
 
@@ -73,7 +74,28 @@ public class GameManager : MonoBehaviour
 
             enemy.m_UnitBase = unitdata;
         }
+
+
+        Boss_Paladin paladin = m_BossOBJList[0].GetComponent<Boss_Paladin>();
+        UnitBase unitdata2 = xmlManager.TransXmlUnit(xmlManager.GetUnitData(200001));
+
+        paladin.m_UnitBase = unitdata2;
+
     }
+
+    private void SetBoss()
+    {
+        int count = m_BossOBJList.Count;
+        for (int i = 0; i > count; i++)
+        {
+            GameObject unit = m_EnemyOBJList[i];
+            Boss_Paladin paladin = unit.GetComponent<Boss_Paladin>();
+            UnitBase unitdata = xmlManager.TransXmlUnit(xmlManager.GetUnitData(200001));
+
+            paladin.m_UnitBase = unitdata;
+        }
+    }
+
 
     private void SetPlayer()
     {
@@ -129,7 +151,7 @@ public class GameManager : MonoBehaviour
     public GameObject CreatParticle(Transform _trs, int listNum)
     {
         GameObject prefab = m_ParticleList[listNum];
-        GameObject particle = Instantiate(prefab, _trs.position, Quaternion.identity, _trs); 
+        GameObject particle = Instantiate(prefab, _trs.position, Quaternion.identity, _trs);
         return particle;
     }
 

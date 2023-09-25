@@ -102,6 +102,20 @@ public class UnitBase
         return resultHp;
     }
 
+    public int RecoverHP(int heal)
+    {
+        if ((hp + heal) >= MaxHp)
+        {
+            hp = MaxHp;
+        }
+        else
+        {
+            hp += heal;
+        }
+
+        return hp;
+    }
+
     public bool Ondie()
     {
         return hp <= 0;

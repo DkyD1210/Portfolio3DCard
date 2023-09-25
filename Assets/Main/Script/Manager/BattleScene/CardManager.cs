@@ -252,7 +252,7 @@ public class CardManager : MonoBehaviour
         CardBase data = xmlManager.TransXmlCard(xmlManager.GetCardData(id));
         CardFrame card = MakeCard(data, HandLayer);
         m_HandList.Add(card);
-        
+
     }
 
     public CardFrame MakeCard(CardBase data)
@@ -360,13 +360,17 @@ public class CardManager : MonoBehaviour
             {
                 listNum = (int)Rarity.Rare;
             }
-            else if (randomNum >= 60)
+            else if (randomNum >= 75)
             {
                 listNum = (int)Rarity.Uncommon;
             }
-            else
+            else if (randomNum >= 45)
             {
                 listNum = (int)Rarity.Common;
+            }
+            else
+            {
+                listNum = (int)Rarity.Basic;
             }
 
 

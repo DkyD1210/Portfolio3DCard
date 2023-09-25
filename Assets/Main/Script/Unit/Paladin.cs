@@ -69,6 +69,12 @@ public class Boss_Paladin : MonoBehaviour
             transform.LookAt(m_player.transform);
         }
 
+        if (m_Distance >= 30)
+        {
+            StartCoroutine(RunFoward());
+            return;
+        }
+
         if (m_State == BossState.Defualt)
         {
             MoveDir = Vector3.zero;
@@ -104,6 +110,11 @@ public class Boss_Paladin : MonoBehaviour
             return;
         }
 
+        if (m_UnitBase.IsHit == true)
+        {
+            GameObject particle = GameManager.Instance.CreatParticle(transform, 1, transform.position + new Vector3(0f, 1f, 0f));
+            m_UnitBase.IsHit = false;
+        }
     }
 
     private IEnumerator MoveSide(float _Time)
@@ -163,7 +174,7 @@ public class Boss_Paladin : MonoBehaviour
                 while (m_Distance >= 10)
                 {
                     m_Distance = Vector3.Distance(m_player.transform.position, transform.position);
-                    m_NavMesh.Move(transform.rotation * MoveDir * m_UnitBase.Speed * Time.deltaTime * 0.8f);
+                    m_NavMesh.Move(transform.rotation * MoveDir * m_UnitBase.Speed * Time.deltaTime);
                     yield return null;
                 }
                 StartCoroutine(JumpAttack());
@@ -172,17 +183,17 @@ public class Boss_Paladin : MonoBehaviour
                 while (m_Distance >= 6)
                 {
                     m_Distance = Vector3.Distance(m_player.transform.position, transform.position);
-                    m_NavMesh.Move(transform.rotation * MoveDir * m_UnitBase.Speed * Time.deltaTime * 0.8f);
+                    m_NavMesh.Move(transform.rotation * MoveDir * m_UnitBase.Speed * Time.deltaTime);
                     yield return null;
                 }
                 StartCoroutine(TurnAttack());
                 break;
 
             default:
-                while (m_Distance >= 2.5)
+                while (m_Distance >= 3)
                 {
                     m_Distance = Vector3.Distance(m_player.transform.position, transform.position);
-                    m_NavMesh.Move(transform.rotation * MoveDir * m_UnitBase.Speed * Time.deltaTime * 0.8f);
+                    m_NavMesh.Move(transform.rotation * MoveDir * m_UnitBase.Speed * Time.deltaTime * 1.2f);
                     yield return null;
                 }
                 StartCoroutine(SlashAttack());
@@ -217,7 +228,7 @@ public class Boss_Paladin : MonoBehaviour
             yield return null;
         }
 
-        RaycastHit[] m_HitTarget = Physics.SphereCastAll(transform.position, 1.8f, Vector3.up, 0f, LayerMask.GetMask("Player"));
+        RaycastHit[] m_HitTarget = Physics.SphereCastAll(transform.position + new Vector3(0f, 1f, 0f), 4f, Vector3.forward, 0f, LayerMask.GetMask("Player"));
         int count = m_HitTarget.Length;
         if (count >= 1)
         {
@@ -252,14 +263,14 @@ public class Boss_Paladin : MonoBehaviour
         float timer = 0f;
         while (timer <= 1f)
         {
-            timer += Time.deltaTime / 0.35f;
+            timer += Time.deltaTime / 0.5f;
 
             m_NavMesh.Move(transform.rotation * Vector3.forward * m_UnitBase.Speed * Time.deltaTime * 0.3f);
 
             yield return null;
         }
 
-        RaycastHit[] m_HitTarget = Physics.SphereCastAll(transform.position, 1.6f, Vector3.up, 0f, LayerMask.GetMask("Player"));
+        RaycastHit[] m_HitTarget = Physics.SphereCastAll(transform.position + new Vector3(0f, 1f, 0f), 3.2f, Vector3.forward, 0f, LayerMask.GetMask("Player"));
         int count = m_HitTarget.Length;
         if (count >= 1)
         {
@@ -297,9 +308,9 @@ public class Boss_Paladin : MonoBehaviour
             timer += Time.deltaTime / 1.05f;
 
 
-            m_NavMesh.Move(transform.rotation * Vector3.forward * m_UnitBase.Speed * Time.deltaTime * 1.5f);
+            m_NavMesh.Move(transform.rotation * Vector3.forward * m_UnitBase.Speed * Time.deltaTime * 2.4f);
 
-            RaycastHit[] m_HitTarget = Physics.SphereCastAll(transform.position, 1.2f, Vector3.up, 0f, LayerMask.GetMask("Player"));
+            RaycastHit[] m_HitTarget = Physics.SphereCastAll(transform.position + new Vector3(0f, 1f, 0f), 2f, Vector3.forward, 0f, LayerMask.GetMask("Player"));
             int count = m_HitTarget.Length;
             if (count >= 1)
             {
@@ -333,6 +344,7 @@ public class Boss_Paladin : MonoBehaviour
     {
         m_State = BossState.Death;
         m_Animator.SetBool("Die", true);
+        TimeManager.Instance.SetTimeSet(e_GameTime.Slow);
         yield return new WaitForSeconds(3.3f);
         BattleManager.Instance.IsBossDead = true;
         yield return null;

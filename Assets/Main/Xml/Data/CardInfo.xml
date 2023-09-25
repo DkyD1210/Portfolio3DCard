@@ -2,7 +2,7 @@
 <CardXmlRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Card ID="100001">
 		<Name>기본근접공격</Name>
-		<Artwork>forest</Artwork>
+		<Artwork>Spear</Artwork>
 		<CardRange>Melee</CardRange>
 		<CardEffect>
 			<Damage>11</Damage>
@@ -14,7 +14,7 @@
 	
 	<Card ID="100002">
 		<Name>기본원거리공격</Name>
-		<Artwork>forest</Artwork>
+		<Artwork>ShootCard</Artwork>
 		<CardRange>Range</CardRange>
 		<CardEffect>
 			<Damage>6</Damage>
@@ -26,7 +26,7 @@
 	
 	<Card ID="100003">
 		<Name>기본구르기</Name>
-		<Artwork>forest</Artwork>
+		<Artwork>BaseRoll</Artwork>
 		<CardRange>Act</CardRange>
 		<CardEffect>
 			<Damage>0</Damage>
@@ -38,7 +38,7 @@
 	
 	<Card ID="100004">
 		<Name>기본도주</Name>
-		<Artwork>forest</Artwork>
+		<Artwork>SpeedRun</Artwork>
 		<CardRange>Act</CardRange>
 		<CardEffect>
 			<Damage>0</Damage>
@@ -50,10 +50,10 @@
 
 	<Card ID="100005">
 		<Name>카드뽑기</Name>
-		<Artwork>forest</Artwork>
-		<CardRange>Act</CardRange>
+		<Artwork>DrawSlash</Artwork>
+		<CardRange>Melee</CardRange>
 		<CardEffect>
-			<Damage>0</Damage>
+			<Damage>8</Damage>
 			<Barrier>0</Barrier>
 			<Script>DrawOneCard</Script>
 		</CardEffect>
@@ -62,7 +62,7 @@
 	
 	<Card ID="100006">
 		<Name>버티기</Name>
-		<Artwork>forest</Artwork>
+		<Artwork>Defence</Artwork>
 		<CardRange>Act</CardRange>
 		<CardEffect>
 			<Damage>0</Damage>
@@ -75,7 +75,7 @@
 	
 	<Card ID="100007">
 		<Name>휘두르기</Name>
-		<Artwork>forest</Artwork>
+		<Artwork>Slash</Artwork>
 		<CardRange>Melee</CardRange>
 		<CardEffect>
 			<Damage>8</Damage>
@@ -87,12 +87,24 @@
 
 	<Card ID="100008">
 		<Name>카드흩뿌리기</Name>
-		<Artwork>forest</Artwork>
+		<Artwork>SpredCard</Artwork>
 		<CardRange>Range</CardRange>
 		<CardEffect>
 			<Damage>6</Damage>
 			<Barrier>0</Barrier>
 			<Script>SpredRangeAttack</Script>
+		</CardEffect>
+		<Rarity>Rare</Rarity>
+	</Card>
+
+	<Card ID="100009">
+		<Name>체력회복</Name>
+		<Artwork>Heal</Artwork>
+		<CardRange>Act</CardRange>
+		<CardEffect>
+			<Damage>0</Damage>
+			<Barrier>3</Barrier>
+			<Script>Heal</Script>
 		</CardEffect>
 		<Rarity>Rare</Rarity>
 	</Card>
