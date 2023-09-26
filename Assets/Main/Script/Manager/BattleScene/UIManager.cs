@@ -78,6 +78,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject GameWinUI;
 
+    [SerializeField]
+    private GameObject ESCUI;
+
     private void Awake()
     {
         if (Instance == null)
@@ -114,6 +117,10 @@ public class UIManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Alpha3))
         {
             ShowAfterkUI();
+        }
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            ShowESCUI();
         }
     }
 
@@ -186,6 +193,17 @@ public class UIManager : MonoBehaviour
         ShowWaveEndUI();
         TimeManager.Instance.SetTimeSet(e_GameTime.Stop);
         yield return null;
+    }
+
+    public void ShowESCUI()
+    {
+        bool activeSelf = !ESCUI.activeSelf;
+        ESCUI.SetActive(activeSelf);
+        _UIBackGround.SetActive(activeSelf);
+    }
+    public void ShowConfigUI()
+    {
+        SoundManager.Instance.ShowConfig();
     }
 
     #region 카드 UI 세팅

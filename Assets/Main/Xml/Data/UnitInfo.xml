@@ -42,9 +42,9 @@
 	<Unit ID="200001">
 		<Name>보스-팔라딘</Name>
 		<UnitEffect>
-			<Hp>180</Hp> 
-			<Speed>4</Speed>
-			<Damage>17</Damage>
+			<Hp>120</Hp> 
+			<Speed>3</Speed>
+			<Damage>14</Damage>
 			<DamageReduce>0.9</DamageReduce>
 			<Faction>Enemy</Faction>
 			<Type>Boss</Type>

@@ -1,38 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class TitleManager : MonoBehaviour
 {
 
+
     [SerializeField]
-    private GameObject ConfigUI;
+    private Button LoadSaveButton;
+
 
     void Start()
     {
-
-    }
-
-
-    public void LoadMainSceneNewGame()
-    {
-        SaveManager.instance.DeleteSaveData();
-        SceneManager.LoadScene((int)SceneType.LoadScene);
-    }
-    public void LoadMainSceneWithSave()
-    {
-        SaveManager.instance.LoadGameData();
-        if (SaveManager.instance.GetSaveData() != null)
+        if (SaveManager.instance.GetSaveData() == null)
         {
-            SceneManager.LoadScene((int)SceneType.LoadScene);
+            LoadSaveButton.interactable = false;
         }
     }
 
-    public void ShowConfig()
+    public void LoadMainScene(bool _use)
     {
-        ConfigUI.SetActive(!ConfigUI.activeSelf);
+        SaveManager.instance.UseSaveData(_use);
+        SceneManager.LoadScene((int)SceneType.LoadScene);
     }
+
+
 
 
     public void ExitApplication()

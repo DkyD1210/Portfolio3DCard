@@ -117,9 +117,6 @@ public class CardManager : MonoBehaviour
 
 
         SetStartDeck();
-        ConsoleAddCard(100008);
-
-
     }
 
     void Update()

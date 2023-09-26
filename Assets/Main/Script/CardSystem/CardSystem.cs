@@ -315,7 +315,7 @@ public class CardScript_DrawOneCard : CardScript
         CardManager.Instance.DrawCard(1);
 
         base.OnUse(player, cardBase);
-        Vector3 hitBox = new Vector3(1f, 1f, 3f);
+        Vector3 hitBox = new Vector3(0.5f, 0.5f, 1.5f);
         RaycastHit[] hit = Physics.BoxCastAll(player.transform.position + new Vector3(0, 1, 0), hitBox, player.transform.rotation * Vector3.forward, Quaternion.identity, 0f, LayerMask.GetMask("Enemy"));
         int count = hit.Length;
         for (int i = count - 1; i >= 0; i--)

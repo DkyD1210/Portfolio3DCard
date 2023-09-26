@@ -23,16 +23,19 @@ public class SaveManager : MonoBehaviour
         {
             Destroy(this);
         }
+
+        LoadSaveData();
     }
 
     private void Start()
     {
         DontDestroyOnLoad(this);
+
     }
 
 
 
-    public void SaveGameData()
+    public void SaveData()
     {
         List<int> list = new List<int>();
         foreach (CardFrame i in CardManager.Instance.m_DeckList)
@@ -53,23 +56,28 @@ public class SaveManager : MonoBehaviour
 
     }
 
-    public void LoadGameData()
+    public void LoadSaveData()
     {
         if (PlayerPrefs.HasKey("SaveData"))
         {
             string data = PlayerPrefs.GetString("SaveData");
             saveData = JsonConvert.DeserializeObject<SaveData>(data);
-            IsSaveData = true;
         }
         else
         {
-            Debug.LogError("SaveData is Null");
+            Debug.Log("세이브 없음");
         }
 
     }
+
     public void DeleteSaveData()
     {
         PlayerPrefs.DeleteKey("SaveData");
+    }
+
+    public void UseSaveData(bool _value)
+    {
+        IsSaveData = _value;
     }
 
     public SaveData GetSaveData()

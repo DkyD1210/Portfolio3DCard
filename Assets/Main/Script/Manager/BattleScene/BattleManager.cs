@@ -14,6 +14,8 @@ public class BattleManager : MonoBehaviour
 
     private UIManager uiManager;
 
+    private SoundManager soundManager;
+
     [SerializeField]
     private List<GameObject> m_AllUnits = new List<GameObject>();
 
@@ -54,6 +56,8 @@ public class BattleManager : MonoBehaviour
 
     public bool Endless = false;
 
+    private bool m_CountDown = true;
+
     private Transform PlayerTrs;
 
     [SerializeField]
@@ -80,6 +84,7 @@ public class BattleManager : MonoBehaviour
         cardManager = CardManager.Instance;
         gameManager = GameManager.Instance;
         uiManager = UIManager.Instance;
+        soundManager = SoundManager.Instance;
         PlayerTrs = GameManager.StaticPlayer.transform;
 
         if (SaveManager.instance.IsSaveData == true)
@@ -117,13 +122,13 @@ public class BattleManager : MonoBehaviour
 
         if (_waveCount % 5 == 0)
         {
-            SoundManager.Instance.PlayBGM(2);
+            soundManager.PlayBGM(2);
             _wavestate = e_WaveState.BossWave;
             CreatBoss();
         }
         else
         {
-            SoundManager.Instance.PlayBGM(1);
+            soundManager.PlayBGM(1);
             _wavestate = e_WaveState.EnemyWave;
             StartCoroutine(CreateUnit());
         }
@@ -145,6 +150,13 @@ public class BattleManager : MonoBehaviour
 
             case e_WaveState.EnemyWave:
                 m_Timer += Time.deltaTime;
+                if (m_CountDown == true)
+                {
+                    if (WaveTime <= m_Timer + 10)
+                    {
+                        StartCoroutine(CountDownSFX());
+                    }
+                }
                 if (m_Timer >= WaveTime)
                 {
                     WaveEnd();
@@ -167,6 +179,16 @@ public class BattleManager : MonoBehaviour
 
     }
 
+    private IEnumerator CountDownSFX()
+    {
+        m_CountDown = false;
+        for (int i = 0; i < 10; i++)
+        {
+            soundManager.PlaySFX(6);
+            yield return new WaitForSeconds(1f);
+        }
+        yield return null;
+    }
 
     private IEnumerator CreateUnit()
     {
@@ -176,7 +198,7 @@ public class BattleManager : MonoBehaviour
 
         while (m_EnemySpawnCount > unitCount)
         {
-            if(BattleState == e_WaveState.BossWave)
+            if (BattleState == e_WaveState.BossWave)
             {
                 break;
             }
@@ -206,6 +228,9 @@ public class BattleManager : MonoBehaviour
     private void WaveEnd()
     {
         m_Timer = 0;
+        m_CountDown = true;
+        soundManager.PlaySFX(7);
+
         int count = m_Enemy.Count;
         for (int i = count - 1; i > -1; i--)
         {
@@ -215,6 +240,8 @@ public class BattleManager : MonoBehaviour
         }
         Player player = GameManager.StaticPlayer;
         player.m_UnitBase.ClearBuff();
+        gameManager.CreatParticle(PlayerTrs, 2, player.transform.position + new Vector3(0, 1, 0));
+
         cardManager.ClrearDeck();
 
         _waveCount++;
@@ -229,5 +256,7 @@ public class BattleManager : MonoBehaviour
         int count = WaveTime - (int)m_Timer;
         return count;
     }
+
+
 
 }

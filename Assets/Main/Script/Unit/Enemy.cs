@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    private BattleManager battleManager = BattleManager.Instance;
+    private SoundManager soundManager = SoundManager.Instance;
 
     private NavMeshAgent m_NavMesh;
 
@@ -109,6 +109,7 @@ public class Enemy : MonoBehaviour
     private IEnumerator EnemyHitAnima()
     {
         GameObject particle = GameManager.Instance.CreatParticle(transform, 1, transform.position + new Vector3(0f, 1f, 0f));
+        soundManager.PlaySFX(5);
 
         if (m_UnitBase.Ondie() == true)
         {

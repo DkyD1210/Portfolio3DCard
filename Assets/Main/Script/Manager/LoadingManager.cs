@@ -18,7 +18,9 @@ public class LoadingManager : MonoBehaviour
 
     void Start()
     {
+        SoundManager.Instance.PlayBGM(99);
         StartCoroutine(LoadScene());
+
         timer = 0f;
     }
 

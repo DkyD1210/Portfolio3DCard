@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     {
         SetEnemy();
         SetBoss();
+        SoundManager.Instance.PlayBGM(1);
     }
 
 
@@ -165,7 +166,7 @@ public class GameManager : MonoBehaviour
 
     public void GameSaveAndExit()
     {
-        SaveManager.instance.SaveGameData();
+        SaveManager.instance.SaveData();
         SceneManager.LoadScene((int)SceneType.TitleScene);
     }
 

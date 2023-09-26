@@ -7,10 +7,11 @@ public class SoundManager : MonoBehaviour
 
     public static SoundManager Instance;
 
+    [SerializeField]
+    private List<AudioClip> m_BGMList;
 
-    public List<AudioClip> m_BGMList;
-
-    public List<AudioClip> m_SFXList;
+    [SerializeField]
+    private List<AudioClip> m_SFXList;
 
 
     [SerializeField]
@@ -19,6 +20,14 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private List<AudioSource> m_SFXPlayer;
 
+    [Range(0f, 1f)]
+    private float m_BGMVolume = 0.6f;
+
+    [Range(0f, 1f)]
+    private float m_SFXVolume = 0.6f;
+
+    [SerializeField]
+    private GameObject ConfigUI;
 
     private void Awake()
     {
@@ -28,20 +37,37 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            Destroy(this);
+            Destroy(Instance);
+            Destroy(Instance.gameObject);
+            Instance = this;
         }
     }
 
     void Start()
     {
         DontDestroyOnLoad(this);
-        InitPlayer();
+        InitAudioPlayer();
 
         PlayBGM(0);
     }
 
+    void Update()
+    {
+        UpdateVolume();
+    }
 
-    private void InitPlayer()
+    private void UpdateVolume()
+    {
+        m_BGMPlayer.volume = m_BGMVolume;
+
+        int count = m_SFXPlayer.Count;
+        for (int i = 0; i < count; i++)
+        {
+            m_SFXPlayer[i].volume = m_SFXVolume;
+        }
+    }
+
+    private void InitAudioPlayer()
     {
         m_BGMPlayer = GetComponent<AudioSource>();
         m_SFXPlayer.AddRange(GetComponentsInChildren<AudioSource>());
@@ -90,4 +116,19 @@ public class SoundManager : MonoBehaviour
 
     }
 
+    public void SetBGMVolume(float _volume)
+    {
+        m_BGMVolume = _volume;
+    }
+
+    public void SetSFXVolume(float _volume)
+    {
+        m_SFXVolume = _volume;
+    }
+
+
+    public void ShowConfig()
+    {
+        ConfigUI.SetActive(!ConfigUI.activeSelf);
+    }
 }

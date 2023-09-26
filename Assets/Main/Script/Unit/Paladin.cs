@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -104,17 +103,19 @@ public class Boss_Paladin : MonoBehaviour
         m_Animator.SetFloat("Horizontal", MoveDir.x);
         m_Animator.SetFloat("Vertical", MoveDir.z);
 
+        if (m_UnitBase.IsHit == true)
+        {
+            GameObject particle = GameManager.Instance.CreatParticle(transform, 1, transform.position + new Vector3(0f, 1f, 0f));
+            soundManager.PlaySFX(5);
+            m_UnitBase.IsHit = false;
+        }
+
         if (m_UnitBase.Ondie() == true)
         {
             StartCoroutine(BossDie());
             return;
         }
 
-        if (m_UnitBase.IsHit == true)
-        {
-            GameObject particle = GameManager.Instance.CreatParticle(transform, 1, transform.position + new Vector3(0f, 1f, 0f));
-            m_UnitBase.IsHit = false;
-        }
     }
 
     private IEnumerator MoveSide(float _Time)
@@ -242,6 +243,7 @@ public class Boss_Paladin : MonoBehaviour
             }
         }
         GameObject particle = GameManager.Instance.CreatParticle(transform, 0);
+        soundManager.PlaySFX(4);
 
         yield return new WaitForSeconds(0.4f);
 
