@@ -103,12 +103,10 @@ public class XmlManager : MonoBehaviour
         return unitBase;
     }
 
-
     public UnitXmlInfo GetUnitData(int id)
     {
         return GetUnitData(new XmlId(id));
     }
-
 
     public UnitXmlInfo GetUnitData(XmlId id)
     {
