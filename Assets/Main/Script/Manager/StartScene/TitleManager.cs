@@ -18,19 +18,25 @@ public class TitleManager : MonoBehaviour
         {
             LoadSaveButton.interactable = false;
         }
+
+        SoundManager.Instance.PlayBGM(0);
     }
 
     public void LoadMainScene(bool _use)
     {
         SaveManager.instance.UseSaveData(_use);
-        SceneManager.LoadScene((int)SceneType.LoadScene);
+        SceneManager.LoadScene((int)SceneType.LoadScene); 
     }
 
-
-
+    public void ShowConfig()
+    {
+        SoundManager.Instance.ShowConfig();
+    }
 
     public void ExitApplication()
     {
         Application.Quit();
     }
+
+
 }

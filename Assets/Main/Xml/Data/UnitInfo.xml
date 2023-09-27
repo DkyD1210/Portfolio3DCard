@@ -20,7 +20,7 @@
 		<UnitEffect>
 			<Hp>15</Hp>
 			<Speed>6</Speed>
-			<Damage>9</Damage>
+			<Damage>6</Damage>
 			<DamageReduce>1</DamageReduce>
 			<Faction>Enemy</Faction>
 			<Type>Defualt</Type>
@@ -30,9 +30,9 @@
 	<Unit ID="100002">
 		<Name>적_파랑</Name>
 		<UnitEffect>
-			<Hp>20</Hp>
+			<Hp>13</Hp>
 			<Speed>6</Speed>
-			<Damage>6</Damage>
+			<Damage>9</Damage>
 			<DamageReduce>1</DamageReduce>
 			<Faction>Enemy</Faction>
 			<Type>Defualt</Type>

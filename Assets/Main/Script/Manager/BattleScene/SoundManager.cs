@@ -37,9 +37,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            Destroy(Instance);
-            Destroy(Instance.gameObject);
-            Instance = this;
+            Destroy(this);
         }
     }
 
@@ -47,8 +45,6 @@ public class SoundManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         InitAudioPlayer();
-
-        PlayBGM(0);
     }
 
     void Update()

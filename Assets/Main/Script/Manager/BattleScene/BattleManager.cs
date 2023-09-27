@@ -56,7 +56,9 @@ public class BattleManager : MonoBehaviour
 
     public bool Endless = false;
 
-    private bool m_CountDown = true;
+    private bool CountDown = true;
+
+    private bool UnitCreateEnd = false;
 
     private Transform PlayerTrs;
 
@@ -117,8 +119,8 @@ public class BattleManager : MonoBehaviour
 
         Debug.Log(_waveCount.ToString());
 
-        WaveTime = 25 + ((int)(_waveCount * 0.5f) * 5);
-        m_EnemySpawnCount = 10 + (_waveCount * 3);
+        WaveTime = 30 + ((int)(_waveCount * 0.5f) * 5);
+        m_EnemySpawnCount = 7 + (_waveCount * 3);
 
         if (_waveCount % 5 == 0)
         {
@@ -150,12 +152,16 @@ public class BattleManager : MonoBehaviour
 
             case e_WaveState.EnemyWave:
                 m_Timer += Time.deltaTime;
-                if (m_CountDown == true)
+                if (CountDown == true)
                 {
                     if (WaveTime <= m_Timer + 10)
                     {
                         StartCoroutine(CountDownSFX());
                     }
+                }
+                if (UnitCreateEnd == true && m_Enemy.Count == 0)
+                {
+                    WaveEnd();
                 }
                 if (m_Timer >= WaveTime)
                 {
@@ -174,16 +180,19 @@ public class BattleManager : MonoBehaviour
                     }
                 }
                 break;
-
         }
 
     }
 
     private IEnumerator CountDownSFX()
     {
-        m_CountDown = false;
+        CountDown = false;
         for (int i = 0; i < 10; i++)
         {
+            if (_wavestate != e_WaveState.EnemyWave)
+            {
+                break;
+            }
             soundManager.PlaySFX(6);
             yield return new WaitForSeconds(1f);
         }
@@ -213,6 +222,7 @@ public class BattleManager : MonoBehaviour
             yield return new WaitForSeconds(unitTime);
         }
 
+        UnitCreateEnd = true;
         yield return null;
     }
 
@@ -228,7 +238,7 @@ public class BattleManager : MonoBehaviour
     private void WaveEnd()
     {
         m_Timer = 0;
-        m_CountDown = true;
+        CountDown = true;
         soundManager.PlaySFX(7);
 
         int count = m_Enemy.Count;
@@ -238,6 +248,9 @@ public class BattleManager : MonoBehaviour
             m_Enemy.Remove(enemy);
             Destroy(enemy);
         }
+        UnitCreateEnd = false;
+
+
         Player player = GameManager.StaticPlayer;
         player.m_UnitBase.ClearBuff();
         gameManager.CreatParticle(PlayerTrs, 2, player.transform.position + new Vector3(0, 1, 0));

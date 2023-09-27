@@ -19,7 +19,6 @@ public class XmlManager : MonoBehaviour
     [SerializeField]
     private CardXmlRoot _cardXmlRoot;
 
-    //public Dictionary<XmlId, UnitXmlInfo> DataDic = new Dictionary<XmlId, UnitXmlInfo>();
     public Dictionary<int, UnitXmlInfo> UnitDataDic = new Dictionary<int, UnitXmlInfo>();
 
     public Dictionary<int, CardXmlInfo> CardDataDic = new Dictionary<int, CardXmlInfo>();
@@ -46,91 +45,16 @@ public class XmlManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         InitScript();
-        //CreateXmlDataTest(XmlPath.CardInfo);
         LoadXmlData(XmlPath.UnitInfo);
         LoadXmlData(XmlPath.CardInfo);
-        //InitSprite();
-    }
-
-
-
-    private void CreateXmlDataTest(XmlPath _path)
-    {
-        /*
-        UnitXmlRoots unit = new UnitXmlRoots
-        {
-            UnitXmlList = new List<UnitXmlInfo>
-            {
-                new UnitXmlInfo
-                {
-                    _id = 1,
-                    Name = "테스트용유닛1",
-                    UnitEffect = new UnitEffect
-                    {
-                        Hp = 10,
-                        Speed = 2,
-                        Damage = 1,
-                        GetDamageReduce = 0.8f,
-                        UnitFaction = Faction.Neutral,
-                        UnitType = UnitType.Named
-                    }
-                },
-
-                new UnitXmlInfo
-                {
-                    _id = 2,
-                    Name = "테스트용유닛2",
-                    UnitEffect = new UnitEffect
-                    {
-                        Hp = 100,
-                        Speed = 20,
-                        Damage = 10,
-                        GetDamageReduce = 1.5f,
-                        UnitFaction = Faction.Player,
-                        UnitType = UnitType.Boss
-                    }
-                },
-            }
-        };
-        */
-        CardXmlRoot cardXmlRoot = new CardXmlRoot
-        {
-            CardXmlList = new List<CardXmlInfo>
-            {
-                new CardXmlInfo
-                {
-                    _id = 1,
-                    Name = "테스트용_기본공격",
-                    artWork = string.Empty,
-                    CardRange = CardRangeType.Melee,
-                    CardEffect = new CardEffect
-                    {
-                        Damage = 7,
-                        Barrier = 0,
-                        script = "BaseAttack",
-                    },
-                    Rarity = Rarity.Basic
-                }
-            }
-        };
-        XmlSerializer serializer = new XmlSerializer(typeof(CardXmlRoot));
-
-
-        string path = Path + _path + ".xml";
-
-        FileStream fs = new FileStream(path, FileMode.Create);
-        serializer.Serialize(fs, cardXmlRoot);
-        fs.Close();
     }
 
     public void LoadXmlData(XmlPath _path)
     {
         string path = Path + _path + ".xml";
 
-
         using (var stream = XmlReader.Create(path))
         {
-
             switch (_path)
             {
                 case XmlPath.UnitInfo:
@@ -143,7 +67,6 @@ public class XmlManager : MonoBehaviour
                         addData._id = data._id;
                         addData.Name = data.Name;
                         addData.UnitEffect = data.UnitEffect;
-
 
                         UnitDataDic.Add(addData.Id.id, addData);
                     }
@@ -210,8 +133,6 @@ public class XmlManager : MonoBehaviour
     }
     #endregion
 
-
-
     #region 카드 부분 함수들
 
     public CardBase TransXmlCard(CardXmlInfo xmlBase)
@@ -234,7 +155,6 @@ public class XmlManager : MonoBehaviour
         return GetCardData(new XmlId(id));
     }
 
-
     public CardXmlInfo GetCardData(XmlId id)
     {
         CardXmlInfo result;
@@ -253,10 +173,8 @@ public class XmlManager : MonoBehaviour
         return result;
     }
 
-
     private void InitScript()
     {
-
         CardScriptList = new List<CardScript>
         {
             new CardScript_BaseMeleeAttack(),
@@ -278,28 +196,9 @@ public class XmlManager : MonoBehaviour
 
             ScriptDataDic.Add(name, CardScriptList[i]);
             Debug.Log($"{name}");
-
         }
-
     }
-
 
     #endregion
-
-    /*
-    public List<Texture2D> spriteList;
-
-    private void InitSprite()
-    {
-        string path = "Assets/Resources";
-        Byte[] spriteSpr = File.ReadAllBytes(path);
-        if(spriteSpr.Length > 0)
-        {
-            Texture2D _sprite = new Texture2D(0, 0);
-            _sprite.LoadImage(spriteSpr);
-            spriteList.Add(_sprite);
-        }
-    }
-    */
 
 }
